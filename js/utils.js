@@ -41,6 +41,7 @@ NexT.utils = {
         }
       }
     });
+  
   },
 
   registerExtURL: function() {
