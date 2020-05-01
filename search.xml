@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
-    <url>/2020/04/12/hexo-create-2/</url>
-    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
+    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
+    <url>/2020/04/04/hexo-create/</url>
+    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
+
+
 
 <a id="more"></a>
 
-
-
-<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
-<ul>
-<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
+<hr>
+<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<hr>
+<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
+<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
+<li><p><strong>创建Github/Gitee(码云)：</strong></p>
+<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
+<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
+<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
 </li>
-<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
-<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
+<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
+<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
+<p>安装步骤很简单，一直next，默认安装就行。</p>
 </li>
-<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
-</li>
-</ul>
-<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
-
-<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
-<img src="/2020/04/12/hexo-create-2/hexo s.png" style="zoom: 80%;">
-
-<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
-<img src="/2020/04/12/hexo-create-2/hexo ym.png" style="zoom: 60%;">
-
-
-
-<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
-<ul>
-<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
-<img src="/2020/04/12/hexo-create-2/deploy.png" style="zoom:80%;">
-
-<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
-</li>
-<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
-</li>
-</ul>
-<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
-<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
-<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
-<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
-<img src="/2020/04/12/hexo-create-2/theme1.png" style="zoom:70%;">
-
-<p>这里以我用的next主题为例</p>
-<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
+<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
+<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
+<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
+<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
 <blockquote>
-<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
-<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
-<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
+<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
 </blockquote>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
-<p>tips：</p>
-<ol>
-<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
 </li>
-<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
+</ul>
+<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
+<blockquote>
+<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
+<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
+</blockquote>
+<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
+<blockquote>
+<p><code>$ git config --global user.name</code></p>
+<p><code>$ git config --global user.email</code></p>
+</blockquote>
+<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
+<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
+<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
+<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
+<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
 </li>
-<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
+<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
+<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
 </li>
-</ol>
-<p>最后祝大家能够做出属于自己的博客</p>
+<li><p>输入以下检验是否配置成功：</p>
+<blockquote>
+<p><code>$ ssh git@github.com</code></p>
+<p><code>$ ssh -T git@github.com</code></p>
+</blockquote>
+<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+</li>
+</ul>
+<hr>
+<p><strong>←To Be Continued</strong></p>
 ]]></content>
       <categories>
         <category>博客搭建</category>
@@ -160,70 +161,69 @@
       </tags>
   </entry>
   <entry>
-    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
-    <url>/2020/04/04/hexo-create/</url>
-    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
-
-
+    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
+    <url>/2020/04/12/hexo-create-2/</url>
+    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
 
 <a id="more"></a>
 
-<hr>
-<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
-<hr>
-<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
-<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
-<li><p><strong>创建Github/Gitee(码云)：</strong></p>
-<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
-<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
+
+
+<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
+<ul>
+<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
 </li>
-<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
-<p>安装步骤很简单，一直next，默认安装就行。</p>
+<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
+<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
 </li>
-<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
-<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
-<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
-<blockquote>
-<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
-</blockquote>
+<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
 </li>
 </ul>
-<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
-<blockquote>
-<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
-<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
-</blockquote>
-<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
-<blockquote>
-<p><code>$ git config --global user.name</code></p>
-<p><code>$ git config --global user.email</code></p>
-</blockquote>
-<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
-<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
-<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
-<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
+<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
+
+<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
+<img src="/2020/04/12/hexo-create-2/hexo s.png" style="zoom: 80%;">
+
+<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
+<img src="/2020/04/12/hexo-create-2/hexo ym.png" style="zoom: 60%;">
+
+
+
+<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
+<ul>
+<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
+<img src="/2020/04/12/hexo-create-2/deploy.png" style="zoom:80%;">
+
+<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
 </li>
-<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
-</li>
-<li><p>输入以下检验是否配置成功：</p>
-<blockquote>
-<p><code>$ ssh git@github.com</code></p>
-<p><code>$ ssh -T git@github.com</code></p>
-</blockquote>
-<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
 </li>
 </ul>
-<hr>
-<p><strong>←To Be Continued</strong></p>
+<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
+<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
+<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
+<img src="/2020/04/12/hexo-create-2/theme1.png" style="zoom:70%;">
+
+<p>这里以我用的next主题为例</p>
+<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
+<blockquote>
+<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
+<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
+<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
+</blockquote>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
+<p>tips：</p>
+<ol>
+<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
+</li>
+<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
+</li>
+<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
+</li>
+</ol>
+<p>最后祝大家能够做出属于自己的博客</p>
 ]]></content>
       <categories>
         <category>博客搭建</category>
