@@ -1,80 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
-    <url>/2020/04/04/hexo-create/</url>
-    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
-
-
-
-<a id="more"></a>
-
-<hr>
-<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
-<hr>
-<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
-<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
-<li><p><strong>创建Github/Gitee(码云)：</strong></p>
-<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
-<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
-</li>
-<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
-<p>安装步骤很简单，一直next，默认安装就行。</p>
-</li>
-<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
-<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
-<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
-<blockquote>
-<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
-<blockquote>
-<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
-<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
-</blockquote>
-<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
-<blockquote>
-<p><code>$ git config --global user.name</code></p>
-<p><code>$ git config --global user.email</code></p>
-</blockquote>
-<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
-<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
-<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
-<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
-</li>
-<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
-</li>
-<li><p>输入以下检验是否配置成功：</p>
-<blockquote>
-<p><code>$ ssh git@github.com</code></p>
-<p><code>$ ssh -T git@github.com</code></p>
-</blockquote>
-<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
-</li>
-</ul>
-<hr>
-<p><strong>←To Be Continued</strong></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>进阶之路！从0开始搭建Hexo博客（二）</title>
     <url>/2020/04/12/hexo-create-2/</url>
     <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
@@ -230,6 +156,80 @@
         <category>博客</category>
       </categories>
       <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
+    <url>/2020/04/04/hexo-create/</url>
+    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
+
+
+
+<a id="more"></a>
+
+<hr>
+<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<hr>
+<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
+<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
+<li><p><strong>创建Github/Gitee(码云)：</strong></p>
+<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
+<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
+<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
+</li>
+<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
+<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
+<p>安装步骤很简单，一直next，默认安装就行。</p>
+</li>
+<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
+<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
+<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
+<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
+<blockquote>
+<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
+<blockquote>
+<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
+<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
+</blockquote>
+<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
+<blockquote>
+<p><code>$ git config --global user.name</code></p>
+<p><code>$ git config --global user.email</code></p>
+</blockquote>
+<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
+<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
+<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
+<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
+<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
+</li>
+<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
+<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
+</li>
+<li><p>输入以下检验是否配置成功：</p>
+<blockquote>
+<p><code>$ ssh git@github.com</code></p>
+<p><code>$ ssh -T git@github.com</code></p>
+</blockquote>
+<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+</li>
+</ul>
+<hr>
+<p><strong>←To Be Continued</strong></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
         <tag>博客</tag>
       </tags>
   </entry>
