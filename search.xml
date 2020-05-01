@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
+    <url>/2020/04/12/hexo-create-2/</url>
+    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
+
+<a id="more"></a>
+
+
+
+<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
+<ul>
+<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
+</li>
+<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
+<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
+</li>
+<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
+</li>
+</ul>
+<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
+
+<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
+<img src="/2020/04/12/hexo-create-2/hexo s.png" style="zoom: 80%;">
+
+<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
+<img src="/2020/04/12/hexo-create-2/hexo ym.png" style="zoom: 60%;">
+
+
+
+<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
+<ul>
+<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
+<img src="/2020/04/12/hexo-create-2/deploy.png" style="zoom:80%;">
+
+<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
+</li>
+<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
+</li>
+</ul>
+<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
+<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
+<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
+<img src="/2020/04/12/hexo-create-2/theme1.png" style="zoom:70%;">
+
+<p>这里以我用的next主题为例</p>
+<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
+<blockquote>
+<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
+<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
+<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
+</blockquote>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
+<p>tips：</p>
+<ol>
+<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
+</li>
+<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
+</li>
+<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
+</li>
+</ol>
+<p>最后祝大家能够做出属于自己的博客</p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>新技能加点！从0开始搭建Hexo博客（一）</title>
     <url>/2020/04/04/hexo-create/</url>
     <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
@@ -124,6 +197,46 @@
       </tags>
   </entry>
   <entry>
+    <title>【单片机】实验一竟然还有**功能？</title>
+    <url>/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/</url>
+    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
+<a id="more"></a>
+
+<h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
+<p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
+<p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
+<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>心得体会：</strong></p>
+<p>因为刚接触这门课，萌新的我花了很长时间才将题目功能实现出来QAQ。当时编写出现的问题是①按下按钮都无法实现功能和②按下一个按钮流水灯能发生顺流而按下第二个按钮或相隔的按钮时无法进行逆流，所以我认为可以从②中寻找为何按下第二个按钮或相隔按钮时无法逆流的问题。</p>
+<p>当时和好友一起讨论的时候我注意到了他的一句话 <strong>“按两个按钮就是1111 0011，也就是0xf3了 ”</strong> ，因为这句话我得到了灵感，那就是把任意两个按钮同时按下时的十六进制值写数组中，这样就像只按一个按钮的数组一样。当然，顺逆流的循环可以优化一下省去一部分代码，而且我在网上找过很多方法，可能在选择按钮中会有更简便的写法。</p>
+<h3 id="2-2-仿真演示"><a href="#2-2-仿真演示" class="headerlink" title="2.2 仿真演示"></a>2.2 仿真演示</h3><blockquote>
+<p><em>本代码可以实现按下<strong>任意两个</strong>开关流水灯都可以进行逆流。</em></p>
+</blockquote>
+<ul>
+<li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3.gif" alt></p>
+</li>
+<li><p>按下两个开关时：</p>
+<p>如按下P3.3和P3.5开关：（相隔按钮）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3+3.5.gif" alt></p>
+<p>如按下P3.4和P3.5开关：（相邻按钮）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.4+3.5.gif" alt></p>
+</li>
+</ul>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
+]]></content>
+      <categories>
+        <category>物联网课程学习</category>
+        <category>单片机</category>
+      </categories>
+      <tags>
+        <tag>AT89C51单片机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我的第一篇博客</title>
     <url>/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
     <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
@@ -157,79 +270,6 @@
         <category>博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
-    <url>/2020/04/12/hexo-create-2/</url>
-    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
-
-<a id="more"></a>
-
-
-
-<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
-<ul>
-<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
-</li>
-<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
-<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
-</li>
-<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
-</li>
-</ul>
-<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
-
-<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
-<img src="/2020/04/12/hexo-create-2/hexo s.png" style="zoom: 80%;">
-
-<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
-<img src="/2020/04/12/hexo-create-2/hexo ym.png" style="zoom: 60%;">
-
-
-
-<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
-<ul>
-<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
-<img src="/2020/04/12/hexo-create-2/deploy.png" style="zoom:80%;">
-
-<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
-</li>
-<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
-</li>
-</ul>
-<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
-<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
-<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
-<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
-<img src="/2020/04/12/hexo-create-2/theme1.png" style="zoom:70%;">
-
-<p>这里以我用的next主题为例</p>
-<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
-<blockquote>
-<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
-<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
-<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
-</blockquote>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
-<p>tips：</p>
-<ol>
-<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
-</li>
-<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
-</li>
-<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
-</li>
-</ol>
-<p>最后祝大家能够做出属于自己的博客</p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
         <tag>博客</tag>
       </tags>
   </entry>
