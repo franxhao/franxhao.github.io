@@ -148,11 +148,60 @@
       </tags>
   </entry>
   <entry>
+    <title>单片机学习（一）</title>
+    <url>/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/</url>
+    <content><![CDATA[<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
+<h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
+<p><strong>编写程序实现以上功能。</strong></p>
+<a id="more"></a>
+
+<ol>
+<li><p>首先根据题目发现使用到的I/O端口为P1和P3，注意8个灯接P1.0-1.7,4个按钮接P3.2-3.5。灯的问题由十六进制代码实现。</p>
+</li>
+<li><p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
+</li>
+<li><p>仿真演示：</p>
+<p><img src="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
+</li>
+</ol>
+<p><strong>小结</strong></p>
+<p>了解I/O端口以及对应的十六进制代码表示；熟悉C语言if-else和for语句，延时函数。</p>
+<h2 id="使用到的软件"><a href="#使用到的软件" class="headerlink" title="使用到的软件"></a>使用到的软件</h2><ol>
+<li><p><strong>代码编辑器/IDE</strong>：主要用来写C语言的代码，我比较喜欢用的是Notepad++和VS Code。这两个编写和浏览代码比较舒服，学校让我们装的是VC6.0。简单介绍一下我用过的：</p>
+<ul>
+<li>VC6.0：比较老了，初学者用一下可以，但是不推荐未来使用。我的使用感受是启动慢，字体小，没有编辑辅助功能，有的错误它不会提示，要自己去找。总的来说就是不够智能吧。</li>
+<li>Notepad++：优秀的代码编辑器，支持超过50种编程、脚本和标记语言的语法高亮显示，代码可折叠方便查阅整个文档。轻量化的感觉，开启迅速，编写和浏览很舒服。</li>
+<li>VS Code：第一次接触它是从搭建博客开始的，之前都是使用Notepad++，至于VC6.0？？？除了刚学C的时候用过，之后再没打开过。同样也是轻量级体验，支持几乎所有主流的开发语言的语法高亮和智能代码补全等。如果需要看大量代码的话这个是很推荐的，看着比较舒服；如果是单片机初学阶段，写的代码不多，个人推荐Notepad++就够了。</li>
+<li>SUBLIME TEXT：这款也是因为搭建博客而接触到的编辑器。有付费内容，但是使用免费的不影响体验也没有时间限制，使用感受和VS Code差不多，同样拥有高亮显示和编辑辅助功能。和VS Code看起来我觉得SUBLIME TEXT的代码显示要Q些，看起来比较可爱哈哈哈。</li>
+<li>以上就是我使用过的编辑器的简单介绍了，如果想了解得更细致些可以到google和baidu查。我们还学习了Java SE，当时使用的IDE是eclipse，由于这里主要介绍本人单片机课程的内容，代码是用C语言写的，所以就不对eclipse进行介绍了。</li>
+</ul>
+</li>
+<li><p><strong>Keil 3</strong>：用来对代码进行编译和生成.HEX文件。</p>
+<ul>
+<li><a href="[https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F](https://baike.baidu.com/item/hex文件格式)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
+</ul>
+</li>
+<li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>物联网课程学习</category>
+        <category>嵌入式</category>
+      </categories>
+      <tags>
+        <tag>AT89C51单片机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
     <url>/2020/08/03/raspberry-pi-1/</url>
     <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
 <p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
-<img src="/2020/08/03/raspberry-pi-1/pi1.jpg" width="350" height="300" alt="正在使用的4B">
+<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
 
 <a id="more"></a>
 
@@ -206,55 +255,6 @@
       </categories>
       <tags>
         <tag>树莓派</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单片机学习（一）</title>
-    <url>/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/</url>
-    <content><![CDATA[<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
-<h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
-<p><strong>编写程序实现以上功能。</strong></p>
-<a id="more"></a>
-
-<ol>
-<li><p>首先根据题目发现使用到的I/O端口为P1和P3，注意8个灯接P1.0-1.7,4个按钮接P3.2-3.5。灯的问题由十六进制代码实现。</p>
-</li>
-<li><p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
-</li>
-<li><p>仿真演示：</p>
-<p><img src="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
-</li>
-</ol>
-<p><strong>小结</strong></p>
-<p>了解I/O端口以及对应的十六进制代码表示；熟悉C语言if-else和for语句，延时函数。</p>
-<h2 id="使用到的软件"><a href="#使用到的软件" class="headerlink" title="使用到的软件"></a>使用到的软件</h2><ol>
-<li><p><strong>代码编辑器/IDE</strong>：主要用来写C语言的代码，我比较喜欢用的是Notepad++和VS Code。这两个编写和浏览代码比较舒服，学校让我们装的是VC6.0。简单介绍一下我用过的：</p>
-<ul>
-<li>VC6.0：比较老了，初学者用一下可以，但是不推荐未来使用。我的使用感受是启动慢，字体小，没有编辑辅助功能，有的错误它不会提示，要自己去找。总的来说就是不够智能吧。</li>
-<li>Notepad++：优秀的代码编辑器，支持超过50种编程、脚本和标记语言的语法高亮显示，代码可折叠方便查阅整个文档。轻量化的感觉，开启迅速，编写和浏览很舒服。</li>
-<li>VS Code：第一次接触它是从搭建博客开始的，之前都是使用Notepad++，至于VC6.0？？？除了刚学C的时候用过，之后再没打开过。同样也是轻量级体验，支持几乎所有主流的开发语言的语法高亮和智能代码补全等。如果需要看大量代码的话这个是很推荐的，看着比较舒服；如果是单片机初学阶段，写的代码不多，个人推荐Notepad++就够了。</li>
-<li>SUBLIME TEXT：这款也是因为搭建博客而接触到的编辑器。有付费内容，但是使用免费的不影响体验也没有时间限制，使用感受和VS Code差不多，同样拥有高亮显示和编辑辅助功能。和VS Code看起来我觉得SUBLIME TEXT的代码显示要Q些，看起来比较可爱哈哈哈。</li>
-<li>以上就是我使用过的编辑器的简单介绍了，如果想了解得更细致些可以到google和baidu查。我们还学习了Java SE，当时使用的IDE是eclipse，由于这里主要介绍本人单片机课程的内容，代码是用C语言写的，所以就不对eclipse进行介绍了。</li>
-</ul>
-</li>
-<li><p><strong>Keil 3</strong>：用来对代码进行编译和生成.HEX文件。</p>
-<ul>
-<li><a href="[https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F](https://baike.baidu.com/item/hex文件格式)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
-</ul>
-</li>
-<li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>物联网课程学习</category>
-        <category>嵌入式</category>
-      </categories>
-      <tags>
-        <tag>AT89C51单片机</tag>
       </tags>
   </entry>
   <entry>
