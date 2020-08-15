@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
   <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
@@ -329,7 +329,11 @@
 
 
 
-      </div>
+      </div><div>
+  <canvas id="canvasDiyBlock" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+<script src="/js/custom/clock.js"></script>
+
+</div>
 
     </div>
   </aside>
@@ -359,10 +363,9 @@
     </span>
     <span title="站点总字数">9k</span>
 </div>
-
-<!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
+<!--
 -->
 
 
@@ -376,15 +379,11 @@
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-<<<<<<< Updated upstream
       <span class="post-meta-item-icon">
         <i class="fa fa-user"></i>
       </span>
       <span class="site-uv" title="总访客量 undefined 人">
         <span id="busuanzi_value_site_uv"></span>
-=======
-      <span class="post-meta-item-icon"> 
->>>>>>> Stashed changes
       </span>
        <span class="site-uv">
        总访客量 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
@@ -392,15 +391,11 @@
     </span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-<<<<<<< Updated upstream
       <span class="post-meta-item-icon">
         <i class="fa fa-eye"></i>
       </span>
       <span class="site-pv" title="总访问量 undefined 次">
         <span id="busuanzi_value_site_pv"></span>
-=======
-      <span class="post-meta-item-icon">  
->>>>>>> Stashed changes
       </span>
       <span class="site-pv">
      总访问量 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
@@ -493,6 +488,19 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   }, window.Valine);
 });
 </script>
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = false;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
 
 
   <body>

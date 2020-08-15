@@ -1,77 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
-    <url>/2020/04/04/hexo-create/</url>
-    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
-
-
+    <title>typecho_rsshub</title>
+    <url>/2020/08/15/typecho-rsshub/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
+    <url>/2020/08/03/raspberry-pi-1/</url>
+    <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
+<p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
+<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
 
 <a id="more"></a>
 
-<hr>
-<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
-<hr>
-<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
-<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
-<li><p><strong>创建Github/Gitee(码云)：</strong></p>
-<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
-<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
+<h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
+<ul>
+<li><p>前期需要：</p>
+<ul>
+<li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
 </li>
-<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
-<p>安装步骤很简单，一直next，默认安装就行。</p>
+<li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
+<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
+<p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
 </li>
-<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
-<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
-<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
-<blockquote>
-<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
-</blockquote>
+<li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
+<img src="http://www.5845.cn/wp-content/uploads/2019/10/u9949029864189621678fm173app25fJPEG.jpg" style="zoom: 70%;">
 </li>
 </ul>
-<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
-<blockquote>
-<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
-<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
-</blockquote>
-<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
-<blockquote>
-<p><code>$ git config --global user.name</code></p>
-<p><code>$ git config --global user.email</code></p>
-</blockquote>
-<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
-<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
-<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
-<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
 </li>
-<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
-</li>
-<li><p>输入以下检验是否配置成功：</p>
-<blockquote>
-<p><code>$ ssh git@github.com</code></p>
-<p><code>$ ssh -T git@github.com</code></p>
-</blockquote>
-<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+<li><p>接下来是远程配置树莓派，指令为</p>
+<p><code>sudo raspi-config</code></p>
+<p>在终端/运行中键入以上指令后的现象如下图所示，选择步骤：5 Interfacing Options → P3 VNC → 是 → 确定 →Finish。</p>
+<img src="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png" style="zoom: 85%;">
+
+<p>配置完成后树莓派上的VNC就可以使用了。</p>
+<p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
+<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
+
 </li>
 </ul>
-<hr>
-<p><strong>←To Be Continued</strong></p>
+<p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
+<p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
+<h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
+<p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> WiFi 配置示例说明：</p>
+<ul>
+<li><strong>ssid:网络的ssid</strong></li>
+<li><strong>psk:密码</strong></li>
+<li><strong>priority:连接优先级，数字越大优先级越高（不可以是负数）</strong></li>
+</ul>
+<p>如果有两个就在下面多添加一个<code>network</code>的代码并标好优先级就可。</p>
+<p>若SD卡已经插入树莓派中，但又想修改文件中的内容可以使用指令来完成，在终端中输入以下指令打开文件</p>
+<p><code>sudo nano  /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<p>可以用vim或nano编辑，这里使用nano，nano编辑完后先按Ctrl+O再按Enter对修改内容进行保存，再按Ctrl+X退出回到原来的终端界面。</p>
+<p>以上就是这次对树莓派这块小玩意做的小总结啦~</p>
 ]]></content>
       <categories>
-        <category>博客搭建</category>
+        <category>嵌入式</category>
+        <category>技术学习</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>博客</tag>
+        <tag>树莓派</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【单片机】实验一竟然还有**功能？</title>
+    <url>/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/</url>
+    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
+<a id="more"></a>
+
+<h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
+<p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
+<p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
+<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>心得体会：</strong></p>
+<p>因为刚接触这门课，萌新的我花了很长时间才将题目功能实现出来QAQ。当时编写出现的问题是①按下按钮都无法实现功能和②按下一个按钮流水灯能发生顺流而按下第二个按钮或相隔的按钮时无法进行逆流，所以我认为可以从②中寻找为何按下第二个按钮或相隔按钮时无法逆流的问题。</p>
+<p>当时和好友一起讨论的时候我注意到了他的一句话 <strong>“按两个按钮就是1111 0011，也就是0xf3了 ”</strong> ，因为这句话我得到了灵感，那就是把任意两个按钮同时按下时的十六进制值写数组中，这样就像只按一个按钮的数组一样。当然，顺逆流的循环可以优化一下省去一部分代码，而且我在网上找过很多方法，可能在选择按钮中会有更简便的写法。</p>
+<h3 id="2-2-仿真演示"><a href="#2-2-仿真演示" class="headerlink" title="2.2 仿真演示"></a>2.2 仿真演示</h3><blockquote>
+<p><em>本代码可以实现按下<strong>任意两个</strong>开关流水灯都可以进行逆流。</em></p>
+</blockquote>
+<ul>
+<li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3.gif" alt></p>
+</li>
+<li><p>按下两个开关时：</p>
+<p>如按下P3.3和P3.5开关：（相隔按钮）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3+3.5.gif" alt></p>
+<p>如按下P3.4和P3.5开关：（相邻按钮）</p>
+<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.4+3.5.gif" alt></p>
+</li>
+</ul>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
+]]></content>
+      <categories>
+        <category>物联网课程学习</category>
+        <category>嵌入式</category>
+      </categories>
+      <tags>
+        <tag>AT89C51单片机</tag>
       </tags>
   </entry>
   <entry>
@@ -148,146 +180,77 @@
       </tags>
   </entry>
   <entry>
-    <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
-    <url>/2020/08/03/raspberry-pi-1/</url>
-    <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
-<p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
-<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
+    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
+    <url>/2020/04/04/hexo-create/</url>
+    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
+
+
 
 <a id="more"></a>
 
-<h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
-<ul>
-<li><p>前期需要：</p>
-<ul>
-<li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
+<hr>
+<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<hr>
+<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
+<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
+<li><p><strong>创建Github/Gitee(码云)：</strong></p>
+<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
+<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
+<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
 </li>
-<li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
-<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
-<p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
+<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
+<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
+<p>安装步骤很简单，一直next，默认安装就行。</p>
 </li>
-<li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
-<img src="http://www.5845.cn/wp-content/uploads/2019/10/u9949029864189621678fm173app25fJPEG.jpg" style="zoom: 70%;">
-</li>
-</ul>
-</li>
-<li><p>接下来是远程配置树莓派，指令为</p>
-<p><code>sudo raspi-config</code></p>
-<p>在终端/运行中键入以上指令后的现象如下图所示，选择步骤：5 Interfacing Options → P3 VNC → 是 → 确定 →Finish。</p>
-<img src="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png" style="zoom: 85%;">
-
-<p>配置完成后树莓派上的VNC就可以使用了。</p>
-<p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
-<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
-
-</li>
-</ul>
-<p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
-<p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
-<h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
-<p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> WiFi 配置示例说明：</p>
-<ul>
-<li><strong>ssid:网络的ssid</strong></li>
-<li><strong>psk:密码</strong></li>
-<li><strong>priority:连接优先级，数字越大优先级越高（不可以是负数）</strong></li>
-</ul>
-<p>如果有两个就在下面多添加一个<code>network</code>的代码并标好优先级就可。</p>
-<p>若SD卡已经插入树莓派中，但又想修改文件中的内容可以使用指令来完成，在终端中输入以下指令打开文件</p>
-<p><code>sudo nano  /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
-<p>可以用vim或nano编辑，这里使用nano，nano编辑完后先按Ctrl+O再按Enter对修改内容进行保存，再按Ctrl+X退出回到原来的终端界面。</p>
-<p>以上就是这次对树莓派这块小玩意做的小总结啦~</p>
-]]></content>
-      <categories>
-        <category>嵌入式</category>
-        <category>技术学习</category>
-      </categories>
-      <tags>
-        <tag>树莓派</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>我的第一篇博客</title>
-    <url>/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
-    <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
-<p>首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 <strong>强制清除缓存</strong> 指令<code>npm cache clean --force</code> 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。</p>
-<p><img src="/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/huancun_error.png" alt="出错时的图片"></p>
-<a id="more"></a>
-
-<p>因为我的专业主要在嵌入式开发方向，只接触过C，Java和汇编语言，对JS和网页方面的知识不太了解，所以在搭建和完善本站的过程中出现了很多问题，比如主题、插入图片等问题，经常要花一部分时间去查找解决方案才能解决。在这里不得不说一下，真心想搭建好一个博客是需要花时间下功夫去摸索的，因为没有接触过JS和前端方面的知识做这个更是艰难，我只能尽自己所能把自己的博客做到自己满意的效果。</p>
-<h2 id="Hexo博客搭建教程视频推荐"><a href="#Hexo博客搭建教程视频推荐" class="headerlink" title="Hexo博客搭建教程视频推荐"></a>Hexo博客搭建教程视频推荐</h2><p>首先我搭建的Hexo博客是参考了以下教程视频的，在这里可以给大家分享一下：</p>
-<ul>
-<li><p>使用Mac或者Linux来搭建的话，推荐 <a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener"><strong>CodeSheep</strong></a> 羊哥的视频， 传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-</li>
-<li><p>使用windows搭建的话，我是看了<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener"><strong>Master_lisa</strong></a>小姐姐的视频，每一步都特别详细（声音也很好听 /滑稽），传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
-</li>
-</ul>
-<h2 id="聊一聊"><a href="#聊一聊" class="headerlink" title="聊一聊"></a>聊一聊</h2><h4 id="关于我的博客的发展"><a href="#关于我的博客的发展" class="headerlink" title="关于我的博客的发展"></a>关于我的博客的发展</h4><ul>
-<li><p>会写一下关于现在专业知识学习时遇到的问题，可能会写一下学习过程中的心得吧。</p>
-</li>
-<li><p>有时间的话会写一下关于Hexo和Hugo博客搭建时遇到的问题，可能会有点教程内容，当然教程部分会用别人的来做参考，我会放出参考链接。</p>
-</li>
-<li><p>还有什么的话我会后续更新的…</p>
-</li>
-</ul>
-<h4 id="我在Hexo和Hugo之间的选择"><a href="#我在Hexo和Hugo之间的选择" class="headerlink" title="我在Hexo和Hugo之间的选择"></a>我在Hexo和Hugo之间的选择</h4><p>大家都知道Hexo是基于Nodejs，Hugo是基于Go语言编写的。Hexo和Hugo之间各有优缺点，Hexo优点在于使用的人多，主题和插件多，正因如此，Hexo可以做很多美化工作，出现问题的话网上的解决方案会比较多，问题容易解决。但是它有个缺点，就是当文章数多了之后生成静态的速度会很慢，这个问题其实挺难受的。</p>
-<p>而Hugo恰恰相反，主题和插件没有Hexo多，相应的教程就比较少。当然如果博客主要用途是用在写文章上，对主题美化要求不是特别高的话，这个问题是可以忽略不计的。其次，Hugo最大的优点就是生成静态的速度非常快，可能Hexo需要几分钟，而Hugo只需要几秒钟。</p>
-<p>对于Hexo和Hugo之间的选择因人而异，在正式运用博客上我是想选择Hugo的，但是现在使用的是Hexo，这是因为一开始我接触到的教程是Hexo的，发现使用的人比较多我就也跟着做了，还有一点就是我对博客搭建方面的知识还不够充足，常常出现很多问题，查找解决方案的时候很方便。我也搭有一个Hugo的博客，本来是打算用它的，但是在主题方面出现了很多问题，去查问题也没查出来，所以只能先用着Hexo了。因为做博客确实花费了大量时间，后期有时间我慢慢去摸索吧。</p>
-<h4 id="搭建个人博客的好处"><a href="#搭建个人博客的好处" class="headerlink" title="搭建个人博客的好处"></a>搭建个人博客的好处</h4><p>想必学习计算机方向的同学都知道搭建个人博客对未来找工作面试的时候会有很大的加分。还有我觉得可以对自己学习的知识进行总结和记录，方便今后的复习。在搭建博客的过程中查找问题解决方案时肯定会接触到别人的博客，别人的博客里面或许会有那么一两篇对你有用的干货，同时还可以接触到你没接触过的知识，不断拓展自己的知识层，俗话说：“技多不压身”，多了解一点或许在某个时候会对自己有帮助哦。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>第一篇写得太多了…… 今后我会不断完善这个博客的，接下来就请期待我不定期的更新吧哈哈哈</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>typecho_rsshub</title>
-    <url>/2020/08/15/typecho-rsshub/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>【单片机】实验一竟然还有**功能？</title>
-    <url>/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/</url>
-    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
-<a id="more"></a>
-
-<h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
-<p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
-<p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
-<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>心得体会：</strong></p>
-<p>因为刚接触这门课，萌新的我花了很长时间才将题目功能实现出来QAQ。当时编写出现的问题是①按下按钮都无法实现功能和②按下一个按钮流水灯能发生顺流而按下第二个按钮或相隔的按钮时无法进行逆流，所以我认为可以从②中寻找为何按下第二个按钮或相隔按钮时无法逆流的问题。</p>
-<p>当时和好友一起讨论的时候我注意到了他的一句话 <strong>“按两个按钮就是1111 0011，也就是0xf3了 ”</strong> ，因为这句话我得到了灵感，那就是把任意两个按钮同时按下时的十六进制值写数组中，这样就像只按一个按钮的数组一样。当然，顺逆流的循环可以优化一下省去一部分代码，而且我在网上找过很多方法，可能在选择按钮中会有更简便的写法。</p>
-<h3 id="2-2-仿真演示"><a href="#2-2-仿真演示" class="headerlink" title="2.2 仿真演示"></a>2.2 仿真演示</h3><blockquote>
-<p><em>本代码可以实现按下<strong>任意两个</strong>开关流水灯都可以进行逆流。</em></p>
+<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
+<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
+<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
+<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
+<blockquote>
+<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
 </blockquote>
-<ul>
-<li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3.gif" alt></p>
-</li>
-<li><p>按下两个开关时：</p>
-<p>如按下P3.3和P3.5开关：（相隔按钮）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3+3.5.gif" alt></p>
-<p>如按下P3.4和P3.5开关：（相邻按钮）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.4+3.5.gif" alt></p>
 </li>
 </ul>
-<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
+<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
+<blockquote>
+<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
+<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
+</blockquote>
+<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
+<blockquote>
+<p><code>$ git config --global user.name</code></p>
+<p><code>$ git config --global user.email</code></p>
+</blockquote>
+<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
+<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
+<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
+<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
+<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
+</li>
+<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
+<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
+</li>
+<li><p>输入以下检验是否配置成功：</p>
+<blockquote>
+<p><code>$ ssh git@github.com</code></p>
+<p><code>$ ssh -T git@github.com</code></p>
+</blockquote>
+<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+</li>
+</ul>
+<hr>
+<p><strong>←To Be Continued</strong></p>
 ]]></content>
       <categories>
-        <category>物联网课程学习</category>
-        <category>嵌入式</category>
+        <category>博客搭建</category>
       </categories>
       <tags>
-        <tag>AT89C51单片机</tag>
+        <tag>Hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -337,6 +300,43 @@
       </categories>
       <tags>
         <tag>AT89C51单片机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
+    <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
+<p>首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 <strong>强制清除缓存</strong> 指令<code>npm cache clean --force</code> 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。</p>
+<p><img src="/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/huancun_error.png" alt="出错时的图片"></p>
+<a id="more"></a>
+
+<p>因为我的专业主要在嵌入式开发方向，只接触过C，Java和汇编语言，对JS和网页方面的知识不太了解，所以在搭建和完善本站的过程中出现了很多问题，比如主题、插入图片等问题，经常要花一部分时间去查找解决方案才能解决。在这里不得不说一下，真心想搭建好一个博客是需要花时间下功夫去摸索的，因为没有接触过JS和前端方面的知识做这个更是艰难，我只能尽自己所能把自己的博客做到自己满意的效果。</p>
+<h2 id="Hexo博客搭建教程视频推荐"><a href="#Hexo博客搭建教程视频推荐" class="headerlink" title="Hexo博客搭建教程视频推荐"></a>Hexo博客搭建教程视频推荐</h2><p>首先我搭建的Hexo博客是参考了以下教程视频的，在这里可以给大家分享一下：</p>
+<ul>
+<li><p>使用Mac或者Linux来搭建的话，推荐 <a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener"><strong>CodeSheep</strong></a> 羊哥的视频， 传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+</li>
+<li><p>使用windows搭建的话，我是看了<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener"><strong>Master_lisa</strong></a>小姐姐的视频，每一步都特别详细（声音也很好听 /滑稽），传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+</li>
+</ul>
+<h2 id="聊一聊"><a href="#聊一聊" class="headerlink" title="聊一聊"></a>聊一聊</h2><h4 id="关于我的博客的发展"><a href="#关于我的博客的发展" class="headerlink" title="关于我的博客的发展"></a>关于我的博客的发展</h4><ul>
+<li><p>会写一下关于现在专业知识学习时遇到的问题，可能会写一下学习过程中的心得吧。</p>
+</li>
+<li><p>有时间的话会写一下关于Hexo和Hugo博客搭建时遇到的问题，可能会有点教程内容，当然教程部分会用别人的来做参考，我会放出参考链接。</p>
+</li>
+<li><p>还有什么的话我会后续更新的…</p>
+</li>
+</ul>
+<h4 id="我在Hexo和Hugo之间的选择"><a href="#我在Hexo和Hugo之间的选择" class="headerlink" title="我在Hexo和Hugo之间的选择"></a>我在Hexo和Hugo之间的选择</h4><p>大家都知道Hexo是基于Nodejs，Hugo是基于Go语言编写的。Hexo和Hugo之间各有优缺点，Hexo优点在于使用的人多，主题和插件多，正因如此，Hexo可以做很多美化工作，出现问题的话网上的解决方案会比较多，问题容易解决。但是它有个缺点，就是当文章数多了之后生成静态的速度会很慢，这个问题其实挺难受的。</p>
+<p>而Hugo恰恰相反，主题和插件没有Hexo多，相应的教程就比较少。当然如果博客主要用途是用在写文章上，对主题美化要求不是特别高的话，这个问题是可以忽略不计的。其次，Hugo最大的优点就是生成静态的速度非常快，可能Hexo需要几分钟，而Hugo只需要几秒钟。</p>
+<p>对于Hexo和Hugo之间的选择因人而异，在正式运用博客上我是想选择Hugo的，但是现在使用的是Hexo，这是因为一开始我接触到的教程是Hexo的，发现使用的人比较多我就也跟着做了，还有一点就是我对博客搭建方面的知识还不够充足，常常出现很多问题，查找解决方案的时候很方便。我也搭有一个Hugo的博客，本来是打算用它的，但是在主题方面出现了很多问题，去查问题也没查出来，所以只能先用着Hexo了。因为做博客确实花费了大量时间，后期有时间我慢慢去摸索吧。</p>
+<h4 id="搭建个人博客的好处"><a href="#搭建个人博客的好处" class="headerlink" title="搭建个人博客的好处"></a>搭建个人博客的好处</h4><p>想必学习计算机方向的同学都知道搭建个人博客对未来找工作面试的时候会有很大的加分。还有我觉得可以对自己学习的知识进行总结和记录，方便今后的复习。在搭建博客的过程中查找问题解决方案时肯定会接触到别人的博客，别人的博客里面或许会有那么一两篇对你有用的干货，同时还可以接触到你没接触过的知识，不断拓展自己的知识层，俗话说：“技多不压身”，多了解一点或许在某个时候会对自己有帮助哦。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>第一篇写得太多了…… 今后我会不断完善这个博客的，接下来就请期待我不定期的更新吧哈哈哈</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
 </search>
