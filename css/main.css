@@ -1,3 +1,17 @@
+.moon-menu {
+  --moon-cricle: #607d8b;
+  --color: #fff;
+  --moon-item-bg-color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .moon-menu {
+    --moon-cricle: #2b5278;
+    --color: #9ab;
+    --moon-item-bg-color: #182533;
+  }
+}
+
 :root {
   --body-bg-color: #eee;
   --content-bg-color: #fff;
@@ -1236,7 +1250,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #66ebb5;
+  background: #be7982;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2807,9 +2821,16 @@ ul.breadcrumb li + li:last-child {
 .busuanzi-value {
   color: #1890ff;
 }
+body {
+  background: url("/images/porsche.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 50%;
+}
 .post-block {
   padding: 40px;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.8);
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
   border-radius: 20px 20px 20px 20px;
 }
@@ -2817,16 +2838,146 @@ ul.breadcrumb li + li:last-child {
   padding: 40px;
   margin: initial;
   margin-top: sboffset;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.8);
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
   border-radius: 20px;
 }
-/*.header-inner {
-    opacity: 0.9;
-}*/
+.header-inner {
+  background: rgba(255,255,255,0.8);
+}
+.popup {
+  opacity: 0.9;
+}
+.sidebar {
+  box-shadow: none;
+  background: none;
+}
 .site-overview {
   text-align: center;
 }
 canvas#canvas {
   margin-top: 20px;
 }
+.post {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 25px;
+  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
+  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
+}
+.post-button .btn {
+  color: #555 !important;
+  background-color: #fff;
+  border-radius: 3px;
+  font-size: 15px;
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.35);
+  border: none !important;
+  transition-property: unset;
+  padding: 0px 15px;
+}
+.post-button .btn:hover {
+  color: #fff !important;
+  border-radius: 3px;
+  font-size: 15px;
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.35);
+  background-image: linear-gradient(90deg, #a166ab 0%, #ef4e7b 25%, #f37055 50%, #ef4e7b 75%, #a166ab 100%);
+}
+.headband {
+  display: none;
+}
+/* webkit, opera, IE9 */
+::selection {
+  background: #06d633;
+  color: #f7f7f7;
+}
+/* firefox */
+::-moz-selection {
+  background: #06d633;
+  color: #f7f7f7;
+}
+.highlight *::selection {
+  background: #06d633;
+}
+/*/
+标题栏背景图片,
+.site-brand-container {
+  background-image: url("/images/xxx.png");
+  background-size: 100% 100%;
+  opacity: 0.9;
+}
+*
+.moon-menu,
+.moon-menu-bg,
+.moon-menu-content {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 4em;
+  height: 4em;
+  z-index: 999;
+}
+
+.moon-menu-button {
+  width: 4em;
+  height: 4em;
+  cursor: pointer;
+}
+
+.moon-menu-cricle {
+  fill: var(--moon-cricle, #607d8b);
+  opacity: 0.9;
+}
+
+.moon-menu-border {
+  stroke: var(--moon-cricle, #607d8b);
+  opacity: 0.9;
+  stroke-width: 1px;
+  fill: none;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.moon-menu-icon {
+  font-size: 2.5em;
+  line-height: 1.6em;
+  color: var(--color, #fff);
+  text-align: center;
+}
+
+.moon-menu-icon i,
+.moon-menu-icon svg {
+  transition: all 0.15s cubic-bezier(0, 0, 0.382, 1.618);
+}
+
+.moon-menu-icon.active i,
+.moon-menu-icon.active svg {
+  transform: rotate(90deg);
+}
+
+.moon-menu-text {
+  color: var(--color, #fff);
+  font-weight: 400;
+  text-align: center;
+  line-height: 3.2em;
+  font-size: 1.2em;
+  display: none;
+}
+
+.moon-menu-item {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background-color: var(--moon-item-bg-color, #000);
+  opacity: 0;
+  display: block;
+  transition: all 0.3s cubic-bezier(0, 0, 0.382, 1.618);
+  z-index: -1;
+  text-align: center;
+  line-height: 2.5em;
+  color: var(--color, #fff);
+  cursor: pointer;
+}
+
