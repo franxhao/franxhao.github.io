@@ -2,12 +2,12 @@
 <search>
   <entry>
     <title>typecho_rsshub</title>
-    <url>/2020/08/15/typecho-rsshub/</url>
+    <url>/undefined/2dcf1105.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
-    <url>/2020/08/03/raspberry-pi-1/</url>
+    <url>/undefined/66fbe44e.html</url>
     <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
 <p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
 <img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
@@ -68,8 +68,8 @@
   </entry>
   <entry>
     <title>【单片机】实验一竟然还有**功能？</title>
-    <url>/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/</url>
-    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
+    <url>/undefined/6e490410.html</url>
+    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/undefined/ec01d655.html" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
 <a id="more"></a>
 
 <h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
@@ -87,13 +87,13 @@
 </blockquote>
 <ul>
 <li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3.gif" alt></p>
+<p><img src="/undefined/3.3.gif" alt></p>
 </li>
 <li><p>按下两个开关时：</p>
 <p>如按下P3.3和P3.5开关：（相隔按钮）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.3+3.5.gif" alt></p>
+<p><img src="/undefined/3.3+3.5.gif" alt></p>
 <p>如按下P3.4和P3.5开关：（相邻按钮）</p>
-<p><img src="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/3.4+3.5.gif" alt></p>
+<p><img src="/undefined/3.4+3.5.gif" alt></p>
 </li>
 </ul>
 <h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
@@ -108,7 +108,7 @@
   </entry>
   <entry>
     <title>进阶之路！从0开始搭建Hexo博客（二）</title>
-    <url>/2020/04/12/hexo-create-2/</url>
+    <url>/undefined/91ba00fe.html</url>
     <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
 
 <a id="more"></a>
@@ -129,17 +129,17 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
 
 <p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
-<img src="/2020/04/12/hexo-create-2/hexo s.png" style="zoom: 80%;">
+<img src="/undefined/hexo s.png" style="zoom: 80%;">
 
 <p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
-<img src="/2020/04/12/hexo-create-2/hexo ym.png" style="zoom: 60%;">
+<img src="/undefined/hexo ym.png" style="zoom: 60%;">
 
 
 
 <h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
 <ul>
 <li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
-<img src="/2020/04/12/hexo-create-2/deploy.png" style="zoom:80%;">
+<img src="/undefined/deploy.png" style="zoom:80%;">
 
 <p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
 </li>
@@ -150,7 +150,7 @@
 <p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
 <h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
 <p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
-<img src="/2020/04/12/hexo-create-2/theme1.png" style="zoom:70%;">
+<img src="/undefined/theme1.png" style="zoom:70%;">
 
 <p>这里以我用的next主题为例</p>
 <p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
@@ -181,7 +181,7 @@
   </entry>
   <entry>
     <title>新技能加点！从0开始搭建Hexo博客（一）</title>
-    <url>/2020/04/04/hexo-create/</url>
+    <url>/undefined/80342cee.html</url>
     <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
 
 
@@ -198,17 +198,17 @@
 <h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
 <li><p><strong>创建Github/Gitee(码云)：</strong></p>
 <p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="/2020/04/04/hexo-create/github1.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/2020/04/04/hexo-create/github2.png" alt></p>
+<p><img src="/undefined/github1.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/undefined/github2.png" alt></p>
 <p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
 </li>
 <li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="/2020/04/04/hexo-create/nodejs.png" alt></p>
+<p><img src="/undefined/nodejs.png" alt></p>
 <p>安装步骤很简单，一直next，默认安装就行。</p>
 </li>
 <li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="/2020/04/04/hexo-create/git1.png" alt></p>
-<p><img src="/2020/04/04/hexo-create/git2.png" alt></p>
+<p><img src="/undefined/git1.png" alt></p>
+<p><img src="/undefined/git2.png" alt></p>
 <p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
 <blockquote>
 <p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
@@ -228,11 +228,11 @@
 <p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
 <h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
 <li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="/2020/04/04/hexo-create/ssh1.png" alt></p>
+<p><img src="/undefined/ssh1.png" alt></p>
 <p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
 </li>
 <li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="/2020/04/04/hexo-create/ssh2.png" alt></p>
+<p><img src="/undefined/ssh2.png" alt></p>
 </li>
 <li><p>输入以下检验是否配置成功：</p>
 <blockquote>
@@ -255,7 +255,7 @@
   </entry>
   <entry>
     <title>单片机学习（一）</title>
-    <url>/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/</url>
+    <url>/undefined/ec01d655.html</url>
     <content><![CDATA[<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
 <h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
 <p><strong>编写程序实现以上功能。</strong></p>
@@ -270,7 +270,7 @@
 <p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
 </li>
 <li><p>仿真演示：</p>
-<p><img src="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
+<p><img src="/undefined/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
 </li>
 </ol>
 <p><strong>小结</strong></p>
@@ -304,10 +304,10 @@
   </entry>
   <entry>
     <title>我的第一篇博客</title>
-    <url>/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
+    <url>/undefined/d95d7e09.html</url>
     <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
 <p>首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 <strong>强制清除缓存</strong> 指令<code>npm cache clean --force</code> 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。</p>
-<p><img src="/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/huancun_error.png" alt="出错时的图片"></p>
+<p><img src="/undefined/huancun_error.png" alt="出错时的图片"></p>
 <a id="more"></a>
 
 <p>因为我的专业主要在嵌入式开发方向，只接触过C，Java和汇编语言，对JS和网页方面的知识不太了解，所以在搭建和完善本站的过程中出现了很多问题，比如主题、插入图片等问题，经常要花一部分时间去查找解决方案才能解决。在这里不得不说一下，真心想搭建好一个博客是需要花时间下功夫去摸索的，因为没有接触过JS和前端方面的知识做这个更是艰难，我只能尽自己所能把自己的博客做到自己满意的效果。</p>

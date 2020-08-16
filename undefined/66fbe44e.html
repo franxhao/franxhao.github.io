@@ -20,25 +20,28 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"franxhao.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"franxhao.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简单介绍文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。 实验一P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，按下P3.2 P1的8个灯奇亮偶不亮；按下P3.3 P1的8个灯偶量奇不亮；按下P3.4 P1的8个灯流水灯顺着滚动遍；按下P3.5 P1的8个灯流水灯倒着滚动一遍。 编写程序实现以上功能。">
+  <meta name="description" content="前 言前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง…… 今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单片机学习（一）">
-<meta property="og:url" content="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/index.html">
+<meta property="og:title" content="【Pi】VNC远程连接树莓派和WiFi模块的开启">
+<meta property="og:url" content="https://franxhao.top/undefined/66fbe44e.html">
 <meta property="og:site_name" content="FranxHao">
-<meta property="og:description" content="简单介绍文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。 实验一P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，按下P3.2 P1的8个灯奇亮偶不亮；按下P3.3 P1的8个灯偶量奇不亮；按下P3.4 P1的8个灯流水灯顺着滚动遍；按下P3.5 P1的8个灯流水灯倒着滚动一遍。 编写程序实现以上功能。">
+<meta property="og:description" content="前 言前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง…… 今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif">
-<meta property="article:published_time" content="2020-04-01T23:13:19.000Z">
-<meta property="article:modified_time" content="2020-08-03T08:08:31.630Z">
+<meta property="og:image" content="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg">
+<meta property="og:image" content="http://www.5845.cn/wp-content/uploads/2019/10/u9949029864189621678fm173app25fJPEG.jpg">
+<meta property="og:image" content="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png">
+<meta property="article:published_time" content="2020-08-03T06:59:39.000Z">
+<meta property="article:modified_time" content="2020-08-16T00:27:26.490Z">
 <meta property="article:author" content="豪少super">
-<meta property="article:tag" content="AT89C51单片机">
+<meta property="article:tag" content="categories-java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg">
 
-<link rel="canonical" href="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/">
+<link rel="canonical" href="https://franxhao.top/undefined/66fbe44e.html">
 
 
 <script id="page-configurations">
@@ -51,7 +54,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector.css" />
-  <title>单片机学习（一） | FranxHao</title>
+  <title>【Pi】VNC远程连接树莓派和WiFi模块的开启 | FranxHao</title>
   
 
 
@@ -201,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/">
+    <link itemprop="mainEntityOfPage" href="https://franxhao.top/undefined/66fbe44e.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/wuming.jpg">
@@ -214,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          单片机学习（一）
+          【Pi】VNC远程连接树莓派和WiFi模块的开启
         </h1>
 
         <div class="post-meta">
@@ -224,14 +227,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-02 07:13:19" itemprop="dateCreated datePublished" datetime="2020-04-02T07:13:19+08:00">2020-04-02</time>
+              <time title="创建时间：2020-08-03 14:59:39" itemprop="dateCreated datePublished" datetime="2020-08-03T14:59:39+08:00">2020-08-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-03 16:08:31" itemprop="dateModified" datetime="2020-08-03T16:08:31+08:00">2020-08-03</time>
+                <time title="修改时间：2020-08-16 08:27:26" itemprop="dateModified" datetime="2020-08-16T08:27:26+08:00">2020-08-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -239,11 +242,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">物联网课程学习</span></a>
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">技术学习</span></a>
                 </span>
             </span>
 
@@ -254,34 +257,20 @@
               </span>
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -293,43 +282,55 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
-<h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
-<p><strong>编写程序实现以上功能。</strong></p>
+        <h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
+<p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
+<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
+
 <a id="more"></a>
 
-<ol>
-<li><p>首先根据题目发现使用到的I/O端口为P1和P3，注意8个灯接P1.0-1.7,4个按钮接P3.2-3.5。灯的问题由十六进制代码实现。</p>
+<h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
+<ul>
+<li><p>前期需要：</p>
+<ul>
+<li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
 </li>
-<li><p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
+<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
+<p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
+</li>
+<li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
+<img src="http://www.5845.cn/wp-content/uploads/2019/10/u9949029864189621678fm173app25fJPEG.jpg" style="zoom: 70%;">
+</li>
+</ul>
+</li>
+<li><p>接下来是远程配置树莓派，指令为</p>
+<p><code>sudo raspi-config</code></p>
+<p>在终端/运行中键入以上指令后的现象如下图所示，选择步骤：5 Interfacing Options → P3 VNC → 是 → 确定 →Finish。</p>
+<img src="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png" style="zoom: 85%;">
 
-<p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
+<p>配置完成后树莓派上的VNC就可以使用了。</p>
+<p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
+<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
+
 </li>
-<li><p>仿真演示：</p>
-<p><img src="/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
-</li>
-</ol>
-<p><strong>小结</strong></p>
-<p>了解I/O端口以及对应的十六进制代码表示；熟悉C语言if-else和for语句，延时函数。</p>
-<h2 id="使用到的软件"><a href="#使用到的软件" class="headerlink" title="使用到的软件"></a>使用到的软件</h2><ol>
-<li><p><strong>代码编辑器/IDE</strong>：主要用来写C语言的代码，我比较喜欢用的是Notepad++和VS Code。这两个编写和浏览代码比较舒服，学校让我们装的是VC6.0。简单介绍一下我用过的：</p>
-<ul>
-<li>VC6.0：比较老了，初学者用一下可以，但是不推荐未来使用。我的使用感受是启动慢，字体小，没有编辑辅助功能，有的错误它不会提示，要自己去找。总的来说就是不够智能吧。</li>
-<li>Notepad++：优秀的代码编辑器，支持超过50种编程、脚本和标记语言的语法高亮显示，代码可折叠方便查阅整个文档。轻量化的感觉，开启迅速，编写和浏览很舒服。</li>
-<li>VS Code：第一次接触它是从搭建博客开始的，之前都是使用Notepad++，至于VC6.0？？？除了刚学C的时候用过，之后再没打开过。同样也是轻量级体验，支持几乎所有主流的开发语言的语法高亮和智能代码补全等。如果需要看大量代码的话这个是很推荐的，看着比较舒服；如果是单片机初学阶段，写的代码不多，个人推荐Notepad++就够了。</li>
-<li>SUBLIME TEXT：这款也是因为搭建博客而接触到的编辑器。有付费内容，但是使用免费的不影响体验也没有时间限制，使用感受和VS Code差不多，同样拥有高亮显示和编辑辅助功能。和VS Code看起来我觉得SUBLIME TEXT的代码显示要Q些，看起来比较可爱哈哈哈。</li>
-<li>以上就是我使用过的编辑器的简单介绍了，如果想了解得更细致些可以到google和baidu查。我们还学习了Java SE，当时使用的IDE是eclipse，由于这里主要介绍本人单片机课程的内容，代码是用C语言写的，所以就不对eclipse进行介绍了。</li>
 </ul>
-</li>
-<li><p><strong>Keil 3</strong>：用来对代码进行编译和生成.HEX文件。</p>
+<p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
+<p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
+<h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
+<p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> WiFi 配置示例说明：</p>
 <ul>
-<li><a href="[https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F](https://baike.baidu.com/item/hex文件格式)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
+<li><strong>ssid:网络的ssid</strong></li>
+<li><strong>psk:密码</strong></li>
+<li><strong>priority:连接优先级，数字越大优先级越高（不可以是负数）</strong></li>
 </ul>
-</li>
-<li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
-</li>
-</ol>
+<p>如果有两个就在下面多添加一个<code>network</code>的代码并标好优先级就可。</p>
+<p>若SD卡已经插入树莓派中，但又想修改文件中的内容可以使用指令来完成，在终端中输入以下指令打开文件</p>
+<p><code>sudo nano  /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<p>可以用vim或nano编辑，这里使用nano，nano编辑完后先按Ctrl+O再按Enter对修改内容进行保存，再按Ctrl+X退出回到原来的终端界面。</p>
+<p>以上就是这次对树莓派这块小玩意做的小总结啦~</p>
 
     </div>
 
@@ -345,7 +346,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://franxhao.com/2020/04/02/%E5%8D%95%E7%89%87%E6%9C%BA1/" title="单片机学习（一）">https://franxhao.com/2020/04/02/单片机1/</a>
+    <a href="https://franxhao.top/undefined/66fbe44e.html" title="【Pi】VNC远程连接树莓派和WiFi模块的开启">https://franxhao.top/undefined/66fbe44e.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -386,7 +387,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/AT89C51%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"><i class="fa fa-tags"></i>  AT89C51单片机</a>
+              <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag"><i class="fa fa-tags"></i>  树莓派</a>
           </div>
 
         
@@ -395,12 +396,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/31/%E7%AC%AC%E4%B8%80%E7%AF%87/" rel="prev" title="我的第一篇博客">
-      <i class="fa fa-chevron-left"></i> 我的第一篇博客
+    <a href="/undefined/6e490410.html" rel="prev" title="【单片机】实验一竟然还有**功能？">
+      <i class="fa fa-chevron-left"></i> 【单片机】实验一竟然还有**功能？
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/04/hexo-create/" rel="next" title="新技能加点！从0开始搭建Hexo博客（一）">
-      新技能加点！从0开始搭建Hexo博客（一） <i class="fa fa-chevron-right"></i>
+    <a href="/undefined/2dcf1105.html" rel="next" title="typecho_rsshub">
+      typecho_rsshub <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -414,7 +415,6 @@
 
           </div>
           
-    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -461,7 +461,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验一"><span class="nav-number">2.</span> <span class="nav-text">实验一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用到的软件"><span class="nav-number">3.</span> <span class="nav-text">使用到的软件</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前-言"><span class="nav-number">1.</span> <span class="nav-text">前 言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VNC远程连接"><span class="nav-number">2.</span> <span class="nav-text">VNC远程连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启树莓派无线上网模式"><span class="nav-number">3.</span> <span class="nav-text">开启树莓派无线上网模式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -519,23 +519,23 @@
               
               
                 <li>
-                  <a href="/2020/08/15/typecho-rsshub/" title="typecho_rsshub" target="_blank">typecho_rsshub</a>
+                  <a href="/undefined/2dcf1105.html" title="typecho_rsshub" target="_blank">typecho_rsshub</a>
                 </li>
               
                 <li>
-                  <a href="/2020/08/03/raspberry-pi-1/" title="【Pi】VNC远程连接树莓派和WiFi模块的开启" target="_blank">【Pi】VNC远程连接树莓派和WiFi模块的开启</a>
+                  <a href="/undefined/66fbe44e.html" title="【Pi】VNC远程连接树莓派和WiFi模块的开启" target="_blank">【Pi】VNC远程连接树莓派和WiFi模块的开启</a>
                 </li>
               
                 <li>
-                  <a href="/2020/05/01/%E5%8D%95%E7%89%87%E6%9C%BA2/" title="【单片机】实验一竟然还有**功能？" target="_blank">【单片机】实验一竟然还有**功能？</a>
+                  <a href="/undefined/6e490410.html" title="【单片机】实验一竟然还有**功能？" target="_blank">【单片机】实验一竟然还有**功能？</a>
                 </li>
               
                 <li>
-                  <a href="/2020/04/12/hexo-create-2/" title="进阶之路！从0开始搭建Hexo博客（二）" target="_blank">进阶之路！从0开始搭建Hexo博客（二）</a>
+                  <a href="/undefined/91ba00fe.html" title="进阶之路！从0开始搭建Hexo博客（二）" target="_blank">进阶之路！从0开始搭建Hexo博客（二）</a>
                 </li>
               
                 <li>
-                  <a href="/2020/04/04/hexo-create/" title="新技能加点！从0开始搭建Hexo博客（一）" target="_blank">新技能加点！从0开始搭建Hexo博客（一）</a>
+                  <a href="/undefined/80342cee.html" title="新技能加点！从0开始搭建Hexo博客（一）" target="_blank">新技能加点！从0开始搭建Hexo博客（一）</a>
                 </li>
               
             </ul>
@@ -685,35 +685,6 @@ translateInitilization();
   
 
   
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : true,
-      appId      : 'Glei3wO6KGHzC1ckixEtWk7r-gzGzoHsz',
-      appKey     : 'Q6GitFNbfV5eoWA7Vb97sio2',
-      placeholder: "",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : 'zh-cn' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : false,
-      serverURLs : ''
-    });
-  }, window.Valine);
-});
-</script>
 
 
   <script async src="/js/cursor/fireworks.js"></script>
