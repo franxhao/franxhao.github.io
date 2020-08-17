@@ -23,18 +23,21 @@
     var CONFIG = {"hostname":"franxhao.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="快要大三的物联网萌新">
+  <meta name="description" content="前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 404 Not Found nginx ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ) 经过和重建网站的Nginx配置对比，为什么出">
 <meta property="og:type" content="article">
-<meta property="og:title" content="typecho_rsshub">
+<meta property="og:title" content="Typecho主站崩溃与自建RSSHub和跨域服务">
 <meta property="og:url" content="https://franxhao.top/undefined/2dcf1105.html">
 <meta property="og:site_name" content="FranxHao">
-<meta property="og:description" content="快要大三的物联网萌新">
+<meta property="og:description" content="前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 404 Not Found nginx ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ) 经过和重建网站的Nginx配置对比，为什么出">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
 <meta property="article:published_time" content="2020-08-15T13:52:33.000Z">
-<meta property="article:modified_time" content="2020-08-16T00:27:26.495Z">
+<meta property="article:modified_time" content="2020-08-17T20:26:41.315Z">
 <meta property="article:author" content="豪少super">
 <meta property="article:tag" content="categories-java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
 
 <link rel="canonical" href="https://franxhao.top/undefined/2dcf1105.html">
 
@@ -49,7 +52,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector.css" />
-  <title>typecho_rsshub | FranxHao</title>
+  <title>Typecho主站崩溃与自建RSSHub和跨域服务 | FranxHao</title>
   
 
 
@@ -212,7 +215,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          typecho_rsshub
+          Typecho主站崩溃与自建RSSHub和跨域服务
         </h1>
 
         <div class="post-meta">
@@ -229,8 +232,21 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-16 08:27:26" itemprop="dateModified" datetime="2020-08-16T08:27:26+08:00">2020-08-16</time>
+                <time title="修改时间：2020-08-18 04:26:41" itemprop="dateModified" datetime="2020-08-18T04:26:41+08:00">2020-08-18</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2/Typecho/" itemprop="url" rel="index"><span itemprop="name">Typecho</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -245,14 +261,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -264,7 +280,82 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 <code>404 Not Found nginx</code> ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ)</p>
+<p>经过和重建网站的Nginx配置对比，为什么出问题自己心里算是有些眉目了，两份Nginx配置内容有很大差别，说明是在某个时候这份配置被覆盖了，为什么会被覆盖？将在文章RSSHub和跨域服务搭建过程中说明……</p>
+<a id="more"></a>
+
+<hr>
+<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p><strong>RSSHub：万物皆可 RSS</strong></p>
+<p>RSSHub 是一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源。RSSHub 借助于开源社区的力量快速发展中，目前已适配数百家网站的上千项内容。</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<h2 id="1-利用宝塔PM2搭建RSSHub"><a href="#1-利用宝塔PM2搭建RSSHub" class="headerlink" title="1.利用宝塔PM2搭建RSSHub"></a>1.利用宝塔PM2搭建RSSHub</h2><ul>
+<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub" target="_blank" rel="noopener">DIYgod/RSSHub</a></li>
+</ul>
+<p>对于小白来说，宝塔面板的PM2管理器非常方便，使用云服务起建站用起来容易上手。</p>
+<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;DIYgod&#x2F;RSSHub.git</span><br></pre></td></tr></table></figure>
+
+<div class="note warning">
+            <p>可能是因为RSSHub项目被墙的缘故，项目网页需要翻墙才可以打开，所以难免会出现clone速度很慢的同学，我们可以采用其他办法将源码下载出来，上传到root目录下，命名为RSSHub即可。<br>解决办法：</p><ul><li>使用代理下载速度快的同学可以直接将源码压缩包下载出来，解压并将RSSHub文件夹通过宝塔上传至root目录中</li><li>利用Gitee导入Github仓库功能，直接clone导入到Gitee仓库的RSSHub项目即可解决</li></ul>
+          </div>
+
+<h3 id="1-2-安装PM2管理器，启动RSSHub"><a href="#1-2-安装PM2管理器，启动RSSHub" class="headerlink" title="1.2 安装PM2管理器，启动RSSHub"></a>1.2 安装PM2管理器，启动RSSHub</h3><p>PM2管理器在宝塔面板软件商店中搜索找到并安装。</p>
+<h4 id="启动RSSHub"><a href="#启动RSSHub" class="headerlink" title="启动RSSHub"></a>启动RSSHub</h4><ul>
+<li><p>命令行法添加项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib&#x2F;index.js --name rsshub</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>命令行添加法优点是添加项目速度快，但是在PM2中有可能会无法打开项目目录导致最终搭建失败</p>
+</blockquote>
+<ul>
+<li><p>PM2添加法</p>
+<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
+
+</li>
+</ul>
+<p>添加好后点击「映射」，设置域名，如图：</p>
+<img src="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
+
+<div class="note warning">
+            <ul><li>设置的域名可以到你的域名解析里添加一个子域名映射到服务器IP即可。子域名例如<code>rsshub.xxx.com</code>中的rsshub部分可随意设置</li><li>解析好子域名后顺便去申请个SSL证书，并在宝塔站点中开启子域名的SSL，如果不支持https会造成浏览器加载失败</li><li>必须映射到根目录RSSHub中，宝塔有可能会默认映射到www目录中，如果映射到www目录可能会导致覆盖Typecho网站的Nginx配置，从而使网站出现各种错误，这就是我主站崩溃的原因</li></ul>
+          </div>
+<p>最后在浏览器中打开<strong>你设置映射的域名(<code>https://rsshub.xxx.com</code>)</strong>看到RSSHub的图标并且显示<strong><code>Welcome to RSSHub!</code></strong>字样的页面说明搭建成功！</p>
+<h3 id="2-利用宝塔Docker-部署RSSHub"><a href="#2-利用宝塔Docker-部署RSSHub" class="headerlink" title="2. 利用宝塔Docker 部署RSSHub"></a>2. 利用宝塔Docker 部署RSSHub</h3><div class="note info">
+            <p>可参考<strong><a href="https://blog.dlzhang.com/" target="_blank" rel="noopener">班班</a></strong>的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/" target="_blank" rel="noopener">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
+          </div>
+
+<h3 id="3-跨域服务"><a href="#3-跨域服务" class="headerlink" title="3. 跨域服务"></a>3. 跨域服务</h3><p>跨域最简单的解决办法是：在原有的RSS源地址前面加上<code>https://cors-anywhere.herokuapp.com/</code></p>
+<p>例如<code>https://cors-anywhere.herokuapp.com/https://rsshub.xxx.com/rss路由</code></p>
+<p>但是这个方法访问速度比较慢，我这甚至出现了无法加载的情况，所以我们需要自己搭建一个跨域服务：</p>
+<blockquote>
+<p><a href="https://github.com/netnr/proxy" target="_blank" rel="noopener">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
+</blockquote>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;netnr&#x2F;proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>如果clone不到使用，解决方法同上RSSHub，安装目录依旧是在根目录root下。</p>
+<h4 id="PM2管理器添加项目"><a href="#PM2管理器添加项目" class="headerlink" title="PM2管理器添加项目"></a>PM2管理器添加项目</h4><p>添加项目同RSSHub的PM2添加法，启动文件为<strong>server.js</strong>，项目名称可随意。添加好后点击「映射」，设置域名。（这里域名需要再解析一个新的子域名并申请SSL证书，记得在宝塔添加证书开启SSL）</p>
+<p>这时自己搭建的跨域服务为：<code>https://proxy.xxx.com/</code></p>
+<p>此时自己的代理为：<code>https://proxy.xxx.com/https://rsshub.xxx.com/rss路由</code>，浏览器打开代理可以看到爬到的RSS源代码说明成功啦，同时可以发现自建跨域服务速度飞快（/赞）</p>
+<h3 id="4-订阅RSS源"><a href="#4-订阅RSS源" class="headerlink" title="4. 订阅RSS源"></a>4. 订阅RSS源</h3><p>有了以上准备就可以订阅其他网站的RSS源啦，这里以B站为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https:&#x2F;&#x2F;rsshub.app&#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;208259</span><br><span class="line"></span><br><span class="line">路由: &#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
+
+<p>这时搭配上自建的两个服务后url就是：</p>
+<p><code>https://proxy.xxx.com/https://rsshub.xxx.com/bilibili/user/bangumi/:uid</code></p>
+<div class="note info">
+            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/" target="_blank" rel="noopener">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
+          </div>
+
+<blockquote>
+<p>参考文章：</p>
+<p><a href="https://www.anleenoxu.top/archives/156.html" target="_blank" rel="noopener">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/" target="_blank" rel="noopener">https://www.jellyw.com/archives/170/</a></p>
+</blockquote>
+
     </div>
 
     
@@ -279,7 +370,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://franxhao.top/undefined/2dcf1105.html" title="typecho_rsshub">https://franxhao.top/undefined/2dcf1105.html</a>
+    <a href="https://franxhao.top/undefined/2dcf1105.html" title="Typecho主站崩溃与自建RSSHub和跨域服务">https://franxhao.top/undefined/2dcf1105.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -318,6 +409,11 @@
 </div>
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Typecho/" rel="tag"><i class="fa fa-tags"></i>  Typecho</a>
+              <a href="/tags/RSSHub/" rel="tag"><i class="fa fa-tags"></i>  RSSHub</a>
+          </div>
 
         
 
@@ -328,7 +424,10 @@
     <a href="/undefined/66fbe44e.html" rel="prev" title="【Pi】VNC远程连接树莓派和WiFi模块的开启">
       <i class="fa fa-chevron-left"></i> 【Pi】VNC远程连接树莓派和WiFi模块的开启
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/undefined/6df7f115.html" rel="next" title="Hexo发布文章报错can not read a block mapping entry">
+      Hexo发布文章报错can not read a block mapping entry <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -387,6 +486,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-利用宝塔PM2搭建RSSHub"><span class="nav-number">1.</span> <span class="nav-text">1.利用宝塔PM2搭建RSSHub</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-clone源码到root目录下"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 clone源码到root目录下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-安装PM2管理器，启动RSSHub"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装PM2管理器，启动RSSHub</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动RSSHub"><span class="nav-number">1.2.1.</span> <span class="nav-text">启动RSSHub</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-利用宝塔Docker-部署RSSHub"><span class="nav-number">1.3.</span> <span class="nav-text">2. 利用宝塔Docker 部署RSSHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-跨域服务"><span class="nav-number">1.4.</span> <span class="nav-text">3. 跨域服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">1.4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PM2管理器添加项目"><span class="nav-number">1.4.2.</span> <span class="nav-text">PM2管理器添加项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-订阅RSS源"><span class="nav-number">1.5.</span> <span class="nav-text">4. 订阅RSS源</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,20 +502,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -444,7 +544,11 @@
               
               
                 <li>
-                  <a href="/undefined/2dcf1105.html" title="typecho_rsshub" target="_blank">typecho_rsshub</a>
+                  <a href="/undefined/6df7f115.html" title="Hexo发布文章报错can not read a block mapping entry" target="_blank">Hexo发布文章报错can not read a block mapping entry</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/2dcf1105.html" title="Typecho主站崩溃与自建RSSHub和跨域服务" target="_blank">Typecho主站崩溃与自建RSSHub和跨域服务</a>
                 </li>
               
                 <li>
@@ -452,15 +556,11 @@
                 </li>
               
                 <li>
-                  <a href="/undefined/6e490410.html" title="【单片机】实验一竟然还有**功能？" target="_blank">【单片机】实验一竟然还有**功能？</a>
+                  <a href="/undefined/6e490410.html" title="【单片机】（二）实验一升级，进阶+复习！" target="_blank">【单片机】（二）实验一升级，进阶+复习！</a>
                 </li>
               
                 <li>
                   <a href="/undefined/91ba00fe.html" title="进阶之路！从0开始搭建Hexo博客（二）" target="_blank">进阶之路！从0开始搭建Hexo博客（二）</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/80342cee.html" title="新技能加点！从0开始搭建Hexo博客（一）" target="_blank">新技能加点！从0开始搭建Hexo博客（一）</a>
                 </li>
               
             </ul>
@@ -497,7 +597,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">9k</span>
+    <span title="站点总字数">12k</span>
 </div>
 
 <div class="translate-style">

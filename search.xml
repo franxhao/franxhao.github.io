@@ -1,9 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>typecho_rsshub</title>
+    <title>Hexo发布文章报错can not read a block mapping entry</title>
+    <url>/undefined/6df7f115.html</url>
+    <content><![CDATA[<p>今天在修改文章标题的时候报错了，我直接改标题没有动到下面的信息（冒号后都已空一格），但是在生成静态的时候给我反馈了如下错误：</p>
+<blockquote>
+<p><code>YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 2, column 4:</code></p>
+</blockquote>
+<p>经过Google查找发现是标题配置里面有<code>&quot; &quot;</code>和<code>( )</code>这类英文符号，导致文章无法按照正确YAML语法解析而出错，把它们改成中文符号就好了。</p>
+<p>通过此次踩坑发现，文章头部配置要严格按照YAML语法来写。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+        <category>踩坑记录</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Typecho主站崩溃与自建RSSHub和跨域服务</title>
     <url>/undefined/2dcf1105.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 <code>404 Not Found nginx</code> ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ)</p>
+<p>经过和重建网站的Nginx配置对比，为什么出问题自己心里算是有些眉目了，两份Nginx配置内容有很大差别，说明是在某个时候这份配置被覆盖了，为什么会被覆盖？将在文章RSSHub和跨域服务搭建过程中说明……</p>
+<a id="more"></a>
+
+<hr>
+<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p><strong>RSSHub：万物皆可 RSS</strong></p>
+<p>RSSHub 是一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源。RSSHub 借助于开源社区的力量快速发展中，目前已适配数百家网站的上千项内容。</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<h2 id="1-利用宝塔PM2搭建RSSHub"><a href="#1-利用宝塔PM2搭建RSSHub" class="headerlink" title="1.利用宝塔PM2搭建RSSHub"></a>1.利用宝塔PM2搭建RSSHub</h2><ul>
+<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub" target="_blank" rel="noopener">DIYgod/RSSHub</a></li>
+</ul>
+<p>对于小白来说，宝塔面板的PM2管理器非常方便，使用云服务起建站用起来容易上手。</p>
+<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;DIYgod&#x2F;RSSHub.git</span><br></pre></td></tr></table></figure>
+
+<div class="note warning">
+            <p>可能是因为RSSHub项目被墙的缘故，项目网页需要翻墙才可以打开，所以难免会出现clone速度很慢的同学，我们可以采用其他办法将源码下载出来，上传到root目录下，命名为RSSHub即可。<br>解决办法：</p><ul><li>使用代理下载速度快的同学可以直接将源码压缩包下载出来，解压并将RSSHub文件夹通过宝塔上传至root目录中</li><li>利用Gitee导入Github仓库功能，直接clone导入到Gitee仓库的RSSHub项目即可解决</li></ul>
+          </div>
+
+<h3 id="1-2-安装PM2管理器，启动RSSHub"><a href="#1-2-安装PM2管理器，启动RSSHub" class="headerlink" title="1.2 安装PM2管理器，启动RSSHub"></a>1.2 安装PM2管理器，启动RSSHub</h3><p>PM2管理器在宝塔面板软件商店中搜索找到并安装。</p>
+<h4 id="启动RSSHub"><a href="#启动RSSHub" class="headerlink" title="启动RSSHub"></a>启动RSSHub</h4><ul>
+<li><p>命令行法添加项目</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib&#x2F;index.js --name rsshub</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>命令行添加法优点是添加项目速度快，但是在PM2中有可能会无法打开项目目录导致最终搭建失败</p>
+</blockquote>
+<ul>
+<li><p>PM2添加法</p>
+<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
+
+</li>
+</ul>
+<p>添加好后点击「映射」，设置域名，如图：</p>
+<img src="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
+
+<div class="note warning">
+            <ul><li>设置的域名可以到你的域名解析里添加一个子域名映射到服务器IP即可。子域名例如<code>rsshub.xxx.com</code>中的rsshub部分可随意设置</li><li>解析好子域名后顺便去申请个SSL证书，并在宝塔站点中开启子域名的SSL，如果不支持https会造成浏览器加载失败</li><li>必须映射到根目录RSSHub中，宝塔有可能会默认映射到www目录中，如果映射到www目录可能会导致覆盖Typecho网站的Nginx配置，从而使网站出现各种错误，这就是我主站崩溃的原因</li></ul>
+          </div>
+<p>最后在浏览器中打开<strong>你设置映射的域名(<code>https://rsshub.xxx.com</code>)</strong>看到RSSHub的图标并且显示<strong><code>Welcome to RSSHub!</code></strong>字样的页面说明搭建成功！</p>
+<h3 id="2-利用宝塔Docker-部署RSSHub"><a href="#2-利用宝塔Docker-部署RSSHub" class="headerlink" title="2. 利用宝塔Docker 部署RSSHub"></a>2. 利用宝塔Docker 部署RSSHub</h3><div class="note info">
+            <p>可参考<strong><a href="https://blog.dlzhang.com/" target="_blank" rel="noopener">班班</a></strong>的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/" target="_blank" rel="noopener">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
+          </div>
+
+<h3 id="3-跨域服务"><a href="#3-跨域服务" class="headerlink" title="3. 跨域服务"></a>3. 跨域服务</h3><p>跨域最简单的解决办法是：在原有的RSS源地址前面加上<code>https://cors-anywhere.herokuapp.com/</code></p>
+<p>例如<code>https://cors-anywhere.herokuapp.com/https://rsshub.xxx.com/rss路由</code></p>
+<p>但是这个方法访问速度比较慢，我这甚至出现了无法加载的情况，所以我们需要自己搭建一个跨域服务：</p>
+<blockquote>
+<p><a href="https://github.com/netnr/proxy" target="_blank" rel="noopener">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
+</blockquote>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;netnr&#x2F;proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>如果clone不到使用，解决方法同上RSSHub，安装目录依旧是在根目录root下。</p>
+<h4 id="PM2管理器添加项目"><a href="#PM2管理器添加项目" class="headerlink" title="PM2管理器添加项目"></a>PM2管理器添加项目</h4><p>添加项目同RSSHub的PM2添加法，启动文件为<strong>server.js</strong>，项目名称可随意。添加好后点击「映射」，设置域名。（这里域名需要再解析一个新的子域名并申请SSL证书，记得在宝塔添加证书开启SSL）</p>
+<p>这时自己搭建的跨域服务为：<code>https://proxy.xxx.com/</code></p>
+<p>此时自己的代理为：<code>https://proxy.xxx.com/https://rsshub.xxx.com/rss路由</code>，浏览器打开代理可以看到爬到的RSS源代码说明成功啦，同时可以发现自建跨域服务速度飞快（/赞）</p>
+<h3 id="4-订阅RSS源"><a href="#4-订阅RSS源" class="headerlink" title="4. 订阅RSS源"></a>4. 订阅RSS源</h3><p>有了以上准备就可以订阅其他网站的RSS源啦，这里以B站为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https:&#x2F;&#x2F;rsshub.app&#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;208259</span><br><span class="line"></span><br><span class="line">路由: &#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
+
+<p>这时搭配上自建的两个服务后url就是：</p>
+<p><code>https://proxy.xxx.com/https://rsshub.xxx.com/bilibili/user/bangumi/:uid</code></p>
+<div class="note info">
+            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/" target="_blank" rel="noopener">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
+          </div>
+
+<blockquote>
+<p>参考文章：</p>
+<p><a href="https://www.anleenoxu.top/archives/156.html" target="_blank" rel="noopener">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/" target="_blank" rel="noopener">https://www.jellyw.com/archives/170/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>Typecho</category>
+      </categories>
+      <tags>
+        <tag>Typecho</tag>
+        <tag>RSSHub</tag>
+      </tags>
   </entry>
   <entry>
     <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
@@ -25,7 +126,7 @@
 <p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
 </li>
 <li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
-<img src="http://www.5845.cn/wp-content/uploads/2019/10/u9949029864189621678fm173app25fJPEG.jpg" style="zoom: 70%;">
+<img src="https://pic.downk.cc/item/5f30963914195aa5940609ca.jpg" style="zoom: 70%;">
 </li>
 </ul>
 </li>
@@ -67,7 +168,7 @@
       </tags>
   </entry>
   <entry>
-    <title>【单片机】实验一竟然还有**功能？</title>
+    <title>【单片机】（二）实验一升级，进阶+复习！</title>
     <url>/undefined/6e490410.html</url>
     <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/undefined/ec01d655.html" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
 <a id="more"></a>
@@ -87,23 +188,23 @@
 </blockquote>
 <ul>
 <li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
-<p><img src="/undefined/3.3.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9dbe14195aa594b20d40.gif" alt></p>
 </li>
 <li><p>按下两个开关时：</p>
 <p>如按下P3.3和P3.5开关：（相隔按钮）</p>
-<p><img src="/undefined/3.3+3.5.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9dd514195aa594b2143e.gif" alt></p>
 <p>如按下P3.4和P3.5开关：（相邻按钮）</p>
-<p><img src="/undefined/3.4+3.5.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9de614195aa594b219ed.gif" alt></p>
 </li>
 </ul>
 <h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
 ]]></content>
       <categories>
-        <category>物联网课程学习</category>
+        <category>物联网课程</category>
         <category>嵌入式</category>
       </categories>
       <tags>
-        <tag>AT89C51单片机</tag>
+        <tag>单片机</tag>
       </tags>
   </entry>
   <entry>
@@ -129,17 +230,17 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
 
 <p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
-<img src="/undefined/hexo s.png" style="zoom: 80%;">
+<img src="https://pic.downk.cc/item/5f3aa12a14195aa594b2e384.png" style="zoom: 80%;">
 
 <p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
-<img src="/undefined/hexo ym.png" style="zoom: 60%;">
+<img src="https://pic.downk.cc/item/5f3ab11014195aa594b6cf97.png" style="zoom: 60%;">
 
 
 
 <h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
 <ul>
 <li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
-<img src="/undefined/deploy.png" style="zoom:80%;">
+<img src="https://pic.downk.cc/item/5f3ab1d214195aa594b6fa78.png" style="zoom:80%;">
 
 <p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
 </li>
@@ -147,10 +248,13 @@
 </li>
 </ul>
 <p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
+<blockquote>
 <p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<p>或 <code>hexo clean &amp;&amp; hexo g -d</code></p>
+</blockquote>
 <h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
 <p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
-<img src="/undefined/theme1.png" style="zoom:70%;">
+<img src="https://pic.downk.cc/item/5f3ab23414195aa594b70eec.png" style="zoom:70%;">
 
 <p>这里以我用的next主题为例</p>
 <p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
@@ -172,11 +276,11 @@
 <p>最后祝大家能够做出属于自己的博客</p>
 ]]></content>
       <categories>
-        <category>博客搭建</category>
+        <category>博客</category>
+        <category>Hexo</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -198,17 +302,17 @@
 <h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
 <li><p><strong>创建Github/Gitee(码云)：</strong></p>
 <p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="/undefined/github1.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="/undefined/github2.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e2a14195aa594b22af7.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="https://pic.downk.cc/item/5f3a9e4b14195aa594b2315a.png" alt></p>
 <p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
 </li>
 <li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="/undefined/nodejs.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e6414195aa594b23695.png" alt></p>
 <p>安装步骤很简单，一直next，默认安装就行。</p>
 </li>
 <li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="/undefined/git1.png" alt></p>
-<p><img src="/undefined/git2.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e7614195aa594b23b43.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e8614195aa594b23f16.png" alt></p>
 <p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
 <blockquote>
 <p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
@@ -228,11 +332,11 @@
 <p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
 <h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
 <li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="/undefined/ssh1.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e9814195aa594b243a9.png" alt></p>
 <p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
 </li>
 <li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="/undefined/ssh2.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9eaf14195aa594b24a55.png" alt></p>
 </li>
 <li><p>输入以下检验是否配置成功：</p>
 <blockquote>
@@ -246,15 +350,15 @@
 <p><strong>←To Be Continued</strong></p>
 ]]></content>
       <categories>
-        <category>博客搭建</category>
+        <category>博客</category>
+        <category>Hexo</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
-    <title>单片机学习（一）</title>
+    <title>【单片机】（一）4个按钮8盏灯，实现四种功能</title>
     <url>/undefined/ec01d655.html</url>
     <content><![CDATA[<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
 <h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
@@ -270,7 +374,7 @@
 <p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
 </li>
 <li><p>仿真演示：</p>
-<p><img src="/undefined/%E4%BB%BF%E7%9C%9F1.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9d9914195aa594b204d2.gif" alt></p>
 </li>
 </ol>
 <p><strong>小结</strong></p>
@@ -295,11 +399,11 @@
 </ol>
 ]]></content>
       <categories>
-        <category>物联网课程学习</category>
+        <category>物联网课程</category>
         <category>嵌入式</category>
       </categories>
       <tags>
-        <tag>AT89C51单片机</tag>
+        <tag>单片机</tag>
       </tags>
   </entry>
   <entry>
@@ -307,7 +411,7 @@
     <url>/undefined/d95d7e09.html</url>
     <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
 <p>首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 <strong>强制清除缓存</strong> 指令<code>npm cache clean --force</code> 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。</p>
-<p><img src="/undefined/huancun_error.png" alt="出错时的图片"></p>
+<p><img src="https://pic.downk.cc/item/5f3a9d7014195aa594b1fa04.png" alt="出错时的图片"></p>
 <a id="more"></a>
 
 <p>因为我的专业主要在嵌入式开发方向，只接触过C，Java和汇编语言，对JS和网页方面的知识不太了解，所以在搭建和完善本站的过程中出现了很多问题，比如主题、插入图片等问题，经常要花一部分时间去查找解决方案才能解决。在这里不得不说一下，真心想搭建好一个博客是需要花时间下功夫去摸索的，因为没有接触过JS和前端方面的知识做这个更是艰难，我只能尽自己所能把自己的博客做到自己满意的效果。</p>
@@ -334,6 +438,7 @@
 ]]></content>
       <categories>
         <category>博客</category>
+        <category>踩坑记录</category>
       </categories>
       <tags>
         <tag>博客</tag>
