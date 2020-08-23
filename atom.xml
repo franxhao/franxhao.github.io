@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2020-08-17T17:40:32.127Z</updated>
+  <updated>2020-08-23T19:50:58.863Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>博客颜色字体用法整理</title>
+    <link href="https://franxhao.top/undefined/66da368c.html"/>
+    <id>https://franxhao.top/undefined/66da368c.html</id>
+    <published>2020-08-23T17:50:45.000Z</published>
+    <updated>2020-08-23T19:50:58.863Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在写文章的时候为了让某些内容更醒目，除了想到&lt;strong&gt;加粗&lt;/strong&gt;、&lt;code&gt;添加代码条&lt;/code&gt;、引用内容…之外，还可以通过改变字体颜色来突显不同。当然啦，在博客美化中也常会在很多地方会用到颜色，而每种颜色都对应着相应的色号？咳咳不对，我想说的是十六进制值，但是颜色有好几百上千种，我们又记不得这么多代码，去搜查还会浪费很多宝贵时间，真的是脑壳疼……前两天看到的一篇相关内容的文章，在这里给自己整理一下以后就不用花太多时间去找了&lt;/p&gt;
+&lt;img src=&quot;https://pic.downk.cc/item/5f42c7fd160a154a6797f062.jpg&quot; style=&quot;zoom: 40%;&quot;&gt;</summary>
+    
+    
+    
+    <category term="Hexo" scheme="https://franxhao.top/categories/Hexo/"/>
+    
+    
+    <category term="Hexo" scheme="https://franxhao.top/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Hexo发布文章报错can not read a block mapping entry</title>
