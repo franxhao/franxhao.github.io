@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
+    <url>/undefined/f82c66a5.html</url>
+    <content><![CDATA[<p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
+<p>Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～</p>
+<a id="more"></a>
+
+<h2 id="创建Coding项目"><a href="#创建Coding项目" class="headerlink" title="创建Coding项目"></a>创建Coding项目</h2><p>1、创建一个Coding的账号。现在的Coding是以团队的方式加入，身边没有Coding团队的小伙伴可以自己创建一个团队，身边有人有团队的话可以申请加入，这样就可以省去创建团队的功夫啦。</p>
+<p>2、账号创建好后，找到 <strong>个人账户设置</strong> ，将本地生成的SSH公钥添加进去。（同Github上的设置）一般公钥路径在 <code>C:\Users\用户名\.ssh</code> 目录下的 <code>id_rsa.pub</code> 文件里，用记事本打开，将所有内容复制出来即可。</p>
+<p>3、<strong>实名认证。</strong> 必须实名认证才可以设置部署静态网站。</p>
+<p>4、创建一个托管静态页面的项目</p>
+<ul>
+<li><p>选择代码托管项目（或选择DevOps项目）</p>
+<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;">
+</li>
+<li><p>项目名称建议是使用自己在Coding上设置的用户名</p>
+</li>
+<li><p>进入刚创建的仓库，复制SSH的路径（据说SSH比较稳定）</p>
+</li>
+</ul>
+<h2 id="配置到Hexo并部署到Coding"><a href="#配置到Hexo并部署到Coding" class="headerlink" title="配置到Hexo并部署到Coding"></a>配置到Hexo并部署到Coding</h2><p>1、配置主站目录下的 <code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>2、执行三件套指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+
+<p>3、部署到Coding</p>
+<ul>
+<li><p>打开持续部署开关</p>
+<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%">
+</li>
+<li><p>部署静态网站</p>
+<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png">
+
+</li>
+</ul>
+<p>部署完成后点开上面的访问地址可以打开你的Hexo博客说明已经部署成功啦</p>
+<h2 id="添加自定义域名"><a href="#添加自定义域名" class="headerlink" title="添加自定义域名"></a>添加自定义域名</h2><p>首先需要拥有一个域名，国内购买的域名需要进行备案，国外域名商购买的域名可以不进行备案</p>
+<p>本站域名是在国外域名平台 Namesilo 购买，是目前价格较便宜的域名平台，支持支付宝，提供免费的域名隐私保护，性价比较高。</p>
+<blockquote>
+<p>关于Namesilo域名购买可以查找度娘或者看以下这篇文章：</p>
+<p><a href="https://tding.top/archives/b48e2719.html" target="_blank" rel="noopener">https://tding.top/archives/b48e2719.html</a></p>
+</blockquote>
+<p>域名解析我使用的是DNSPod</p>
+<h3 id="添加解析记录"><a href="#添加解析记录" class="headerlink" title="添加解析记录"></a>添加解析记录</h3><p>1、ping一下Coding给你Hexo项目部署到的地址，获得Coding Page 的IP地址</p>
+<p>2、在DNSPod中添加两条解析记录：</p>
+<ul>
+<li>记录类型为 <code>A</code> ，主机记录为 <code>@</code> ，解析线路选择默认，记录值为ping到的Coding Page的IP地址</li>
+<li>记录类型为 <code>CNAME</code> ，主机记录为 <code>www</code> ，解析线路选择默认，记录值为Coding给你Hexo项目部署到的地址，例如我的是<code>https://f4kp1l.coding-pages.com</code> </li>
+</ul>
+<p>3、将Github的解析线路选择国外，这样就可以确保国内访问都是走Coding这边</p>
+<p>具体如下图：</p>
+<img src="https://pic.downk.cc/item/5f4a0db2160a154a67036573.png">
+
+<h3 id="绑定自定义域名"><a href="#绑定自定义域名" class="headerlink" title="绑定自定义域名"></a>绑定自定义域名</h3><p>在Coding的项目中，找到 <code>持续部署→静态网站→设置</code> ，拉到下面的自定义域名，绑定新域名</p>
+<img src="https://pic.downk.cc/item/5f4a0edf160a154a6703d6c8.png">
+
+<div class="note warning">
+            <p>Tips：注意：一定要选首选的域名，并且<strong>非首选域名要勾选跳转至首选域名</strong> </p>
+          </div>
+
+<h3 id="开启HTTPS"><a href="#开启HTTPS" class="headerlink" title="开启HTTPS"></a>开启HTTPS</h3><p>打开强制HTTPS开关会自动申请证书，如果你之前已经部署到了 GitHub Pages 并开启了 HTTPS，那么直接在设置页面绑定你自己的域名，SSL/TLS 安全证书就会显示申请错误。</p>
+<p>申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败。</p>
+<p><strong>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问</strong>。</p>
+<div class="note default">
+            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html" target="_blank" rel="noopener">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/" target="_blank" rel="noopener">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top" target="_blank" rel="noopener">动态站</a></p>
+          </div>]]></content>
+      <categories>
+        <category>博客</category>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>博客颜色字体用法整理</title>
     <url>/undefined/66da368c.html</url>
     <content><![CDATA[<p>在写文章的时候为了让某些内容更醒目，除了想到<strong>加粗</strong>、<code>添加代码条</code>、引用内容…之外，还可以通过改变字体颜色来突显不同。当然啦，在博客美化中也常会在很多地方会用到颜色，而每种颜色都对应着相应的色号？咳咳不对，我想说的是十六进制值，但是颜色有好几百上千种，我们又记不得这么多代码，去搜查还会浪费很多宝贵时间，真的是脑壳疼……前两天看到的一篇相关内容的文章，在这里给自己整理一下以后就不用花太多时间去找了</p>

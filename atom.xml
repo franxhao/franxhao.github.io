@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2020-08-23T19:50:58.863Z</updated>
+  <updated>2020-08-29T08:31:00.523Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
+    <link href="https://franxhao.top/undefined/f82c66a5.html"/>
+    <id>https://franxhao.top/undefined/f82c66a5.html</id>
+    <published>2020-08-29T06:49:39.000Z</published>
+    <updated>2020-08-29T08:31:00.523Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！&lt;/p&gt;
+&lt;p&gt;Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="博客" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    <category term="Hexo" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/Hexo/"/>
+    
+    
+    <category term="Hexo" scheme="https://franxhao.top/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>博客颜色字体用法整理</title>
