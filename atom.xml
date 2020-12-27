@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2020-08-29T08:31:00.523Z</updated>
+  <updated>2020-12-27T19:41:52.144Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自我介绍</title>
+    <link href="https://franxhao.top/undefined/bdae0d9b.html"/>
+    <id>https://franxhao.top/undefined/bdae0d9b.html</id>
+    <published>2020-12-27T18:08:32.000Z</published>
+    <updated>2020-12-27T19:41:52.144Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;&lt;p&gt;Hello Everyone ! &lt;/p&gt;
+&lt;p&gt;My name is LiangHao.  Student ID: 201806104106&lt;/p&gt;
+&lt;p&gt;来自 &lt;strong&gt;广西 玉林市&lt;/strong&gt; ，学校坐标 &lt;strong&gt;重庆市 万州区&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;现在&lt;strong&gt;大三&lt;/strong&gt;，就读于 &lt;strong&gt;重庆三峡学院  计算机科学与工程学院  物联网工程专业&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;（更多精彩，点击&lt;strong&gt;阅读全文↓↓↓&lt;/strong&gt;）&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
