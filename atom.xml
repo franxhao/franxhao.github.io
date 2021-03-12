@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2020-08-29T08:31:00.523Z</updated>
+  <updated>2021-03-12T16:19:36.425Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自建frp内网穿透，实现非局域网远程windows</title>
+    <link href="https://franxhao.top/undefined/773c1282.html"/>
+    <id>https://franxhao.top/undefined/773c1282.html</id>
+    <published>2021-03-12T15:50:36.000Z</published>
+    <updated>2021-03-12T16:19:36.425Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 &lt;strong&gt;Win + R&lt;/strong&gt; 输入  &lt;code&gt;mstsc&lt;/code&gt; 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。&lt;/p&gt;
+&lt;p&gt;当然这是需要前期准备工作的，比较老的系统，如Win7打开远程桌面服务比较麻烦，如果没有密码还需要设置密码，当然没有密码也可以远程登录啦，直接回车回车… 而Win10就很方便，现在最新的Win10系统设置的UI界面越来越扁平化，直接就可以找到远程桌面这一项，一键开启即可！具体如何开启远程可以找度娘。&lt;/p&gt;
+&lt;p&gt;回归正题，当我不在局域内，又想远程访问远在天边的电脑，该怎么办呢，这时就有了这篇折腾frp非局域网下实现Windows远程的文章～～～&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png&quot; alt&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="frp" scheme="https://franxhao.top/tags/frp/"/>
+    
+  </entry>
   
   <entry>
     <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>

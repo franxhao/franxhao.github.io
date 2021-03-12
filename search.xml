@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>自建frp内网穿透，实现非局域网远程windows</title>
+    <url>/undefined/773c1282.html</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 <strong>Win + R</strong> 输入  <code>mstsc</code> 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。</p>
+<p>当然这是需要前期准备工作的，比较老的系统，如Win7打开远程桌面服务比较麻烦，如果没有密码还需要设置密码，当然没有密码也可以远程登录啦，直接回车回车… 而Win10就很方便，现在最新的Win10系统设置的UI界面越来越扁平化，直接就可以找到远程桌面这一项，一键开启即可！具体如何开启远程可以找度娘。</p>
+<p>回归正题，当我不在局域内，又想远程访问远在天边的电脑，该怎么办呢，这时就有了这篇折腾frp非局域网下实现Windows远程的文章～～～</p>
+<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png" alt></p>
+<a id="more"></a>
+
+
+
+<div class="note warning">
+            <p>因作者学业繁忙，没能及时完成这篇文章，在填坑本文的时候已经隔了很多时间，后面的步骤可能会有些紊乱，请谅解。待后期有机会再做一次这项工程时，我会同步更新本文，并附上相应的截图。</p>
+          </div>
+
+
+
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
+<li>一台VPS公网服务器</li>
+<li>开启端口</li>
+<li>Github下载相关文件<ul>
+<li>Github内搜索frp，进入开源项目后找到releases</li>
+</ul>
+</li>
+</ul>
+<h2 id="放开端口"><a href="#放开端口" class="headerlink" title="放开端口"></a>放开端口</h2><p>因为我的服务器是腾讯云的，以腾讯云为例(放通6000，7000端口)<br><img src="https://pic.downk.cc/item/5fd864313ffa7d37b3c76f23.png" style="zoom: 50%;"></p>
+<h3 id="SSH连接服务器"><a href="#SSH连接服务器" class="headerlink" title="SSH连接服务器"></a>SSH连接服务器</h3><p>安全组放开后只是能去这两个端口，服务器的这两个端口还是没有打开，所以得通过命令打开服务器的这两个端口</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=6000/tcp --&gt;开启6000端口</span><br><span class="line">firewall-cmd --permanent --add-port=7000/tcp --&gt;开启7000端口</span><br><span class="line">firewall-cmd --reload --&gt;重启firewall让修改的配置生效</span><br><span class="line">firewall-cmd --query-port=6000/tcp --&gt;查看6000端口是否开启</span><br><span class="line">firewall-cmd --query-port=000/tcp --&gt;查看7000端口是否开启</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>出现success 或 yes 字样时即为开启成功</p>
+</blockquote>
+<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a></p>
+<p>amd64为64位使用，386是32位使用,选择对应版本下载。下载的包可以通过宝塔上传并解压到服务器的根目录下。也可以通过Linux指令进行下载和解压</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载完成后，在命令行中可以看到 <strong>frp_0.34.3_linux_amd64</strong> 文件夹，我们cd一下进入该文件夹中，可以看到 <strong>frpc、frpc_full.ini、frpc.ini、frps、frps_full.ini、frps.ini、LICENSE、systemd</strong> 这几个文件，其中 <strong>frpc、frpc.ini</strong> 这个两个是客户端的文件，可以通过Linux指令删除（frpc_full.ini这个可能也是客户端文件，具体功能我还没有仔细了解，我没有删除这个文件）。</p>
+<h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><h3 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h3><blockquote>
+<p>frpc —&gt; 字面上可以看出是frp client，也就是客户端<br>frps —&gt; 即frp server，也就是服务器<br>接下来我们需要修改配置文件，也就是<strong>frps.ini</strong>，按个人喜好用vi或者nano指令进行编辑；来看一下我这里的服务器端的配制文件：</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//服务器端配置</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">token = aaabbbccc //这里就是客户端与我们服务器端frp进行链接时的密码，越复杂越好</span><br></pre></td></tr></table></figure>
+<p>配置完成后，输入指令：<br><code>./frps -c ./frps.ini  ---&gt;服务端启动frp</code><br>可以看到提示start frps success（frps开启成功）</p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>在客户端机子下载相应的frp文件，以我的电脑为例（Windows 10）：<code>frp_0.34.3_windows_amd64</code> （注意客户端和服务器端版本要对应），文件夹可以放到任意盘，进入文件夹配置<strong>frpc.ini</strong>，Windows系统可以用记事本打开进行配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
+<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code>.\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
+<div class="note info">
+            <p>这里注意一下，windows一般为反斜杠 \  ，所以输入的指令不是 ./frpc.exe -c ./frpc.ini</p>
+          </div>
+
+
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><p>frp服务搭建成功后先别急着高兴，还有一些小问题需要解决。虽然服务器上还可以运行，但一旦我们断开ssh，我们建立的frps进程也会被kill，这时就要用到一个工具 —&gt; screen </p>
+<h3 id="安装screen服务"><a href="#安装screen服务" class="headerlink" title="安装screen服务"></a>安装screen服务</h3><p><code>yum install screen -y</code></p>
+<p>安装完成后，用screen新建一个会话，在这里面运行frps，退出ssh后它也不会结束进程：<br><code>screen -S frp</code></p>
+<p>新建完成之后输入 <code>nohup ./frps -c ./frps.ini -&amp;</code> ，nohup是让它后台运行，-&amp;是锁定它不让它结束进程，此时即使断开了ssh我们仍可以进行连接，除非服务器重启…</p>
+<h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><p>如果出现无法连接的问题，有可能是需要关闭防火墙输入以下指令即可：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br></pre></td></tr></table></figure>
+<h2 id="非局域网远程连接Windows"><a href="#非局域网远程连接Windows" class="headerlink" title="非局域网远程连接Windows"></a>非局域网远程连接Windows</h2><p>所有配置工作都做完后我们就可以进行远程连接了，在另一台计算机上 Win + R 后输入<code>mstsc</code>进入Windows远程桌面，输入服务器IP后点击连接，然后成功输入Windows密码，即可成功连接到自己的电脑。在移动端远程也是可以实现的，例如我会使用iPad对我的电脑进行远程，只需下载微软官方软件 <strong>RD Client</strong>，同样输入相关IP和密码后就可以实现移动端远程。</p>
+<div class="note info">
+            <p>注意</p><ul><li>两台设备需在非同一网络下进行实验</li><li>需要使用该服务时，服务器和客户端都必须打开fps服务，任何一方服务停止都无法连接成功</li><li>服务器端一般是已经配置好可以不用动了，客户端如上述打开服务出现success字样即可</li></ul>
+          </div>
+]]></content>
+      <tags>
+        <tag>frp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
     <url>/undefined/f82c66a5.html</url>
     <content><![CDATA[<p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
