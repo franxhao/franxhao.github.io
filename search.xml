@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>
+    <url>/undefined/acec2d97.html</url>
+    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1接一个共阳极的LED数码管，实现显示 0 - 9</p>
+<a id="more"></a>
+
+
+
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;  //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//共阳极数码管0-9显示数值表</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> k;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;<span class="number">10</span>;k++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=dofly_table[k];</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">40</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/604c63dd5aedab222c3b77b7.gif" style="zoom: 60%;">
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这次实验很简单，只要了解了数码管的数值表就可以通过简单的循环函数实现 0 - 9 的显示。</p>
+<p>下面附上共阴极和共阳极数码管的数值表：</p>
+<img src="https://img.imgdb.cn/item/604c69445aedab222c3ff100.png" style="zoom: 50%;">]]></content>
+      <categories>
+        <category>物联网课程</category>
+        <category>单片机</category>
+      </categories>
+      <tags>
+        <tag>单片机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>自建frp内网穿透，实现非局域网远程windows</title>
     <url>/undefined/773c1282.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 <strong>Win + R</strong> 输入  <code>mstsc</code> 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。</p>
@@ -59,6 +82,9 @@
             <p>注意</p><ul><li>两台设备需在非同一网络下进行实验</li><li>需要使用该服务时，服务器和客户端都必须打开fps服务，任何一方服务停止都无法连接成功</li><li>服务器端一般是已经配置好可以不用动了，客户端如上述打开服务出现success字样即可</li></ul>
           </div>
 ]]></content>
+      <categories>
+        <category>系统</category>
+      </categories>
       <tags>
         <tag>frp</tag>
       </tags>
@@ -793,7 +819,7 @@
 ]]></content>
       <categories>
         <category>物联网课程</category>
-        <category>嵌入式</category>
+        <category>单片机</category>
       </categories>
       <tags>
         <tag>单片机</tag>
@@ -992,7 +1018,7 @@
 ]]></content>
       <categories>
         <category>物联网课程</category>
-        <category>嵌入式</category>
+        <category>单片机</category>
       </categories>
       <tags>
         <tag>单片机</tag>
