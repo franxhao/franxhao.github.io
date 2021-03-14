@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-03-13T07:30:49.736Z</updated>
+  <updated>2021-03-14T09:27:51.539Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
+    <link href="https://franxhao.top/undefined/82b44f.html"/>
+    <id>https://franxhao.top/undefined/82b44f.html</id>
+    <published>2021-03-13T12:50:25.000Z</published>
+    <updated>2021-03-14T09:27:51.539Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1和P1接两个&lt;strong&gt;共阴极&lt;/strong&gt;的数码管，P3.2接一个按钮，P3.3接一个按钮。&lt;/p&gt;
+&lt;p&gt;按下3.3，2个数码管从00显示到20；按下3.3，2个数码管从20减到00&lt;/p&gt;
+&lt;p&gt;3.2闭合，3.3断开，00-20；3.3断开，3.2闭合，20-00&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    
+    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+    
+    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+  </entry>
   
   <entry>
     <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>

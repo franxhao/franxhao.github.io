@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
+    <url>/undefined/82b44f.html</url>
+    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1和P1接两个<strong>共阴极</strong>的数码管，P3.2接一个按钮，P3.3接一个按钮。</p>
+<p>按下3.3，2个数码管从00显示到20；按下3.3，2个数码管从20减到00</p>
+<p>3.2闭合，3.3断开，00-20；3.3断开，3.2闭合，20-00</p>
+<a id="more"></a>
+
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义共阴极数值表</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//开启时，数码管显示00</span></span><br><span class="line">	P1=<span class="number">0x3f</span>;</span><br><span class="line">	P2=<span class="number">0x3f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==<span class="number">0xfb</span>)  <span class="comment">//按下P3.2</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(c=<span class="number">0</span>;c&lt;<span class="number">20</span>;c++)</span><br><span class="line">			&#123;</span><br><span class="line">				P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">				P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">				<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)  <span class="comment">//按下P3.3</span></span><br><span class="line">		&#123;	</span><br><span class="line">				<span class="keyword">for</span>(c=<span class="number">20</span>;c&gt;<span class="number">0</span>;c--)</span><br><span class="line">				&#123;</span><br><span class="line">					P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">					P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">					<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">		P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://s3.ax1x.com/2021/03/14/6wbNeH.gif" style="zoom:60%">
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本次实验需要熟悉共阴极数码管的数值表，以及P3.2、P3.3口的十六进制表示方法，用来实现按钮的控制。</p>
+<div class="note primary">
+            <p>关于P3口：</p><ul><li>P3.0 ==&gt; 0xfe  ==&gt;1111 1110</li><li>P3.1 ==&gt; 0xfd  ==&gt;1111 1101</li><li>P3.2 ==&gt; 0xfb  ==&gt;1111 1011</li><li>P3.3 ==&gt; 0xf7  ==&gt;1111 0111</li><li>……</li></ul><p>关于共阴极数码管的数值表可以参考 <strong>单片机-作业3</strong> <strong><a href="/undefined/acec2d97.html" title="小结">小结</a></strong></p>
+          </div>
+
+
+]]></content>
+      <categories>
+        <category>物联网课程</category>
+        <category>单片机</category>
+      </categories>
+      <tags>
+        <tag>单片机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>
     <url>/undefined/acec2d97.html</url>
     <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1接一个共阳极的LED数码管，实现显示 0 - 9</p>
