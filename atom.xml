@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-03-14T09:27:51.539Z</updated>
+  <updated>2021-04-13T13:34:38.243Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>【单片机】（五）数码管动态显示 00—20</title>
+    <link href="https://franxhao.top/undefined/fc63a592.html"/>
+    <id>https://franxhao.top/undefined/fc63a592.html</id>
+    <published>2021-03-16T01:29:57.000Z</published>
+    <updated>2021-04-13T13:34:38.243Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。&lt;/p&gt;
+&lt;h2 id=&quot;动态显示和静态显示&quot;&gt;&lt;a href=&quot;#动态显示和静态显示&quot; class=&quot;headerlink&quot; title=&quot;动态显示和静态显示&quot;&gt;&lt;/a&gt;动态显示和静态显示&lt;/h2&gt;&lt;h3 id=&quot;静态显示&quot;&gt;&lt;a href=&quot;#静态显示&quot; class=&quot;headerlink&quot; title=&quot;静态显示&quot;&gt;&lt;/a&gt;静态显示&lt;/h3&gt;&lt;p&gt;就是每一个数码管的段码都要独占具有锁存功能的输出口, CPU把要显示的字码送到输出口上,就可以使数码管显示对应的字符, 直到下一次送出另外一个字码之前, 显示的内容一直不会消失&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    
+    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+    
+    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
     <link href="https://franxhao.top/undefined/82b44f.html"/>
     <id>https://franxhao.top/undefined/82b44f.html</id>
     <published>2021-03-13T12:50:25.000Z</published>
-    <updated>2021-03-14T09:27:51.539Z</updated>
+    <updated>2021-04-13T13:29:18.419Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1和P1接两个&lt;strong&gt;共阴极&lt;/strong&gt;的数码管，P3.2接一个按钮，P3.3接一个按钮。&lt;/p&gt;
