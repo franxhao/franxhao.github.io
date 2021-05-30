@@ -1,43 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>将网站迁移到Vercel托管</title>
-    <url>/undefined/86d73a10.html</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="关于Vercel"><a href="#关于Vercel" class="headerlink" title="关于Vercel"></a>关于Vercel</h2><p>首先，Vercel是免费的网站托管商，其中有许多大官网如<code>Next.js</code>,<code>create-react-app</code>,<code>Nuxt.js</code>等就是部署在部署托管在<code>vercel</code>的。同时Vercel操作简单友好，支持从github、gitlab的代码库中一键导入，支持自定义域名和SSL证书配置。访问速度也很可观，简直就是<del>白嫖党</del>的福音。</p>
+    <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
+    <url>/undefined/f82c66a5.html</url>
+    <content><![CDATA[<p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
+<p>Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～</p>
 <a id="more"></a>
 
-<h2 id="为什么取消了在coding上的托管"><a href="#为什么取消了在coding上的托管" class="headerlink" title="为什么取消了在coding上的托管"></a>为什么取消了在coding上的托管</h2><p>原来本站是部署到coding上来托管的，但由于现在coding网站托管和腾讯云打通并且开始主推新版，旧版迟早是要被淘汰的（现在我在旧版coding托管的网站IP已经ping不到了），不得不迁移到腾讯云上。</p>
-<blockquote>
-<p>CODING Pages 依托腾讯云资源提供相关静态托管能力，CODING 平台本身不收取任何费用。该产品使用了腾讯云对象存储 COS、内容分发网络 CDN、SSL 证书产品，其中 COS 和 CDN 采用用量计费模式，SSL 证书免费，所使用到的其他相关腾讯云产品本身亦会有一定的免费额度。</p>
-</blockquote>
-<p>也就是迁移新版是需要收费的，个人网站费用不高，域名不是已经备案的网站的话，可以选择香港的服务器节点，但其实这新版很鸡肋。</p>
-<h3 id="迁移新版后国内访问速度再起不能？"><a href="#迁移新版后国内访问速度再起不能？" class="headerlink" title="迁移新版后国内访问速度再起不能？"></a>迁移新版后国内访问速度再起不能？</h3><p>在设置好自定义域名后，网站在部署时会申请SSL证书，同时检验是否部署好COS实例，即使后面关闭了也会自动打开（尝试白嫖失败T^T），部署好后试着用域名去访问发现速度大大下跌，像校园网这种比较差的网络环境有时候根本打不开，查阅文章得知这是绕了地球一圈？好家伙，说好的香港节点呢(???￢_￢)</p>
+<h2 id="创建Coding项目"><a href="#创建Coding项目" class="headerlink" title="创建Coding项目"></a>创建Coding项目</h2><p>1、创建一个Coding的账号。现在的Coding是以团队的方式加入，身边没有Coding团队的小伙伴可以自己创建一个团队，身边有人有团队的话可以申请加入，这样就可以省去创建团队的功夫啦。</p>
+<p>2、账号创建好后，找到 <strong>个人账户设置</strong> ，将本地生成的SSH公钥添加进去。（同Github上的设置）一般公钥路径在 <code>C:\Users\用户名\.ssh</code> 目录下的 <code>id_rsa.pub</code> 文件里，用记事本打开，将所有内容复制出来即可。</p>
+<p>3、<strong>实名认证。</strong> 必须实名认证才可以设置部署静态网站。</p>
+<p>4、创建一个托管静态页面的项目</p>
 <ul>
-<li>关于迁移新版速度可以参考这篇文章：<a href="https://blog.csdn.net/nanshanvc/article/details/110454607" target="_blank" rel="noopener">CODING Pages 静态网站升级腾讯云新版踩坑小记</a> </li>
+<li><p>选择代码托管项目（或选择DevOps项目）</p>
+<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;">
+</li>
+<li><p>项目名称建议是使用自己在Coding上设置的用户名</p>
+</li>
+<li><p>进入刚创建的仓库，复制SSH的路径（据说SSH比较稳定）</p>
+</li>
 </ul>
-<h1 id="如何在Vercel上部署"><a href="#如何在Vercel上部署" class="headerlink" title="如何在Vercel上部署"></a>如何在Vercel上部署</h1><h2 id="导入及部署"><a href="#导入及部署" class="headerlink" title="导入及部署"></a>导入及部署</h2><ol>
-<li><p>先成功部署Github Pages</p>
-</li>
-<li><p><a href="https://vercel.com/" target="_blank" rel="noopener">Vercel官网</a>，登录/注册账号，关联Github账号，一键导入（这里以新用户注册讲解）</p>
-</li>
-<li><p>跟随向导，关联好Github帐号后可以寻找库中的代码，选择<strong>Only select repositories</strong> 指定库中项目（也可以选择ALL，建议选择需要的就可以了）</p>
-<img src="https://pic.imgdb.cn/item/6098aff2d1a9ae528f35bc6a.png" style="zoom: 50%;">
-</li>
-<li><p>Import一键导入，导入后即可自动部署成功</p>
-<img src="https://pic.imgdb.cn/item/6098b085d1a9ae528f399093.png" style="zoom:50%">
+<h2 id="配置到Hexo并部署到Coding"><a href="#配置到Hexo并部署到Coding" class="headerlink" title="配置到Hexo并部署到Coding"></a>配置到Hexo并部署到Coding</h2><p>1、配置主站目录下的 <code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
+<p>2、执行三件套指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
 
+<p>3、部署到Coding</p>
+<ul>
+<li><p>打开持续部署开关</p>
+<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%">
+</li>
+<li><p>部署静态网站</p>
+<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png">
 
 </li>
-</ol>
-<h2 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h2><p>部署成功后，进入项目，找到 <strong>Settings —&gt; Domains</strong> 。</p>
-<img src="https://pic.imgdb.cn/item/6098bca5d1a9ae528f99455b.png" style="zoom:50%">
+</ul>
+<p>部署完成后点开上面的访问地址可以打开你的Hexo博客说明已经部署成功啦</p>
+<h2 id="添加自定义域名"><a href="#添加自定义域名" class="headerlink" title="添加自定义域名"></a>添加自定义域名</h2><p>首先需要拥有一个域名，国内购买的域名需要进行备案，国外域名商购买的域名可以不进行备案</p>
+<p>本站域名是在国外域名平台 Namesilo 购买，是目前价格较便宜的域名平台，支持支付宝，提供免费的域名隐私保护，性价比较高。</p>
+<blockquote>
+<p>关于Namesilo域名购买可以查找度娘或者看以下这篇文章：</p>
+<p><a href="https://tding.top/archives/b48e2719.html" target="_blank" rel="noopener">https://tding.top/archives/b48e2719.html</a></p>
+</blockquote>
+<p>域名解析我使用的是DNSPod</p>
+<h3 id="添加解析记录"><a href="#添加解析记录" class="headerlink" title="添加解析记录"></a>添加解析记录</h3><p>1、ping一下Coding给你Hexo项目部署到的地址，获得Coding Page 的IP地址</p>
+<p>2、在DNSPod中添加两条解析记录：</p>
+<ul>
+<li>记录类型为 <code>A</code> ，主机记录为 <code>@</code> ，解析线路选择默认，记录值为ping到的Coding Page的IP地址</li>
+<li>记录类型为 <code>CNAME</code> ，主机记录为 <code>www</code> ，解析线路选择默认，记录值为Coding给你Hexo项目部署到的地址，例如我的是<code>https://f4kp1l.coding-pages.com</code> </li>
+</ul>
+<p>3、将Github的解析线路选择国外，这样就可以确保国内访问都是走Coding这边</p>
+<p>具体如下图：</p>
+<img src="https://pic.downk.cc/item/5f4a0db2160a154a67036573.png">
 
-<p>添加后会提示重定向到哪个域名，也就是当输入 <code>baidu.com</code> 时会重定向到 <code>www.baidu.com</code> 的意思，当然反过来也可以，然后按要求配置好DNS的解析即可</p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>Vercel的配置还是比较简单的，就是我的域名是在DNSPOD上解析的，所以没有配置vercel的NS会一直报配置不正确，但可以正常访问就可以了。</p>
-<p>除了Vercel，还有一个免费的托管商 <strong><a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a></strong> ，时间有限就不多折腾了，有兴趣的同学可以自行去查看。</p>
-<div class="note info">
-            <p>本文参考：<a href="https://zhuanlan.zhihu.com/p/338057700" target="_blank" rel="noopener">如何将 github pages 迁移到 vercel 上托管</a><br>有关 <strong>Netlify</strong> 的部署可参考：<a href="https://zhuanlan.zhihu.com/p/338058109" target="_blank" rel="noopener">如何将网站代码部署到 netlify 上免费托管</a></p>
+<h3 id="绑定自定义域名"><a href="#绑定自定义域名" class="headerlink" title="绑定自定义域名"></a>绑定自定义域名</h3><p>在Coding的项目中，找到 <code>持续部署→静态网站→设置</code> ，拉到下面的自定义域名，绑定新域名</p>
+<img src="https://pic.downk.cc/item/5f4a0edf160a154a6703d6c8.png">
+
+<div class="note warning">
+            <p>Tips：注意：一定要选首选的域名，并且<strong>非首选域名要勾选跳转至首选域名</strong> </p>
+          </div>
+
+<h3 id="开启HTTPS"><a href="#开启HTTPS" class="headerlink" title="开启HTTPS"></a>开启HTTPS</h3><p>打开强制HTTPS开关会自动申请证书，如果你之前已经部署到了 GitHub Pages 并开启了 HTTPS，那么直接在设置页面绑定你自己的域名，SSL/TLS 安全证书就会显示申请错误。</p>
+<p>申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败。</p>
+<p><strong>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问</strong>。</p>
+<div class="note default">
+            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html" target="_blank" rel="noopener">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/" target="_blank" rel="noopener">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top" target="_blank" rel="noopener">动态站</a></p>
           </div>]]></content>
       <categories>
         <category>博客</category>
@@ -45,82 +73,6 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【单片机】（五）数码管动态显示 00—20</title>
-    <url>/undefined/fc63a592.html</url>
-    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。</p>
-<h2 id="动态显示和静态显示"><a href="#动态显示和静态显示" class="headerlink" title="动态显示和静态显示"></a>动态显示和静态显示</h2><h3 id="静态显示"><a href="#静态显示" class="headerlink" title="静态显示"></a>静态显示</h3><p>就是每一个数码管的段码都要独占具有锁存功能的输出口, CPU把要显示的字码送到输出口上,就可以使数码管显示对应的字符, 直到下一次送出另外一个字码之前, 显示的内容一直不会消失</p>
-<a id="more"></a>
-
-<h3 id="动态显示"><a href="#动态显示" class="headerlink" title="动态显示"></a>动态显示</h3><p>就是把所有显示器的8个段码中的A-dp的各个相同段连接在一起, 接到一个公共的输出口上,而数码管的位端分别接在另外的输出口上,通过这两个输出口的两组信号相互作用来产生显示效果。即让各位数码管按照一定顺序轮流显示, 只要扫描频率足够高, 由于人眼的“ 视觉暂留”现象,就能连续稳定的显示</p>
-<div class="note success">
-            <p>静态显示优点：显示稳定、亮度大, 节约CPU时间, 但占有I/O口线较多, 硬件成本高。<br>动态显示优点：其特点在于能显著降低显示部分成本,大大减少显示接口的连线结构。<br>举例, 静态驱动4位数码管, 需要4×8=32个I/O口, 而动态的驱动位数码管只需要4+8=12个I/O口。</p>
-          </div>
-
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">100</span>;j++)</span><br><span class="line">			;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">21</span>;n++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=table[n/<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfe</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">			P1=table[n%<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfd</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		P1=<span class="number">0x00</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>调整延时函数 delay() 可以控制显示速度的快慢</p>
-</blockquote>
-<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/60759bf58322e6675c7c336a.gif" style="zoom:60%">]]></content>
-      <categories>
-        <category>物联网课程</category>
-        <category>单片机</category>
-      </categories>
-      <tags>
-        <tag>单片机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
-    <url>/undefined/82b44f.html</url>
-    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1和P1接两个<strong>共阴极</strong>的数码管，P3.2接一个按钮，P3.3接一个按钮。</p>
-<p>按下3.3，2个数码管从00显示到20；按下3.3，2个数码管从20减到00</p>
-<p>3.2闭合，3.3断开，00-20；3.3断开，3.2闭合，20-00</p>
-<a id="more"></a>
-
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义共阴极数值表</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//开启时，数码管显示00</span></span><br><span class="line">	P1=<span class="number">0x3f</span>;</span><br><span class="line">	P2=<span class="number">0x3f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==<span class="number">0xfb</span>)  <span class="comment">//按下P3.2</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(c=<span class="number">0</span>;c&lt;<span class="number">20</span>;c++)</span><br><span class="line">			&#123;</span><br><span class="line">				P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">				P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">				<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)  <span class="comment">//按下P3.3</span></span><br><span class="line">		&#123;	</span><br><span class="line">				<span class="keyword">for</span>(c=<span class="number">20</span>;c&gt;<span class="number">0</span>;c--)</span><br><span class="line">				&#123;</span><br><span class="line">					P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">					P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">					<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">		P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/60759a3a8322e6675c782b3c.gif" style="zoom:50%">
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本次实验需要熟悉共阴极数码管的数值表，以及P3.2、P3.3口的十六进制表示方法，用来实现按钮的控制。</p>
-<div class="note primary">
-            <p>关于P3口：</p><ul><li>P3.0 ==&gt; 0xfe  ==&gt;1111 1110</li><li>P3.1 ==&gt; 0xfd  ==&gt;1111 1101</li><li>P3.2 ==&gt; 0xfb  ==&gt;1111 1011</li><li>P3.3 ==&gt; 0xf7  ==&gt;1111 0111</li><li>……</li></ul><p>关于共阴极数码管的数值表可以参考 <strong>单片机-作业3</strong> <strong><a href="/undefined/acec2d97.html" title="小结">小结</a></strong></p>
-          </div>
-
-
-]]></content>
-      <categories>
-        <category>物联网课程</category>
-        <category>单片机</category>
-      </categories>
-      <tags>
-        <tag>单片机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>
-    <url>/undefined/acec2d97.html</url>
-    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1接一个共阳极的LED数码管，实现显示 0 - 9</p>
-<a id="more"></a>
-
-
-
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;  //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//共阳极数码管0-9显示数值表</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> k;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;<span class="number">10</span>;k++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=dofly_table[k];</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">40</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/604c63dd5aedab222c3b77b7.gif" style="zoom: 60%;">
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这次实验很简单，只要了解了数码管的数值表就可以通过简单的循环函数实现 0 - 9 的显示。</p>
-<p>下面附上共阴极和共阳极数码管的数值表：</p>
-<img src="https://img.imgdb.cn/item/604c69445aedab222c3ff100.png" style="zoom: 50%;">]]></content>
-      <categories>
-        <category>物联网课程</category>
-        <category>单片机</category>
-      </categories>
-      <tags>
-        <tag>单片机</tag>
       </tags>
   </entry>
   <entry>
@@ -190,71 +142,370 @@
       </tags>
   </entry>
   <entry>
-    <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS</title>
-    <url>/undefined/f82c66a5.html</url>
-    <content><![CDATA[<p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
-<p>Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～</p>
+    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
+    <url>/undefined/91ba00fe.html</url>
+    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
+
 <a id="more"></a>
 
-<h2 id="创建Coding项目"><a href="#创建Coding项目" class="headerlink" title="创建Coding项目"></a>创建Coding项目</h2><p>1、创建一个Coding的账号。现在的Coding是以团队的方式加入，身边没有Coding团队的小伙伴可以自己创建一个团队，身边有人有团队的话可以申请加入，这样就可以省去创建团队的功夫啦。</p>
-<p>2、账号创建好后，找到 <strong>个人账户设置</strong> ，将本地生成的SSH公钥添加进去。（同Github上的设置）一般公钥路径在 <code>C:\Users\用户名\.ssh</code> 目录下的 <code>id_rsa.pub</code> 文件里，用记事本打开，将所有内容复制出来即可。</p>
-<p>3、<strong>实名认证。</strong> 必须实名认证才可以设置部署静态网站。</p>
-<p>4、创建一个托管静态页面的项目</p>
+
+
+<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
 <ul>
-<li><p>选择代码托管项目（或选择DevOps项目）</p>
-<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;">
+<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
 </li>
-<li><p>项目名称建议是使用自己在Coding上设置的用户名</p>
+<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
+<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
 </li>
-<li><p>进入刚创建的仓库，复制SSH的路径（据说SSH比较稳定）</p>
+<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
 </li>
 </ul>
-<h2 id="配置到Hexo并部署到Coding"><a href="#配置到Hexo并部署到Coding" class="headerlink" title="配置到Hexo并部署到Coding"></a>配置到Hexo并部署到Coding</h2><p>1、配置主站目录下的 <code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
 
-<p>2、执行三件套指令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
+<img src="https://pic.downk.cc/item/5f3aa12a14195aa594b2e384.png" style="zoom: 80%;">
 
-<p>3、部署到Coding</p>
+<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
+<img src="https://pic.downk.cc/item/5f3ab11014195aa594b6cf97.png" style="zoom: 60%;">
+
+
+
+<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
 <ul>
-<li><p>打开持续部署开关</p>
-<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%">
-</li>
-<li><p>部署静态网站</p>
-<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png">
+<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
+<img src="https://pic.downk.cc/item/5f3ab1d214195aa594b6fa78.png" style="zoom:80%;">
 
+<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
+</li>
+<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
 </li>
 </ul>
-<p>部署完成后点开上面的访问地址可以打开你的Hexo博客说明已经部署成功啦</p>
-<h2 id="添加自定义域名"><a href="#添加自定义域名" class="headerlink" title="添加自定义域名"></a>添加自定义域名</h2><p>首先需要拥有一个域名，国内购买的域名需要进行备案，国外域名商购买的域名可以不进行备案</p>
-<p>本站域名是在国外域名平台 Namesilo 购买，是目前价格较便宜的域名平台，支持支付宝，提供免费的域名隐私保护，性价比较高。</p>
+<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
 <blockquote>
-<p>关于Namesilo域名购买可以查找度娘或者看以下这篇文章：</p>
-<p><a href="https://tding.top/archives/b48e2719.html" target="_blank" rel="noopener">https://tding.top/archives/b48e2719.html</a></p>
+<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<p>或 <code>hexo clean &amp;&amp; hexo g -d</code></p>
 </blockquote>
-<p>域名解析我使用的是DNSPod</p>
-<h3 id="添加解析记录"><a href="#添加解析记录" class="headerlink" title="添加解析记录"></a>添加解析记录</h3><p>1、ping一下Coding给你Hexo项目部署到的地址，获得Coding Page 的IP地址</p>
-<p>2、在DNSPod中添加两条解析记录：</p>
-<ul>
-<li>记录类型为 <code>A</code> ，主机记录为 <code>@</code> ，解析线路选择默认，记录值为ping到的Coding Page的IP地址</li>
-<li>记录类型为 <code>CNAME</code> ，主机记录为 <code>www</code> ，解析线路选择默认，记录值为Coding给你Hexo项目部署到的地址，例如我的是<code>https://f4kp1l.coding-pages.com</code> </li>
-</ul>
-<p>3、将Github的解析线路选择国外，这样就可以确保国内访问都是走Coding这边</p>
-<p>具体如下图：</p>
-<img src="https://pic.downk.cc/item/5f4a0db2160a154a67036573.png">
+<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
+<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
+<img src="https://pic.downk.cc/item/5f3ab23414195aa594b70eec.png" style="zoom:70%;">
 
-<h3 id="绑定自定义域名"><a href="#绑定自定义域名" class="headerlink" title="绑定自定义域名"></a>绑定自定义域名</h3><p>在Coding的项目中，找到 <code>持续部署→静态网站→设置</code> ，拉到下面的自定义域名，绑定新域名</p>
-<img src="https://pic.downk.cc/item/5f4a0edf160a154a6703d6c8.png">
+<p>这里以我用的next主题为例</p>
+<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
+<blockquote>
+<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
+<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
+<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
+</blockquote>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
+<p>tips：</p>
+<ol>
+<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
+</li>
+<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
+</li>
+<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
+</li>
+</ol>
+<p>最后祝大家能够做出属于自己的博客</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
+    <url>/undefined/80342cee.html</url>
+    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
+
+
+
+<a id="more"></a>
+
+<hr>
+<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<hr>
+<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
+<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
+<li><p><strong>创建Github/Gitee(码云)：</strong></p>
+<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
+<p><img src="https://pic.downk.cc/item/5f3a9e2a14195aa594b22af7.png" alt></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="https://pic.downk.cc/item/5f3a9e4b14195aa594b2315a.png" alt></p>
+<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
+</li>
+<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e6414195aa594b23695.png" alt></p>
+<p>安装步骤很简单，一直next，默认安装就行。</p>
+</li>
+<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e7614195aa594b23b43.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e8614195aa594b23f16.png" alt></p>
+<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
+<blockquote>
+<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
+<blockquote>
+<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
+<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
+</blockquote>
+<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
+<blockquote>
+<p><code>$ git config --global user.name</code></p>
+<p><code>$ git config --global user.email</code></p>
+</blockquote>
+<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
+<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
+<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
+<p><img src="https://pic.downk.cc/item/5f3a9e9814195aa594b243a9.png" alt></p>
+<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
+</li>
+<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
+<p><img src="https://pic.downk.cc/item/5f3a9eaf14195aa594b24a55.png" alt></p>
+</li>
+<li><p>输入以下检验是否配置成功：</p>
+<blockquote>
+<p><code>$ ssh git@github.com</code></p>
+<p><code>$ ssh -T git@github.com</code></p>
+</blockquote>
+<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
+</li>
+</ul>
+<hr>
+<p><strong>←To Be Continued</strong></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo发布文章报错can not read a block mapping entry</title>
+    <url>/undefined/6df7f115.html</url>
+    <content><![CDATA[<p>今天在修改文章标题的时候报错了，我直接改标题没有动到下面的信息（冒号后都已空一格），但是在生成静态的时候给我反馈了如下错误：</p>
+<blockquote>
+<p><code>YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 2, column 4:</code></p>
+</blockquote>
+<p>经过Google查找发现是标题配置里面有<code>&quot; &quot;</code>和<code>( )</code>这类英文符号，导致文章无法按照正确YAML语法解析而出错，把它们改成中文符号就好了。</p>
+<p>通过此次踩坑发现，文章头部配置要严格按照YAML语法来写。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+        <category>踩坑记录</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
+    <url>/undefined/66fbe44e.html</url>
+    <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
+<p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
+<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
+
+<a id="more"></a>
+
+<h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
+<ul>
+<li><p>前期需要：</p>
+<ul>
+<li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
+</li>
+<li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
+<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
+<p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
+</li>
+<li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
+<img src="https://pic.downk.cc/item/5f30963914195aa5940609ca.jpg" style="zoom: 70%;">
+</li>
+</ul>
+</li>
+<li><p>接下来是远程配置树莓派，指令为</p>
+<p><code>sudo raspi-config</code></p>
+<p>在终端/运行中键入以上指令后的现象如下图所示，选择步骤：5 Interfacing Options → P3 VNC → 是 → 确定 →Finish。</p>
+<img src="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png" style="zoom: 85%;">
+
+<p>配置完成后树莓派上的VNC就可以使用了。</p>
+<p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
+<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
+
+</li>
+</ul>
+<p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
+<p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
+<h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
+<p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> WiFi 配置示例说明：</p>
+<ul>
+<li><strong>ssid:网络的ssid</strong></li>
+<li><strong>psk:密码</strong></li>
+<li><strong>priority:连接优先级，数字越大优先级越高（不可以是负数）</strong></li>
+</ul>
+<p>如果有两个就在下面多添加一个<code>network</code>的代码并标好优先级就可。</p>
+<p>若SD卡已经插入树莓派中，但又想修改文件中的内容可以使用指令来完成，在终端中输入以下指令打开文件</p>
+<p><code>sudo nano  /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<p>可以用vim或nano编辑，这里使用nano，nano编辑完后先按Ctrl+O再按Enter对修改内容进行保存，再按Ctrl+X退出回到原来的终端界面。</p>
+<p>以上就是这次对树莓派这块小玩意做的小总结啦~</p>
+]]></content>
+      <categories>
+        <category>嵌入式</category>
+        <category>技术学习</category>
+      </categories>
+      <tags>
+        <tag>树莓派</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Typecho主站崩溃与自建RSSHub和跨域服务</title>
+    <url>/undefined/2dcf1105.html</url>
+    <content><![CDATA[<img src="https://pic.downk.cc/item/5f3ea93814195aa594522d61.png">
+
+
+
+<p>前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 <code>404 Not Found nginx</code> ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ)</p>
+<p>经过和重建网站的Nginx配置对比，为什么出问题自己心里算是有些眉目了，两份Nginx配置内容有很大差别，说明是在某个时候这份配置被覆盖了，为什么会被覆盖？将在文章RSSHub和跨域服务搭建过程中说明……</p>
+<a id="more"></a>
+
+<hr>
+<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p><strong>RSSHub：万物皆可 RSS</strong></p>
+<p>RSSHub 是一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源。RSSHub 借助于开源社区的力量快速发展中，目前已适配数百家网站的上千项内容。</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<h2 id="1-利用宝塔PM2搭建RSSHub"><a href="#1-利用宝塔PM2搭建RSSHub" class="headerlink" title="1.利用宝塔PM2搭建RSSHub"></a>1.利用宝塔PM2搭建RSSHub</h2><ul>
+<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub" target="_blank" rel="noopener">DIYgod/RSSHub</a></li>
+</ul>
+<p>对于小白来说，宝塔面板的PM2管理器非常方便，使用云服务器建站用起来容易上手。</p>
+<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;DIYgod&#x2F;RSSHub.git</span><br></pre></td></tr></table></figure>
 
 <div class="note warning">
-            <p>Tips：注意：一定要选首选的域名，并且<strong>非首选域名要勾选跳转至首选域名</strong> </p>
+            <p>可能是因为RSSHub项目被墙的缘故，项目网页需要翻墙才可以打开，所以难免会出现clone速度很慢的同学，我们可以采用其他办法将源码下载出来，上传到root目录下，命名为RSSHub即可。<br>解决办法：</p><ul><li>使用代理下载速度快的同学可以直接将源码压缩包下载出来，解压并将RSSHub文件夹通过宝塔上传至root目录中</li><li>利用Gitee导入Github仓库功能，直接clone导入到Gitee仓库的RSSHub项目即可解决</li></ul>
           </div>
 
-<h3 id="开启HTTPS"><a href="#开启HTTPS" class="headerlink" title="开启HTTPS"></a>开启HTTPS</h3><p>打开强制HTTPS开关会自动申请证书，如果你之前已经部署到了 GitHub Pages 并开启了 HTTPS，那么直接在设置页面绑定你自己的域名，SSL/TLS 安全证书就会显示申请错误。</p>
-<p>申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败。</p>
-<p><strong>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问</strong>。</p>
-<div class="note default">
-            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html" target="_blank" rel="noopener">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/" target="_blank" rel="noopener">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top" target="_blank" rel="noopener">动态站</a></p>
+<h3 id="1-2-安装PM2管理器，启动RSSHub"><a href="#1-2-安装PM2管理器，启动RSSHub" class="headerlink" title="1.2 安装PM2管理器，启动RSSHub"></a>1.2 安装PM2管理器，启动RSSHub</h3><p>PM2管理器在宝塔面板软件商店中搜索找到并安装。</p>
+<h4 id="启动RSSHub"><a href="#启动RSSHub" class="headerlink" title="启动RSSHub"></a>启动RSSHub</h4><ul>
+<li><p><strong>命令行法添加项目</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib&#x2F;index.js --name rsshub</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>命令行添加法优点是添加项目速度快，但是在PM2中有可能会无法打开项目目录导致最终搭建失败</p>
+</blockquote>
+<ul>
+<li><p><strong>PM2添加法</strong></p>
+<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
+
+</li>
+</ul>
+<p>添加好后点击「映射」，设置域名，如图：</p>
+<img src="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
+
+<div class="note warning">
+            <ul><li>设置的域名可以到你的域名解析里添加一个子域名映射到服务器IP即可。子域名例如<code>rsshub.xxx.com</code>中的rsshub部分可随意设置</li><li>解析好子域名后顺便去申请个SSL证书，并在宝塔站点中开启子域名的SSL，如果不支持https会造成浏览器加载失败</li><li>必须映射到根目录RSSHub中，宝塔有可能会默认映射到www目录中，如果映射到www目录可能会导致覆盖Typecho网站的Nginx配置，从而使网站出现各种错误，这就是我主站崩溃的原因</li></ul>
+          </div>
+<p>最后在浏览器中打开<strong>你设置映射的域名(<code>https://rsshub.xxx.com</code>)</strong>看到RSSHub的图标并且显示<strong><code>Welcome to RSSHub!</code></strong>字样的页面说明搭建成功！</p>
+<h3 id="2-利用宝塔Docker-部署RSSHub"><a href="#2-利用宝塔Docker-部署RSSHub" class="headerlink" title="2. 利用宝塔Docker 部署RSSHub"></a>2. 利用宝塔Docker 部署RSSHub</h3><div class="note info">
+            <p>可参考<strong><a href="https://blog.dlzhang.com/" target="_blank" rel="noopener">班班</a></strong>的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/" target="_blank" rel="noopener">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
+          </div>
+
+<h3 id="3-跨域服务"><a href="#3-跨域服务" class="headerlink" title="3. 跨域服务"></a>3. 跨域服务</h3><p>跨域最简单的解决办法是：在原有的RSS源地址前面加上<code>https://cors-anywhere.herokuapp.com/</code></p>
+<p>例如<code>https://cors-anywhere.herokuapp.com/https://rsshub.xxx.com/rss路由</code></p>
+<p>但是这个方法访问速度比较慢，我这甚至出现了无法加载的情况，所以我们需要自己搭建一个跨域服务：</p>
+<blockquote>
+<p><a href="https://github.com/netnr/proxy" target="_blank" rel="noopener">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
+</blockquote>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;netnr&#x2F;proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>如果clone不到使用，解决方法同上RSSHub，安装目录依旧是在根目录root下。</p>
+<h4 id="PM2管理器添加项目"><a href="#PM2管理器添加项目" class="headerlink" title="PM2管理器添加项目"></a>PM2管理器添加项目</h4><p>添加项目同RSSHub的PM2添加法，启动文件为<strong>server.js</strong>，项目名称可随意。添加好后点击「映射」，设置域名。（这里域名需要再解析一个新的子域名并申请SSL证书，记得在宝塔添加证书开启SSL）</p>
+<p>这时自己搭建的跨域服务为：<code>https://proxy.xxx.com/</code></p>
+<p>此时自己的代理为：<code>https://proxy.xxx.com/https://rsshub.xxx.com/rss路由</code>，浏览器打开代理可以看到爬到的RSS源代码说明成功啦，同时可以发现自建跨域服务速度飞快（/赞）</p>
+<h3 id="4-订阅RSS源"><a href="#4-订阅RSS源" class="headerlink" title="4. 订阅RSS源"></a>4. 订阅RSS源</h3><p>有了以上准备就可以订阅其他网站的RSS源啦，这里以B站为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https:&#x2F;&#x2F;rsshub.app&#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;208259</span><br><span class="line"></span><br><span class="line">路由: &#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
+
+<p>这时搭配上自建的两个服务后url就是：</p>
+<p><code>https://proxy.xxx.com/https://rsshub.xxx.com/bilibili/user/bangumi/:uid</code></p>
+<div class="note info">
+            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/" target="_blank" rel="noopener">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
+          </div>
+
+<blockquote>
+<p>参考文章：</p>
+<p><a href="https://www.anleenoxu.top/archives/156.html" target="_blank" rel="noopener">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/" target="_blank" rel="noopener">https://www.jellyw.com/archives/170/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>Typecho</category>
+      </categories>
+      <tags>
+        <tag>Typecho</tag>
+        <tag>RSSHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>将网站迁移到Vercel托管</title>
+    <url>/undefined/86d73a10.html</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="关于Vercel"><a href="#关于Vercel" class="headerlink" title="关于Vercel"></a>关于Vercel</h2><p>首先，Vercel是免费的网站托管商，其中有许多大官网如<code>Next.js</code>,<code>create-react-app</code>,<code>Nuxt.js</code>等就是部署在部署托管在<code>vercel</code>的。同时Vercel操作简单友好，支持从github、gitlab的代码库中一键导入，支持自定义域名和SSL证书配置。访问速度也很可观，简直就是<del>白嫖党</del>的福音。</p>
+<a id="more"></a>
+
+<h2 id="为什么取消了在coding上的托管"><a href="#为什么取消了在coding上的托管" class="headerlink" title="为什么取消了在coding上的托管"></a>为什么取消了在coding上的托管</h2><p>原来本站是部署到coding上来托管的，但由于现在coding网站托管和腾讯云打通并且开始主推新版，旧版迟早是要被淘汰的（现在我在旧版coding托管的网站IP已经ping不到了），不得不迁移到腾讯云上。</p>
+<blockquote>
+<p>CODING Pages 依托腾讯云资源提供相关静态托管能力，CODING 平台本身不收取任何费用。该产品使用了腾讯云对象存储 COS、内容分发网络 CDN、SSL 证书产品，其中 COS 和 CDN 采用用量计费模式，SSL 证书免费，所使用到的其他相关腾讯云产品本身亦会有一定的免费额度。</p>
+</blockquote>
+<p>也就是迁移新版是需要收费的，个人网站费用不高，域名不是已经备案的网站的话，可以选择香港的服务器节点，但其实这新版很鸡肋。</p>
+<h3 id="迁移新版后国内访问速度再起不能？"><a href="#迁移新版后国内访问速度再起不能？" class="headerlink" title="迁移新版后国内访问速度再起不能？"></a>迁移新版后国内访问速度再起不能？</h3><p>在设置好自定义域名后，网站在部署时会申请SSL证书，同时检验是否部署好COS实例，即使后面关闭了也会自动打开（尝试白嫖失败T^T），部署好后试着用域名去访问发现速度大大下跌，像校园网这种比较差的网络环境有时候根本打不开，查阅文章得知这是绕了地球一圈？好家伙，说好的香港节点呢(???￢_￢)</p>
+<ul>
+<li>关于迁移新版速度可以参考这篇文章：<a href="https://blog.csdn.net/nanshanvc/article/details/110454607" target="_blank" rel="noopener">CODING Pages 静态网站升级腾讯云新版踩坑小记</a> </li>
+</ul>
+<h1 id="如何在Vercel上部署"><a href="#如何在Vercel上部署" class="headerlink" title="如何在Vercel上部署"></a>如何在Vercel上部署</h1><h2 id="导入及部署"><a href="#导入及部署" class="headerlink" title="导入及部署"></a>导入及部署</h2><ol>
+<li><p>先成功部署Github Pages</p>
+</li>
+<li><p><a href="https://vercel.com/" target="_blank" rel="noopener">Vercel官网</a>，登录/注册账号，关联Github账号，一键导入（这里以新用户注册讲解）</p>
+</li>
+<li><p>跟随向导，关联好Github帐号后可以寻找库中的代码，选择<strong>Only select repositories</strong> 指定库中项目（也可以选择ALL，建议选择需要的就可以了）</p>
+<img src="https://pic.imgdb.cn/item/6098aff2d1a9ae528f35bc6a.png" style="zoom: 50%;">
+</li>
+<li><p>Import一键导入，导入后即可自动部署成功</p>
+<img src="https://pic.imgdb.cn/item/6098b085d1a9ae528f399093.png" style="zoom:50%">
+
+
+
+</li>
+</ol>
+<h2 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h2><p>部署成功后，进入项目，找到 <strong>Settings —&gt; Domains</strong> 。</p>
+<img src="https://pic.imgdb.cn/item/6098bca5d1a9ae528f99455b.png" style="zoom:50%">
+
+<p>添加后会提示重定向到哪个域名，也就是当输入 <code>baidu.com</code> 时会重定向到 <code>www.baidu.com</code> 的意思，当然反过来也可以，然后按要求配置好DNS的解析即可</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>Vercel的配置还是比较简单的，就是我的域名是在DNSPOD上解析的，所以没有配置vercel的NS会一直报配置不正确，但可以正常访问就可以了。</p>
+<p>除了Vercel，还有一个免费的托管商 <strong><a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a></strong> ，时间有限就不多折腾了，有兴趣的同学可以自行去查看。</p>
+<h4 id="补充（2021年5月31日更新）"><a href="#补充（2021年5月31日更新）" class="headerlink" title="补充（2021年5月31日更新）"></a>补充（2021年5月31日更新）</h4><p>1、前期在vercel使用自定义域名部署的网站在国内已经无法访问了（亲测翻墙可以访问，不翻墙无法访问），经过辛苦查找各大网站，终于在知乎一篇文章的评论下发现了有用的信息：</p>
+<div class="note warning">
+            <p>官方已经对此问题响应，把A记录改成<code>76.223.126.88</code>，或把CNAME改成<code>cname-china.vercel-dns.com</code> （至于响应在哪个位置待我有时间去找找，知道的同学可以给我Email提示一下）<br>注意：这两项修改均是在vercel的DNS解析中修改，且默认记录是无法修改的，直接Add就行。</p>
+          </div>
+
+<p>2、使用vercel出现的DNS解析的问题，建议暂停在DNSPOD解析，直接在域名商解析，这样就不会出现配置报错问题了，同时也是为了避免服务器找不到的问题。</p>
+<div class="note info">
+            <p>本文参考：<a href="https://zhuanlan.zhihu.com/p/338057700" target="_blank" rel="noopener">如何将 github pages 迁移到 vercel 上托管</a><br>有关 <strong>Netlify</strong> 的部署可参考：<a href="https://zhuanlan.zhihu.com/p/338058109" target="_blank" rel="noopener">如何将网站代码部署到 netlify 上免费托管</a></p>
           </div>]]></content>
       <categories>
         <category>博客</category>
@@ -715,207 +966,46 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo发布文章报错can not read a block mapping entry</title>
-    <url>/undefined/6df7f115.html</url>
-    <content><![CDATA[<p>今天在修改文章标题的时候报错了，我直接改标题没有动到下面的信息（冒号后都已空一格），但是在生成静态的时候给我反馈了如下错误：</p>
-<blockquote>
-<p><code>YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 2, column 4:</code></p>
-</blockquote>
-<p>经过Google查找发现是标题配置里面有<code>&quot; &quot;</code>和<code>( )</code>这类英文符号，导致文章无法按照正确YAML语法解析而出错，把它们改成中文符号就好了。</p>
-<p>通过此次踩坑发现，文章头部配置要严格按照YAML语法来写。</p>
-]]></content>
+    <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>
+    <url>/undefined/acec2d97.html</url>
+    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1接一个共阳极的LED数码管，实现显示 0 - 9</p>
+<a id="more"></a>
+
+
+
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;  //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//共阳极数码管0-9显示数值表</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> k;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;<span class="number">10</span>;k++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=dofly_table[k];</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">40</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/604c63dd5aedab222c3b77b7.gif" style="zoom: 60%;">
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这次实验很简单，只要了解了数码管的数值表就可以通过简单的循环函数实现 0 - 9 的显示。</p>
+<p>下面附上共阴极和共阳极数码管的数值表：</p>
+<img src="https://img.imgdb.cn/item/604c69445aedab222c3ff100.png" style="zoom: 50%;">]]></content>
       <categories>
-        <category>Hexo</category>
-        <category>踩坑记录</category>
+        <category>物联网课程</category>
+        <category>单片机</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
+        <tag>单片机</tag>
       </tags>
   </entry>
   <entry>
-    <title>Typecho主站崩溃与自建RSSHub和跨域服务</title>
-    <url>/undefined/2dcf1105.html</url>
-    <content><![CDATA[<img src="https://pic.downk.cc/item/5f3ea93814195aa594522d61.png">
-
-
-
-<p>前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 <code>404 Not Found nginx</code> ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ)</p>
-<p>经过和重建网站的Nginx配置对比，为什么出问题自己心里算是有些眉目了，两份Nginx配置内容有很大差别，说明是在某个时候这份配置被覆盖了，为什么会被覆盖？将在文章RSSHub和跨域服务搭建过程中说明……</p>
+    <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
+    <url>/undefined/82b44f.html</url>
+    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1和P1接两个<strong>共阴极</strong>的数码管，P3.2接一个按钮，P3.3接一个按钮。</p>
+<p>按下3.3，2个数码管从00显示到20；按下3.3，2个数码管从20减到00</p>
+<p>3.2闭合，3.3断开，00-20；3.3断开，3.2闭合，20-00</p>
 <a id="more"></a>
 
-<hr>
-<blockquote class="blockquote-center">
-            <i class="fa fa-quote-left"></i>
-            <p><strong>RSSHub：万物皆可 RSS</strong></p>
-<p>RSSHub 是一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源。RSSHub 借助于开源社区的力量快速发展中，目前已适配数百家网站的上千项内容。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义共阴极数值表</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//开启时，数码管显示00</span></span><br><span class="line">	P1=<span class="number">0x3f</span>;</span><br><span class="line">	P2=<span class="number">0x3f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==<span class="number">0xfb</span>)  <span class="comment">//按下P3.2</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(c=<span class="number">0</span>;c&lt;<span class="number">20</span>;c++)</span><br><span class="line">			&#123;</span><br><span class="line">				P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">				P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">				<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)  <span class="comment">//按下P3.3</span></span><br><span class="line">		&#123;	</span><br><span class="line">				<span class="keyword">for</span>(c=<span class="number">20</span>;c&gt;<span class="number">0</span>;c--)</span><br><span class="line">				&#123;</span><br><span class="line">					P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">					P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">					<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">		P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-            <i class="fa fa-quote-right"></i>
-          </blockquote>
+<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/60759a3a8322e6675c782b3c.gif" style="zoom:50%">
 
-<h2 id="1-利用宝塔PM2搭建RSSHub"><a href="#1-利用宝塔PM2搭建RSSHub" class="headerlink" title="1.利用宝塔PM2搭建RSSHub"></a>1.利用宝塔PM2搭建RSSHub</h2><ul>
-<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub" target="_blank" rel="noopener">DIYgod/RSSHub</a></li>
-</ul>
-<p>对于小白来说，宝塔面板的PM2管理器非常方便，使用云服务器建站用起来容易上手。</p>
-<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;DIYgod&#x2F;RSSHub.git</span><br></pre></td></tr></table></figure>
-
-<div class="note warning">
-            <p>可能是因为RSSHub项目被墙的缘故，项目网页需要翻墙才可以打开，所以难免会出现clone速度很慢的同学，我们可以采用其他办法将源码下载出来，上传到root目录下，命名为RSSHub即可。<br>解决办法：</p><ul><li>使用代理下载速度快的同学可以直接将源码压缩包下载出来，解压并将RSSHub文件夹通过宝塔上传至root目录中</li><li>利用Gitee导入Github仓库功能，直接clone导入到Gitee仓库的RSSHub项目即可解决</li></ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本次实验需要熟悉共阴极数码管的数值表，以及P3.2、P3.3口的十六进制表示方法，用来实现按钮的控制。</p>
+<div class="note primary">
+            <p>关于P3口：</p><ul><li>P3.0 ==&gt; 0xfe  ==&gt;1111 1110</li><li>P3.1 ==&gt; 0xfd  ==&gt;1111 1101</li><li>P3.2 ==&gt; 0xfb  ==&gt;1111 1011</li><li>P3.3 ==&gt; 0xf7  ==&gt;1111 0111</li><li>……</li></ul><p>关于共阴极数码管的数值表可以参考 <strong>单片机-作业3</strong> <strong><a href="/undefined/acec2d97.html" title="小结">小结</a></strong></p>
           </div>
 
-<h3 id="1-2-安装PM2管理器，启动RSSHub"><a href="#1-2-安装PM2管理器，启动RSSHub" class="headerlink" title="1.2 安装PM2管理器，启动RSSHub"></a>1.2 安装PM2管理器，启动RSSHub</h3><p>PM2管理器在宝塔面板软件商店中搜索找到并安装。</p>
-<h4 id="启动RSSHub"><a href="#启动RSSHub" class="headerlink" title="启动RSSHub"></a>启动RSSHub</h4><ul>
-<li><p><strong>命令行法添加项目</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib&#x2F;index.js --name rsshub</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<blockquote>
-<p>命令行添加法优点是添加项目速度快，但是在PM2中有可能会无法打开项目目录导致最终搭建失败</p>
-</blockquote>
-<ul>
-<li><p><strong>PM2添加法</strong></p>
-<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
-
-</li>
-</ul>
-<p>添加好后点击「映射」，设置域名，如图：</p>
-<img src="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
-
-<div class="note warning">
-            <ul><li>设置的域名可以到你的域名解析里添加一个子域名映射到服务器IP即可。子域名例如<code>rsshub.xxx.com</code>中的rsshub部分可随意设置</li><li>解析好子域名后顺便去申请个SSL证书，并在宝塔站点中开启子域名的SSL，如果不支持https会造成浏览器加载失败</li><li>必须映射到根目录RSSHub中，宝塔有可能会默认映射到www目录中，如果映射到www目录可能会导致覆盖Typecho网站的Nginx配置，从而使网站出现各种错误，这就是我主站崩溃的原因</li></ul>
-          </div>
-<p>最后在浏览器中打开<strong>你设置映射的域名(<code>https://rsshub.xxx.com</code>)</strong>看到RSSHub的图标并且显示<strong><code>Welcome to RSSHub!</code></strong>字样的页面说明搭建成功！</p>
-<h3 id="2-利用宝塔Docker-部署RSSHub"><a href="#2-利用宝塔Docker-部署RSSHub" class="headerlink" title="2. 利用宝塔Docker 部署RSSHub"></a>2. 利用宝塔Docker 部署RSSHub</h3><div class="note info">
-            <p>可参考<strong><a href="https://blog.dlzhang.com/" target="_blank" rel="noopener">班班</a></strong>的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/" target="_blank" rel="noopener">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
-          </div>
-
-<h3 id="3-跨域服务"><a href="#3-跨域服务" class="headerlink" title="3. 跨域服务"></a>3. 跨域服务</h3><p>跨域最简单的解决办法是：在原有的RSS源地址前面加上<code>https://cors-anywhere.herokuapp.com/</code></p>
-<p>例如<code>https://cors-anywhere.herokuapp.com/https://rsshub.xxx.com/rss路由</code></p>
-<p>但是这个方法访问速度比较慢，我这甚至出现了无法加载的情况，所以我们需要自己搭建一个跨域服务：</p>
-<blockquote>
-<p><a href="https://github.com/netnr/proxy" target="_blank" rel="noopener">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
-</blockquote>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;netnr&#x2F;proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-
-<p>如果clone不到使用，解决方法同上RSSHub，安装目录依旧是在根目录root下。</p>
-<h4 id="PM2管理器添加项目"><a href="#PM2管理器添加项目" class="headerlink" title="PM2管理器添加项目"></a>PM2管理器添加项目</h4><p>添加项目同RSSHub的PM2添加法，启动文件为<strong>server.js</strong>，项目名称可随意。添加好后点击「映射」，设置域名。（这里域名需要再解析一个新的子域名并申请SSL证书，记得在宝塔添加证书开启SSL）</p>
-<p>这时自己搭建的跨域服务为：<code>https://proxy.xxx.com/</code></p>
-<p>此时自己的代理为：<code>https://proxy.xxx.com/https://rsshub.xxx.com/rss路由</code>，浏览器打开代理可以看到爬到的RSS源代码说明成功啦，同时可以发现自建跨域服务速度飞快（/赞）</p>
-<h3 id="4-订阅RSS源"><a href="#4-订阅RSS源" class="headerlink" title="4. 订阅RSS源"></a>4. 订阅RSS源</h3><p>有了以上准备就可以订阅其他网站的RSS源啦，这里以B站为例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https:&#x2F;&#x2F;rsshub.app&#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;208259</span><br><span class="line"></span><br><span class="line">路由: &#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
-
-<p>这时搭配上自建的两个服务后url就是：</p>
-<p><code>https://proxy.xxx.com/https://rsshub.xxx.com/bilibili/user/bangumi/:uid</code></p>
-<div class="note info">
-            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/" target="_blank" rel="noopener">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
-          </div>
-
-<blockquote>
-<p>参考文章：</p>
-<p><a href="https://www.anleenoxu.top/archives/156.html" target="_blank" rel="noopener">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/" target="_blank" rel="noopener">https://www.jellyw.com/archives/170/</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客</category>
-        <category>Typecho</category>
-      </categories>
-      <tags>
-        <tag>Typecho</tag>
-        <tag>RSSHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
-    <url>/undefined/66fbe44e.html</url>
-    <content><![CDATA[<h2 id="前-言"><a href="#前-言" class="headerlink" title="前 言"></a>前 言</h2><p>前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……</p>
-<p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
-<img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
-
-<a id="more"></a>
-
-<h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
-<ul>
-<li><p>前期需要：</p>
-<ul>
-<li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
-</li>
-<li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
-<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
-<p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
-</li>
-<li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
-<img src="https://pic.downk.cc/item/5f30963914195aa5940609ca.jpg" style="zoom: 70%;">
-</li>
-</ul>
-</li>
-<li><p>接下来是远程配置树莓派，指令为</p>
-<p><code>sudo raspi-config</code></p>
-<p>在终端/运行中键入以上指令后的现象如下图所示，选择步骤：5 Interfacing Options → P3 VNC → 是 → 确定 →Finish。</p>
-<img src="https://pic.downk.cc/item/5f27dd9a14195aa594ea1d80.png" style="zoom: 85%;">
-
-<p>配置完成后树莓派上的VNC就可以使用了。</p>
-<p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
-<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
-
-</li>
-</ul>
-<p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
-<p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
-<h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
-<p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> WiFi 配置示例说明：</p>
-<ul>
-<li><strong>ssid:网络的ssid</strong></li>
-<li><strong>psk:密码</strong></li>
-<li><strong>priority:连接优先级，数字越大优先级越高（不可以是负数）</strong></li>
-</ul>
-<p>如果有两个就在下面多添加一个<code>network</code>的代码并标好优先级就可。</p>
-<p>若SD卡已经插入树莓派中，但又想修改文件中的内容可以使用指令来完成，在终端中输入以下指令打开文件</p>
-<p><code>sudo nano  /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
-<p>可以用vim或nano编辑，这里使用nano，nano编辑完后先按Ctrl+O再按Enter对修改内容进行保存，再按Ctrl+X退出回到原来的终端界面。</p>
-<p>以上就是这次对树莓派这块小玩意做的小总结啦~</p>
-]]></content>
-      <categories>
-        <category>嵌入式</category>
-        <category>技术学习</category>
-      </categories>
-      <tags>
-        <tag>树莓派</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【单片机】（二）实验一升级，进阶+复习！</title>
-    <url>/undefined/6e490410.html</url>
-    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/undefined/ec01d655.html" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
-<a id="more"></a>
-
-<h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
-<p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
-<p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
-<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>心得体会：</strong></p>
-<p>因为刚接触这门课，萌新的我花了很长时间才将题目功能实现出来QAQ。当时编写出现的问题是①按下按钮都无法实现功能和②按下一个按钮流水灯能发生顺流而按下第二个按钮或相隔的按钮时无法进行逆流，所以我认为可以从②中寻找为何按下第二个按钮或相隔按钮时无法逆流的问题。</p>
-<p>当时和好友一起讨论的时候我注意到了他的一句话 <strong>“按两个按钮就是1111 0011，也就是0xf3了 ”</strong> ，因为这句话我得到了灵感，那就是把任意两个按钮同时按下时的十六进制值写数组中，这样就像只按一个按钮的数组一样。当然，顺逆流的循环可以优化一下省去一部分代码，而且我在网上找过很多方法，可能在选择按钮中会有更简便的写法。</p>
-<h3 id="2-2-仿真演示"><a href="#2-2-仿真演示" class="headerlink" title="2.2 仿真演示"></a>2.2 仿真演示</h3><blockquote>
-<p><em>本代码可以实现按下<strong>任意两个</strong>开关流水灯都可以进行逆流。</em></p>
-</blockquote>
-<ul>
-<li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9dbe14195aa594b20d40.gif" alt></p>
-</li>
-<li><p>按下两个开关时：</p>
-<p>如按下P3.3和P3.5开关：（相隔按钮）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9dd514195aa594b2143e.gif" alt></p>
-<p>如按下P3.4和P3.5开关：（相邻按钮）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9de614195aa594b219ed.gif" alt></p>
-</li>
-</ul>
-<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
 ]]></content>
       <categories>
         <category>物联网课程</category>
@@ -926,153 +1016,29 @@
       </tags>
   </entry>
   <entry>
-    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
-    <url>/undefined/91ba00fe.html</url>
-    <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
-
+    <title>【单片机】（五）数码管动态显示 00—20</title>
+    <url>/undefined/fc63a592.html</url>
+    <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。</p>
+<h2 id="动态显示和静态显示"><a href="#动态显示和静态显示" class="headerlink" title="动态显示和静态显示"></a>动态显示和静态显示</h2><h3 id="静态显示"><a href="#静态显示" class="headerlink" title="静态显示"></a>静态显示</h3><p>就是每一个数码管的段码都要独占具有锁存功能的输出口, CPU把要显示的字码送到输出口上,就可以使数码管显示对应的字符, 直到下一次送出另外一个字码之前, 显示的内容一直不会消失</p>
 <a id="more"></a>
 
+<h3 id="动态显示"><a href="#动态显示" class="headerlink" title="动态显示"></a>动态显示</h3><p>就是把所有显示器的8个段码中的A-dp的各个相同段连接在一起, 接到一个公共的输出口上,而数码管的位端分别接在另外的输出口上,通过这两个输出口的两组信号相互作用来产生显示效果。即让各位数码管按照一定顺序轮流显示, 只要扫描频率足够高, 由于人眼的“ 视觉暂留”现象,就能连续稳定的显示</p>
+<div class="note success">
+            <p>静态显示优点：显示稳定、亮度大, 节约CPU时间, 但占有I/O口线较多, 硬件成本高。<br>动态显示优点：其特点在于能显著降低显示部分成本,大大减少显示接口的连线结构。<br>举例, 静态驱动4位数码管, 需要4×8=32个I/O口, 而动态的驱动位数码管只需要4+8=12个I/O口。</p>
+          </div>
 
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">100</span>;j++)</span><br><span class="line">			;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">21</span>;n++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=table[n/<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfe</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">			P1=table[n%<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfd</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		P1=<span class="number">0x00</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="1-Hexo安装"><a href="#1-Hexo安装" class="headerlink" title="1.Hexo安装"></a>1.Hexo安装</h1><p>接上一篇</p>
-<ul>
-<li><p>在Git中输入<code>npm -v</code>和<code>node -v</code>，若出现版本号说明node安装成功。输入<code>npm install hexo-cli -g</code>安装Hexo，安装完成后即可退出Git。</p>
-</li>
-<li><p>在任意磁盘中新建一个文件夹来放配置文件，比如在D盘中新建了一个文件夹命名为“Myblog”；打开你的文件夹，然后在空白处点鼠标的右键，选择<code>Git Bash Here</code>；在Git中输入命令<code>hexo init</code>安装相关配置。</p>
-<p>等待安装完毕后，最后一句出现 <strong>INFO Start blogging with hexo</strong> 说明Hexo已经搭建成功了。</p>
-</li>
-<li><p>搭建完成后可输入命令 <code>npm install</code> 和 <code>npm install hexo-deployer-git --save</code> 方便今后部署。</p>
-</li>
-</ul>
-<h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
-
-<p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
-<img src="https://pic.downk.cc/item/5f3aa12a14195aa594b2e384.png" style="zoom: 80%;">
-
-<p>打开浏览器，输入<code>localhost:4000</code>，看到以下页面说明<strong>本地环境搭建完成</strong></p>
-<img src="https://pic.downk.cc/item/5f3ab11014195aa594b6cf97.png" style="zoom: 60%;">
-
-
-
-<h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
-<ul>
-<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
-<img src="https://pic.downk.cc/item/5f3ab1d214195aa594b6fa78.png" style="zoom:80%;">
-
-<p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
-</li>
-<li><p>在Git命令输入框中输入命令<code>hexo g</code>（hexo generate）在本地生成静态文件。再次输入<code>hexo s</code>可预览是否有问题，没有问题后按<strong>Ctrl+C</strong>退出预览，输入<code>hexo d</code>就可以上传至GitHub云端啦。</p>
-</li>
-</ul>
-<p>当然，今后写博客想要一步到位的话也可以使用一键三杀：</p>
 <blockquote>
-<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
-<p>或 <code>hexo clean &amp;&amp; hexo g -d</code></p>
+<p>调整延时函数 delay() 可以控制显示速度的快慢</p>
 </blockquote>
-<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
-<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
-<img src="https://pic.downk.cc/item/5f3ab23414195aa594b70eec.png" style="zoom:70%;">
-
-<p>这里以我用的next主题为例</p>
-<p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
-<blockquote>
-<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
-<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
-<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
-</blockquote>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
-<p>tips：</p>
-<ol>
-<li><p>配置文件中，冒号后（如theme:）必须要空一格才能输入东西。主题文件中也有配置文件，和站点的配置文件名字相同但是用途不同，需要注意分清楚。</p>
-</li>
-<li><p>关于部署方面其实有很多选择，除GitHub外，类似的还有Gitee和Coding，GitHub主要是国外的所以可能会导致别人的访问速度方面的体验跟不上，当然像Gitee等国内的Page服务体验也会有所不同。</p>
-</li>
-<li><p>关于主题方面大家可以自己慢慢探索，美化主题不是一天就能完成的事，就像记单词一样，一点一点地发现和积累，最终就可以美化成为你所希望的主题。</p>
-</li>
-</ol>
-<p>最后祝大家能够做出属于自己的博客</p>
-]]></content>
+<h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/60759bf58322e6675c7c336a.gif" style="zoom:60%">]]></content>
       <categories>
-        <category>博客</category>
-        <category>Hexo</category>
+        <category>物联网课程</category>
+        <category>单片机</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新技能加点！从0开始搭建Hexo博客（一）</title>
-    <url>/undefined/80342cee.html</url>
-    <content><![CDATA[<img src="https://pic1.zhimg.com/v2-0d8684079db9ede92ed46ef40b69a1e6_1200x500.jpg" style="zoom:67%;">
-
-
-
-<a id="more"></a>
-
-<hr>
-<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
-<hr>
-<p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
-<h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
-<li><p><strong>创建Github/Gitee(码云)：</strong></p>
-<p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9e2a14195aa594b22af7.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="https://pic.downk.cc/item/5f3a9e4b14195aa594b2315a.png" alt></p>
-<p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
-</li>
-<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e6414195aa594b23695.png" alt></p>
-<p>安装步骤很简单，一直next，默认安装就行。</p>
-</li>
-<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e7614195aa594b23b43.png" alt></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e8614195aa594b23f16.png" alt></p>
-<p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
-<blockquote>
-<p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="2-配置Git"><a href="#2-配置Git" class="headerlink" title="2.配置Git"></a>2.配置Git</h2><p>在Git安装目录下右键点击<code>Git Bash Here</code>，在终端窗口配置好你的用户名和邮箱：</p>
-<blockquote>
-<p><code>$ git config --global user.name &quot;John Doe&quot;</code>（“John Doe”为你要输入的用户名）</p>
-<p><code>$ git config --global user.email &quot;johndoe@example.com&quot;</code>（email后填你的邮箱）</p>
-</blockquote>
-<p>配置好后可以输入以下检查是否配置成功，如果输出结果是你输入的东西就是配置成功了：</p>
-<blockquote>
-<p><code>$ git config --global user.name</code></p>
-<p><code>$ git config --global user.email</code></p>
-</blockquote>
-<p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
-<h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
-<li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9e9814195aa594b243a9.png" alt></p>
-<p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
-</li>
-<li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="https://pic.downk.cc/item/5f3a9eaf14195aa594b24a55.png" alt></p>
-</li>
-<li><p>输入以下检验是否配置成功：</p>
-<blockquote>
-<p><code>$ ssh git@github.com</code></p>
-<p><code>$ ssh -T git@github.com</code></p>
-</blockquote>
-<p>若都出现<strong>You’ve successfully authenticated</strong>字样就是配置成功了。</p>
-</li>
-</ul>
-<hr>
-<p><strong>←To Be Continued</strong></p>
-]]></content>
-      <categories>
-        <category>博客</category>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
+        <tag>单片机</tag>
       </tags>
   </entry>
   <entry>
@@ -1115,6 +1081,46 @@
 <li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>物联网课程</category>
+        <category>单片机</category>
+      </categories>
+      <tags>
+        <tag>单片机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【单片机】（二）实验一升级，进阶+复习！</title>
+    <url>/undefined/6e490410.html</url>
+    <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/undefined/ec01d655.html" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
+<a id="more"></a>
+
+<h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
+<p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
+<p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
+<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>心得体会：</strong></p>
+<p>因为刚接触这门课，萌新的我花了很长时间才将题目功能实现出来QAQ。当时编写出现的问题是①按下按钮都无法实现功能和②按下一个按钮流水灯能发生顺流而按下第二个按钮或相隔的按钮时无法进行逆流，所以我认为可以从②中寻找为何按下第二个按钮或相隔按钮时无法逆流的问题。</p>
+<p>当时和好友一起讨论的时候我注意到了他的一句话 <strong>“按两个按钮就是1111 0011，也就是0xf3了 ”</strong> ，因为这句话我得到了灵感，那就是把任意两个按钮同时按下时的十六进制值写数组中，这样就像只按一个按钮的数组一样。当然，顺逆流的循环可以优化一下省去一部分代码，而且我在网上找过很多方法，可能在选择按钮中会有更简便的写法。</p>
+<h3 id="2-2-仿真演示"><a href="#2-2-仿真演示" class="headerlink" title="2.2 仿真演示"></a>2.2 仿真演示</h3><blockquote>
+<p><em>本代码可以实现按下<strong>任意两个</strong>开关流水灯都可以进行逆流。</em></p>
+</blockquote>
+<ul>
+<li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
+<p><img src="https://pic.downk.cc/item/5f3a9dbe14195aa594b20d40.gif" alt></p>
+</li>
+<li><p>按下两个开关时：</p>
+<p>如按下P3.3和P3.5开关：（相隔按钮）</p>
+<p><img src="https://pic.downk.cc/item/5f3a9dd514195aa594b2143e.gif" alt></p>
+<p>如按下P3.4和P3.5开关：（相邻按钮）</p>
+<p><img src="https://pic.downk.cc/item/5f3a9de614195aa594b219ed.gif" alt></p>
+</li>
+</ul>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
 ]]></content>
       <categories>
         <category>物联网课程</category>

@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://pic.imgdb.cn/item/6098b085d1a9ae528f399093.png">
 <meta property="og:image" content="https://pic.imgdb.cn/item/6098bca5d1a9ae528f99455b.png">
 <meta property="article:published_time" content="2021-05-10T02:56:38.000Z">
-<meta property="article:modified_time" content="2021-05-10T05:24:37.968Z">
+<meta property="article:modified_time" content="2021-05-30T18:04:25.720Z">
 <meta property="article:author" content="豪少super">
 <meta property="article:tag" content="categories-java">
 <meta name="twitter:card" content="summary">
@@ -225,10 +225,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-05-10 10:56:38 / 修改时间：13:24:37" itemprop="dateCreated datePublished" datetime="2021-05-10T10:56:38+08:00">2021-05-10</time>
+              <time title="创建时间：2021-05-10 10:56:38" itemprop="dateCreated datePublished" datetime="2021-05-10T10:56:38+08:00">2021-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-31 02:04:25" itemprop="dateModified" datetime="2021-05-31T02:04:25+08:00">2021-05-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -256,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -308,6 +314,12 @@
 <p>添加后会提示重定向到哪个域名，也就是当输入 <code>baidu.com</code> 时会重定向到 <code>www.baidu.com</code> 的意思，当然反过来也可以，然后按要求配置好DNS的解析即可</p>
 <h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>Vercel的配置还是比较简单的，就是我的域名是在DNSPOD上解析的，所以没有配置vercel的NS会一直报配置不正确，但可以正常访问就可以了。</p>
 <p>除了Vercel，还有一个免费的托管商 <strong><a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a></strong> ，时间有限就不多折腾了，有兴趣的同学可以自行去查看。</p>
+<h4 id="补充（2021年5月31日更新）"><a href="#补充（2021年5月31日更新）" class="headerlink" title="补充（2021年5月31日更新）"></a>补充（2021年5月31日更新）</h4><p>1、前期在vercel使用自定义域名部署的网站在国内已经无法访问了（亲测翻墙可以访问，不翻墙无法访问），经过辛苦查找各大网站，终于在知乎一篇文章的评论下发现了有用的信息：</p>
+<div class="note warning">
+            <p>官方已经对此问题响应，把A记录改成<code>76.223.126.88</code>，或把CNAME改成<code>cname-china.vercel-dns.com</code> （至于响应在哪个位置待我有时间去找找，知道的同学可以给我Email提示一下）<br>注意：这两项修改均是在vercel的DNS解析中修改，且默认记录是无法修改的，直接Add就行。</p>
+          </div>
+
+<p>2、使用vercel出现的DNS解析的问题，建议暂停在DNSPOD解析，直接在域名商解析，这样就不会出现配置报错问题了，同时也是为了避免服务器找不到的问题。</p>
 <div class="note info">
             <p>本文参考：<a href="https://zhuanlan.zhihu.com/p/338057700" target="_blank" rel="noopener">如何将 github pages 迁移到 vercel 上托管</a><br>有关 <strong>Netlify</strong> 的部署可参考：<a href="https://zhuanlan.zhihu.com/p/338058109" target="_blank" rel="noopener">如何将网站代码部署到 netlify 上免费托管</a></p>
           </div>
@@ -457,7 +469,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Vercel"><span class="nav-number">1.1.</span> <span class="nav-text">关于Vercel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么取消了在coding上的托管"><span class="nav-number">1.2.</span> <span class="nav-text">为什么取消了在coding上的托管</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移新版后国内访问速度再起不能？"><span class="nav-number">1.2.1.</span> <span class="nav-text">迁移新版后国内访问速度再起不能？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何在Vercel上部署"><span class="nav-number">2.</span> <span class="nav-text">如何在Vercel上部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入及部署"><span class="nav-number">2.1.</span> <span class="nav-text">导入及部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义域名"><span class="nav-number">2.2.</span> <span class="nav-text">自定义域名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Vercel"><span class="nav-number">1.1.</span> <span class="nav-text">关于Vercel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么取消了在coding上的托管"><span class="nav-number">1.2.</span> <span class="nav-text">为什么取消了在coding上的托管</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移新版后国内访问速度再起不能？"><span class="nav-number">1.2.1.</span> <span class="nav-text">迁移新版后国内访问速度再起不能？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何在Vercel上部署"><span class="nav-number">2.</span> <span class="nav-text">如何在Vercel上部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入及部署"><span class="nav-number">2.1.</span> <span class="nav-text">导入及部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义域名"><span class="nav-number">2.2.</span> <span class="nav-text">自定义域名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#补充（2021年5月31日更新）"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">补充（2021年5月31日更新）</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
