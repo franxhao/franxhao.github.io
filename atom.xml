@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-05-30T18:04:25.720Z</updated>
+  <updated>2021-05-31T11:51:17.191Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://franxhao.top/undefined/86d73a10.html"/>
     <id>https://franxhao.top/undefined/86d73a10.html</id>
     <published>2021-05-10T02:56:38.000Z</published>
-    <updated>2021-05-30T18:04:25.720Z</updated>
+    <updated>2021-05-31T11:51:17.191Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;h2 id=&quot;关于Vercel&quot;&gt;&lt;a href=&quot;#关于Vercel&quot; class=&quot;headerlink&quot; title=&quot;关于Vercel&quot;&gt;&lt;/a&gt;关于Vercel&lt;/h2&gt;&lt;p&gt;首先，Vercel是免费的网站托管商，其中有许多大官网如&lt;code&gt;Next.js&lt;/code&gt;,&lt;code&gt;create-react-app&lt;/code&gt;,&lt;code&gt;Nuxt.js&lt;/code&gt;等就是部署在部署托管在&lt;code&gt;vercel&lt;/code&gt;的。同时Vercel操作简单友好，支持从github、gitlab的代码库中一键导入，支持自定义域名和SSL证书配置。访问速度也很可观，简直就是&lt;del&gt;白嫖党&lt;/del&gt;的福音。&lt;/p&gt;</summary>
