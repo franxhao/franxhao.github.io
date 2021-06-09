@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-05-31T11:51:17.191Z</updated>
+  <updated>2021-06-09T14:06:42.721Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【嵌入式STM32】（一）新建库函数版和寄存器版工程模板</title>
+    <link href="https://franxhao.top/undefined/fc8a844.html"/>
+    <id>https://franxhao.top/undefined/fc8a844.html</id>
+    <published>2021-06-08T16:20:59.000Z</published>
+    <updated>2021-06-09T14:06:42.721Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;开个新坑，STM32的相关文章是作者大三第二学期学习嵌入式这门课程的相关记录和总结。理论部分我们主要学习 STM32F103ZET6 和 STM32F103RCT6；而实验部分使用的是 STM32F103VCT6。不用担心，它们在学习上差别不是很大。&lt;/p&gt;
+&lt;h1 id=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;a href=&quot;#新建库函数版和寄存器版工程模板&quot; class=&quot;headerlink&quot; title=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;/a&gt;新建库函数版和寄存器版工程模板&lt;/h1&gt;&lt;p&gt;在做实验前，当然是要先建好工程模板才能进行下一项操作啦，STM32的开篇文章就以新建工程模板开始。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
   
   <entry>
     <title>将网站迁移到Vercel托管</title>
@@ -42,7 +64,7 @@
     <link href="https://franxhao.top/undefined/fc63a592.html"/>
     <id>https://franxhao.top/undefined/fc63a592.html</id>
     <published>2021-03-16T01:29:57.000Z</published>
-    <updated>2021-04-13T13:34:38.243Z</updated>
+    <updated>2021-06-09T14:08:41.218Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。&lt;/p&gt;
@@ -50,12 +72,12 @@
     
     
     
-    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
-    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
     
-    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
   </entry>
   
@@ -64,7 +86,7 @@
     <link href="https://franxhao.top/undefined/82b44f.html"/>
     <id>https://franxhao.top/undefined/82b44f.html</id>
     <published>2021-03-13T12:50:25.000Z</published>
-    <updated>2021-04-13T13:29:18.419Z</updated>
+    <updated>2021-06-09T14:08:35.045Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1和P1接两个&lt;strong&gt;共阴极&lt;/strong&gt;的数码管，P3.2接一个按钮，P3.3接一个按钮。&lt;/p&gt;
@@ -73,12 +95,12 @@
     
     
     
-    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
-    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
     
-    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
   </entry>
   
@@ -87,19 +109,19 @@
     <link href="https://franxhao.top/undefined/acec2d97.html"/>
     <id>https://franxhao.top/undefined/acec2d97.html</id>
     <published>2021-03-13T06:48:04.000Z</published>
-    <updated>2021-03-13T07:30:49.736Z</updated>
+    <updated>2021-06-09T14:08:29.796Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1接一个共阳极的LED数码管，实现显示 0 - 9&lt;/p&gt;</summary>
     
     
     
-    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
-    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
     
-    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
   </entry>
   
@@ -229,7 +251,7 @@
     <link href="https://franxhao.top/undefined/66fbe44e.html"/>
     <id>https://franxhao.top/undefined/66fbe44e.html</id>
     <published>2020-08-03T06:59:39.000Z</published>
-    <updated>2020-08-17T16:38:45.254Z</updated>
+    <updated>2021-06-08T16:24:02.492Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;前-言&quot;&gt;&lt;a href=&quot;#前-言&quot; class=&quot;headerlink&quot; title=&quot;前 言&quot;&gt;&lt;/a&gt;前 言&lt;/h2&gt;&lt;p&gt;前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……&lt;/p&gt;
@@ -238,9 +260,9 @@
     
     
     
-    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    <category term="Pi" scheme="https://franxhao.top/categories/Pi/"/>
     
-    <category term="技术学习" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/"/>
+    <category term="树莓派" scheme="https://franxhao.top/categories/Pi/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
     
     
     <category term="树莓派" scheme="https://franxhao.top/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
@@ -252,19 +274,19 @@
     <link href="https://franxhao.top/undefined/6e490410.html"/>
     <id>https://franxhao.top/undefined/6e490410.html</id>
     <published>2020-05-01T15:45:29.000Z</published>
-    <updated>2021-03-13T06:52:46.298Z</updated>
+    <updated>2021-06-09T14:08:52.063Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;1-前情提要&quot;&gt;&lt;a href=&quot;#1-前情提要&quot; class=&quot;headerlink&quot; title=&quot;1. 前情提要&quot;&gt;&lt;/a&gt;1. 前情提要&lt;/h2&gt;&lt;p&gt;通过 &lt;strong&gt;&lt;a href=&quot;/undefined/ec01d655.html&quot; title=&quot;实验一&quot;&gt;实验一&lt;/a&gt;&lt;/strong&gt; 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!&lt;/p&gt;</summary>
     
     
     
-    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
-    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
     
-    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
   </entry>
   
@@ -315,7 +337,7 @@
     <link href="https://franxhao.top/undefined/ec01d655.html"/>
     <id>https://franxhao.top/undefined/ec01d655.html</id>
     <published>2020-04-01T23:13:19.000Z</published>
-    <updated>2021-03-13T06:52:39.705Z</updated>
+    <updated>2021-06-09T14:08:47.731Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;简单介绍&quot;&gt;&lt;a href=&quot;#简单介绍&quot; class=&quot;headerlink&quot; title=&quot;简单介绍&quot;&gt;&lt;/a&gt;简单介绍&lt;/h2&gt;&lt;p&gt;文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。&lt;/p&gt;
@@ -324,12 +346,12 @@
     
     
     
-    <category term="物联网课程" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/"/>
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
-    <category term="单片机" scheme="https://franxhao.top/categories/%E7%89%A9%E8%81%94%E7%BD%91%E8%AF%BE%E7%A8%8B/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
     
-    <category term="单片机" scheme="https://franxhao.top/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
     
   </entry>
   
