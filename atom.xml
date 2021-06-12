@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-06-09T14:06:42.721Z</updated>
+  <updated>2021-06-12T15:10:12.579Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -17,15 +17,21 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【嵌入式STM32】（一）新建库函数版和寄存器版工程模板</title>
-    <link href="https://franxhao.top/undefined/fc8a844.html"/>
-    <id>https://franxhao.top/undefined/fc8a844.html</id>
-    <published>2021-06-08T16:20:59.000Z</published>
-    <updated>2021-06-09T14:06:42.721Z</updated>
+    <title>【嵌入式STM32】文章汇总</title>
+    <link href="https://franxhao.top/undefined/64afecd0.html"/>
+    <id>https://franxhao.top/undefined/64afecd0.html</id>
+    <published>2021-06-12T12:54:33.000Z</published>
+    <updated>2021-06-12T15:10:12.579Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;开个新坑，STM32的相关文章是作者大三第二学期学习嵌入式这门课程的相关记录和总结。理论部分我们主要学习 STM32F103ZET6 和 STM32F103RCT6；而实验部分使用的是 STM32F103VCT6。不用担心，它们在学习上差别不是很大。&lt;/p&gt;
-&lt;h1 id=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;a href=&quot;#新建库函数版和寄存器版工程模板&quot; class=&quot;headerlink&quot; title=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;/a&gt;新建库函数版和寄存器版工程模板&lt;/h1&gt;&lt;p&gt;在做实验前，当然是要先建好工程模板才能进行下一项操作啦，STM32的开篇文章就以新建工程模板开始。&lt;/p&gt;</summary>
+    <summary type="html">&lt;h2 id=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;a href=&quot;#嵌入式STM32——实验相关文章汇总传送门&quot; class=&quot;headerlink&quot; title=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;/a&gt;嵌入式STM32——实验相关文章汇总传送门&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/fc8a844.html&quot; title=&quot;第一篇：新建库函数版和寄存器版工程模板&quot;&gt;第一篇：新建库函数版和寄存器版工程模板&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/35ffacf0.html&quot; title=&quot;第二篇：跑马灯实验&quot;&gt;第二篇：跑马灯实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/44c24675.html&quot; title=&quot;第三篇：按键亮灯实验&quot;&gt;第三篇：按键亮灯实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -60,11 +66,74 @@
   </entry>
   
   <entry>
-    <title>【单片机】（五）数码管动态显示 00—20</title>
+    <title>【嵌入式STM32】（三）按键亮灯实验</title>
+    <link href="https://franxhao.top/undefined/44c24675.html"/>
+    <id>https://franxhao.top/undefined/44c24675.html</id>
+    <published>2021-04-18T14:09:36.000Z</published>
+    <updated>2021-06-12T15:14:51.384Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器和库函数两个版本的&lt;strong&gt;按键亮灯&lt;/strong&gt;实验&lt;/p&gt;
+&lt;p&gt;&lt;u&gt;LED灯&lt;/u&gt;接端口 &lt;strong&gt;PC8—PC11&lt;/strong&gt;，&lt;u&gt;按键&lt;/u&gt;接端口 &lt;strong&gt;PC0—PC3&lt;/strong&gt;，全部设置成&lt;strong&gt;上拉模式&lt;/strong&gt;，实现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个按键控制一个灯&lt;/li&gt;
+&lt;li&gt;一个按键控制两个灯&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（二）跑马灯实验</title>
+    <link href="https://franxhao.top/undefined/35ffacf0.html"/>
+    <id>https://franxhao.top/undefined/35ffacf0.html</id>
+    <published>2021-04-10T13:06:25.000Z</published>
+    <updated>2021-06-12T15:14:18.070Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;实验要求&quot;&gt;&lt;a href=&quot;#实验要求&quot; class=&quot;headerlink&quot; title=&quot;实验要求&quot;&gt;&lt;/a&gt;实验要求&lt;/h1&gt;&lt;p&gt;使用PA8和PD2端口，用寄存器和库函数两个模板实现&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（一）新建库函数版和寄存器版工程模板</title>
+    <link href="https://franxhao.top/undefined/fc8a844.html"/>
+    <id>https://franxhao.top/undefined/fc8a844.html</id>
+    <published>2021-03-26T16:20:59.000Z</published>
+    <updated>2021-06-12T15:13:43.935Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;开个新坑，STM32的相关文章是作者大三第二学期学习嵌入式这门课程的相关记录和总结。理论部分我们主要学习 STM32F103ZET6 和 STM32F103RCT6；而实验部分使用的是 STM32F103VCT6。不用担心，它们在学习上差别不是很大。&lt;/p&gt;
+&lt;h1 id=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;a href=&quot;#新建库函数版和寄存器版工程模板&quot; class=&quot;headerlink&quot; title=&quot;新建库函数版和寄存器版工程模板&quot;&gt;&lt;/a&gt;新建库函数版和寄存器版工程模板&lt;/h1&gt;&lt;p&gt;在做实验前，当然是要先建好工程模板才能进行下一项操作啦，STM32的开篇文章就以新建工程模板开始。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【C51单片机】（五）数码管动态显示 00—20</title>
     <link href="https://franxhao.top/undefined/fc63a592.html"/>
     <id>https://franxhao.top/undefined/fc63a592.html</id>
     <published>2021-03-16T01:29:57.000Z</published>
-    <updated>2021-06-09T14:08:41.218Z</updated>
+    <updated>2021-06-12T13:04:54.877Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。&lt;/p&gt;
@@ -82,11 +151,11 @@
   </entry>
   
   <entry>
-    <title>【单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
+    <title>【C51单片机】（四）按钮控制数码管显示00&lt;==&gt;20体验</title>
     <link href="https://franxhao.top/undefined/82b44f.html"/>
     <id>https://franxhao.top/undefined/82b44f.html</id>
     <published>2021-03-13T12:50:25.000Z</published>
-    <updated>2021-06-09T14:08:35.045Z</updated>
+    <updated>2021-06-12T13:04:49.562Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1和P1接两个&lt;strong&gt;共阴极&lt;/strong&gt;的数码管，P3.2接一个按钮，P3.3接一个按钮。&lt;/p&gt;
@@ -105,11 +174,11 @@
   </entry>
   
   <entry>
-    <title>【单片机】（三）共阳极LED数码管实现0-9显示</title>
+    <title>【C51单片机】（三）共阳极LED数码管实现0-9显示</title>
     <link href="https://franxhao.top/undefined/acec2d97.html"/>
     <id>https://franxhao.top/undefined/acec2d97.html</id>
     <published>2021-03-13T06:48:04.000Z</published>
-    <updated>2021-06-09T14:08:29.796Z</updated>
+    <updated>2021-06-12T13:04:41.112Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;实验题目&quot;&gt;&lt;a href=&quot;#实验题目&quot; class=&quot;headerlink&quot; title=&quot;实验题目&quot;&gt;&lt;/a&gt;实验题目&lt;/h2&gt;&lt;p&gt;P1接一个共阳极的LED数码管，实现显示 0 - 9&lt;/p&gt;</summary>
@@ -270,11 +339,11 @@
   </entry>
   
   <entry>
-    <title>【单片机】（二）实验一升级，进阶+复习！</title>
+    <title>【C51单片机】（二）实验一升级，进阶+复习！</title>
     <link href="https://franxhao.top/undefined/6e490410.html"/>
     <id>https://franxhao.top/undefined/6e490410.html</id>
     <published>2020-05-01T15:45:29.000Z</published>
-    <updated>2021-06-09T14:08:52.063Z</updated>
+    <updated>2021-06-12T13:05:02.346Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;1-前情提要&quot;&gt;&lt;a href=&quot;#1-前情提要&quot; class=&quot;headerlink&quot; title=&quot;1. 前情提要&quot;&gt;&lt;/a&gt;1. 前情提要&lt;/h2&gt;&lt;p&gt;通过 &lt;strong&gt;&lt;a href=&quot;/undefined/ec01d655.html&quot; title=&quot;实验一&quot;&gt;实验一&lt;/a&gt;&lt;/strong&gt; 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!&lt;/p&gt;</summary>
@@ -333,11 +402,11 @@
   </entry>
   
   <entry>
-    <title>【单片机】（一）4个按钮8盏灯，实现四种功能</title>
+    <title>【C51单片机】（一）4个按钮8盏灯，实现四种功能</title>
     <link href="https://franxhao.top/undefined/ec01d655.html"/>
     <id>https://franxhao.top/undefined/ec01d655.html</id>
     <published>2020-04-01T23:13:19.000Z</published>
-    <updated>2021-06-09T14:08:47.731Z</updated>
+    <updated>2021-06-12T13:04:34.679Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;简单介绍&quot;&gt;&lt;a href=&quot;#简单介绍&quot; class=&quot;headerlink&quot; title=&quot;简单介绍&quot;&gt;&lt;/a&gt;简单介绍&lt;/h2&gt;&lt;p&gt;文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。&lt;/p&gt;
