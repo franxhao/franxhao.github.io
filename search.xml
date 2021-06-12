@@ -197,6 +197,13 @@
 <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>嵌入式</category>
+        <category>STM32</category>
+      </categories>
+      <tags>
+        <tag>STM32</tag>
+      </tags>
   </entry>
   <entry>
     <title>【嵌入式STM32】（一）新建库函数版和寄存器版工程模板</title>
