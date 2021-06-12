@@ -146,10 +146,9 @@
 <ul>
 <li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
 </ul>
-<blockquote>
-<p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途</p>
-</blockquote>
-]]></content>
+<div class="note info">
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+          </div>]]></content>
       <categories>
         <category>嵌入式</category>
         <category>STM32</category>
@@ -193,10 +192,9 @@
 <ul>
 <li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
 </ul>
-<blockquote>
-<p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途</p>
-</blockquote>
-]]></content>
+<div class="note info">
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+          </div>]]></content>
       <categories>
         <category>嵌入式</category>
         <category>STM32</category>
@@ -214,16 +212,15 @@
 
 <p>首先STM32的代码分为寄存器版本和库函数版本，实验环境是 Keil 5 和 MDK5。这次笔记记录在幕布中，分享链接如下：</p>
 <div class="note success">
-            <p>STM32新建工程模板笔记：</p><ul><li>幕布传送门：文档链接:  <a href="https://share.mubu.com/doc/3_-lVqCPlu3" target="_blank" rel="noopener">https://share.mubu.com/doc/3_-lVqCPlu3</a>  密码: lzh9</li></ul><p>相关文件：</p><ul><li>包含寄存器和库函数的模板</li><li>STM32F10x_StdPeriph_Lib_V3.5.0</li><li>分享链接：<ul><li>网盘下载: <a href="https://wwr.lanzoui.com/itX1Spyuqvg" target="_blank" rel="noopener">新建工程模板.zip</a>   密码:3fg5</li></ul></li></ul><p>嵌入式STM32学习视频：</p><ul><li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li></ul>
+            <p>STM32新建工程模板笔记：</p><ul><li>幕布传送门：文档链接:  <a href="https://share.mubu.com/doc/3_-lVqCPlu3" target="_blank" rel="noopener">https://share.mubu.com/doc/3_-lVqCPlu3</a>  密码: lzh9</li></ul><p>相关文件：</p><ul><li>包含寄存器和库函数的模板</li><li>STM32F10x_StdPeriph_Lib_V3.5.0 文件</li><li>分享链接：<ul><li>网盘下载: <a href="https://wwr.lanzoui.com/itX1Spyuqvg" target="_blank" rel="noopener">新建工程模板.zip</a>   密码:3fg5</li></ul></li></ul><p>嵌入式STM32学习视频：</p><ul><li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li></ul>
           </div>
 
 
 
 <h1 id="关于笔记的说明"><a href="#关于笔记的说明" class="headerlink" title="关于笔记的说明"></a>关于笔记的说明</h1><p>其实博客的文章更多是总结出笔记的终稿，然后再将它们上传，需要一定的时间去撰写。而在日常中，除了手写做笔记，我还使用<strong>幕布</strong>，幕布是一款思维导图软件，风格简约。在记录笔记时使用的是大纲模式，分层要更加明显，可以从大纲模式转为思维导图模式，同时还可以生成链接分享自己的笔记，是一款不错的笔记软件。所以我在幕布上有相关文章的笔记的话会附上分享链接，通过看大纲或思维导图更直观地进行学习。</p>
-<blockquote>
-<p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途</p>
-</blockquote>
-]]></content>
+<div class="note info">
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+          </div>]]></content>
       <categories>
         <category>嵌入式</category>
         <category>STM32</category>

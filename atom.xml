@@ -70,7 +70,7 @@
     <link href="https://franxhao.top/undefined/44c24675.html"/>
     <id>https://franxhao.top/undefined/44c24675.html</id>
     <published>2021-04-18T14:09:36.000Z</published>
-    <updated>2021-06-12T15:14:51.384Z</updated>
+    <updated>2021-06-12T23:07:37.457Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器和库函数两个版本的&lt;strong&gt;按键亮灯&lt;/strong&gt;实验&lt;/p&gt;
@@ -96,7 +96,7 @@
     <link href="https://franxhao.top/undefined/35ffacf0.html"/>
     <id>https://franxhao.top/undefined/35ffacf0.html</id>
     <published>2021-04-10T13:06:25.000Z</published>
-    <updated>2021-06-12T15:25:24.742Z</updated>
+    <updated>2021-06-12T23:07:10.953Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;实验要求&quot;&gt;&lt;a href=&quot;#实验要求&quot; class=&quot;headerlink&quot; title=&quot;实验要求&quot;&gt;&lt;/a&gt;实验要求&lt;/h1&gt;&lt;p&gt;使用PA8和PD2端口，用寄存器和库函数两个模板实现&lt;/p&gt;</summary>
@@ -117,7 +117,7 @@
     <link href="https://franxhao.top/undefined/fc8a844.html"/>
     <id>https://franxhao.top/undefined/fc8a844.html</id>
     <published>2021-03-26T16:20:59.000Z</published>
-    <updated>2021-06-12T15:13:43.935Z</updated>
+    <updated>2021-06-12T23:04:52.368Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;开个新坑，STM32的相关文章是作者大三第二学期学习嵌入式这门课程的相关记录和总结。理论部分我们主要学习 STM32F103ZET6 和 STM32F103RCT6；而实验部分使用的是 STM32F103VCT6。不用担心，它们在学习上差别不是很大。&lt;/p&gt;
