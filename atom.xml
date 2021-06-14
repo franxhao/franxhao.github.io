@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-06-12T15:10:12.579Z</updated>
+  <updated>2021-06-14T01:59:16.150Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://franxhao.top/undefined/64afecd0.html"/>
     <id>https://franxhao.top/undefined/64afecd0.html</id>
     <published>2021-06-12T12:54:33.000Z</published>
-    <updated>2021-06-12T15:10:12.579Z</updated>
+    <updated>2021-06-14T01:59:16.150Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;a href=&quot;#嵌入式STM32——实验相关文章汇总传送门&quot; class=&quot;headerlink&quot; title=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;/a&gt;嵌入式STM32——实验相关文章汇总传送门&lt;/h2&gt;&lt;ul&gt;
@@ -31,6 +31,34 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/44c24675.html&quot; title=&quot;第三篇：按键亮灯实验&quot;&gt;第三篇：按键亮灯实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/d0886a84.html&quot; title=&quot;第四篇：串口实验&quot;&gt;第四篇：串口实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（四）串口实验</title>
+    <link href="https://franxhao.top/undefined/d0886a84.html"/>
+    <id>https://franxhao.top/undefined/d0886a84.html</id>
+    <published>2021-05-15T01:58:00.000Z</published>
+    <updated>2021-06-14T03:02:49.768Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器版和库函数版的&lt;strong&gt;串口实验&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;使用寄存器和库函数模板分别做&lt;strong&gt;串口1&lt;/strong&gt;通信和&lt;strong&gt;串口5&lt;/strong&gt;通信实验，其中寄存器和库函数要求如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;寄存器要求：波特率为 115200，设置1位停止位、1位奇数校验位，开启接受中断。发送端推挽复用输出，速度为 10MHz，接收端浮空输入。使用串口助手调试，并能够对代码进行解释，理解中断服务逻辑&lt;/li&gt;
+&lt;li&gt;库函数要求：波特率为 115200，设置 0.5 位停止位、1位偶数校验位，开启接受中断。发送端推挽复用输出，速度 10MHz；接收端下拉输入。中断优先级组 3，抢占优先级 2 级，响应优先级 1 级&lt;/li&gt;
 &lt;/ul&gt;</summary>
     
     
@@ -70,7 +98,7 @@
     <link href="https://franxhao.top/undefined/44c24675.html"/>
     <id>https://franxhao.top/undefined/44c24675.html</id>
     <published>2021-04-18T14:09:36.000Z</published>
-    <updated>2021-06-12T23:07:37.457Z</updated>
+    <updated>2021-06-14T02:54:53.108Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器和库函数两个版本的&lt;strong&gt;按键亮灯&lt;/strong&gt;实验&lt;/p&gt;
@@ -96,7 +124,7 @@
     <link href="https://franxhao.top/undefined/35ffacf0.html"/>
     <id>https://franxhao.top/undefined/35ffacf0.html</id>
     <published>2021-04-10T13:06:25.000Z</published>
-    <updated>2021-06-12T23:07:10.953Z</updated>
+    <updated>2021-06-14T02:50:39.517Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;实验要求&quot;&gt;&lt;a href=&quot;#实验要求&quot; class=&quot;headerlink&quot; title=&quot;实验要求&quot;&gt;&lt;/a&gt;实验要求&lt;/h1&gt;&lt;p&gt;使用PA8和PD2端口，用寄存器和库函数两个模板实现&lt;/p&gt;</summary>
