@@ -23,23 +23,20 @@
     var CONFIG = {"hostname":"franxhao.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 Win + R 输入  mstsc 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。 当然这是需要前期准备工作的，比较老">
+  <meta name="description" content="0. 实验要求掌握库函数版的ADC实验（寄存器版为自学内容） 要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位 （注：文章仅贴出修改部分代码，详细原码请下载资料包查看）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自建frp内网穿透，实现非局域网远程windows">
-<meta property="og:url" content="https://franxhao.top/undefined/773c1282.html">
+<meta property="og:title" content="【嵌入式STM32】（七）ADC实验">
+<meta property="og:url" content="https://franxhao.top/undefined/d8eae319.html">
 <meta property="og:site_name" content="FranxHao">
-<meta property="og:description" content="前言在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 Win + R 输入  mstsc 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。 当然这是需要前期准备工作的，比较老">
+<meta property="og:description" content="0. 实验要求掌握库函数版的ADC实验（寄存器版为自学内容） 要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位 （注：文章仅贴出修改部分代码，详细原码请下载资料包查看）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5fd864313ffa7d37b3c76f23.png">
-<meta property="article:published_time" content="2021-03-12T15:50:36.000Z">
-<meta property="article:modified_time" content="2021-03-13T06:53:42.544Z">
+<meta property="article:published_time" content="2021-06-14T05:00:16.000Z">
+<meta property="article:modified_time" content="2021-06-14T05:35:09.937Z">
 <meta property="article:author" content="豪少super">
 <meta property="article:tag" content="categories-java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png">
 
-<link rel="canonical" href="https://franxhao.top/undefined/773c1282.html">
+<link rel="canonical" href="https://franxhao.top/undefined/d8eae319.html">
 
 
 <script id="page-configurations">
@@ -52,7 +49,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector.css" />
-  <title>自建frp内网穿透，实现非局域网远程windows | FranxHao</title>
+  <title>【嵌入式STM32】（七）ADC实验 | FranxHao</title>
   
 
 
@@ -202,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://franxhao.top/undefined/773c1282.html">
+    <link itemprop="mainEntityOfPage" href="https://franxhao.top/undefined/d8eae319.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/wuming.jpg">
@@ -215,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          自建frp内网穿透，实现非局域网远程windows
+          【嵌入式STM32】（七）ADC实验
         </h1>
 
         <div class="post-meta">
@@ -224,23 +221,21 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-03-12 23:50:36" itemprop="dateCreated datePublished" datetime="2021-03-12T23:50:36+08:00">2021-03-12</time>
+              <time title="创建时间：2021-06-14 13:00:16 / 修改时间：13:35:09" itemprop="dateCreated datePublished" datetime="2021-06-14T13:00:16+08:00">2021-06-14</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-13 14:53:42" itemprop="dateModified" datetime="2021-03-13T14:53:42+08:00">2021-03-13</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">系统</span></a>
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/" itemprop="url" rel="index"><span itemprop="name">STM32</span></a>
                 </span>
             </span>
 
@@ -250,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
+              <span>3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -269,61 +264,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 <strong>Win + R</strong> 输入  <code>mstsc</code> 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。</p>
-<p>当然这是需要前期准备工作的，比较老的系统，如Win7打开远程桌面服务比较麻烦，如果没有密码还需要设置密码，当然没有密码也可以远程登录啦，直接回车回车… 而Win10就很方便，现在最新的Win10系统设置的UI界面越来越扁平化，直接就可以找到远程桌面这一项，一键开启即可！具体如何开启远程可以找度娘。</p>
-<p>回归正题，当我不在局域内，又想远程访问远在天边的电脑，该怎么办呢，这时就有了这篇折腾frp非局域网下实现Windows远程的文章～～～</p>
-<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png" alt></p>
+        <h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握库函数版的<strong>ADC实验</strong>（寄存器版为自学内容）</p>
+<p>要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位</p>
+<p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
 <a id="more"></a>
 
+<h1 id="1-库函数版"><a href="#1-库函数版" class="headerlink" title="1. 库函数版"></a>1. 库函数版</h1><p><strong>(1). adc.h：</strong>定义 ADC 初始化函数，声明 Get_Adc 和 Get_Adc_Average 两个函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ADC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADC_H	</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sys.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">u16  <span class="title">Get_Adc</span><span class="params">(u8 ch)</span></span>; </span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span>;</span><br></pre></td></tr></table></figure>
 
+<p><strong>(2). adc.c：</strong></p>
+<ul>
+<li>初始化 ADC2，开启通道 5，设置连续转换模式，时钟频率 9M， ADC 数据左对齐</li>
+<li>获取 ADC 值和平均值，设置采样时间为 13.5 周期</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化ADC2</span></span><br><span class="line"><span class="comment">//开启通道5															   </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123; 	</span><br><span class="line">	ADC_InitTypeDef ADC_InitStructure; </span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line"></span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_ADC2, ENABLE ); <span class="comment">//使能ADC2通道时钟</span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">//PA1 作为模拟通过输入引脚</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5; <span class="comment">//通道5</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; <span class="comment">//模拟输入引脚  设置工作模式:模拟输入</span></span><br><span class="line">	GPIO_Init(GPIOA, &amp;GPIO_InitStructure);	</span><br><span class="line">	</span><br><span class="line">	RCC_ADCCLKConfig(RCC_PCLK2_Div8); <span class="comment">//设置ADC分频因子8 72M/8=9M,ADC最大时间不能超过14M</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	ADC_DeInit(ADC2); <span class="comment">//复位ADC2,将外设 ADC2 的全部寄存器重设为缺省值</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化ADC参数</span></span><br><span class="line">	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	<span class="comment">//ADC工作模式:ADC1和ADC2工作在独立模式</span></span><br><span class="line">	ADC_InitStructure.ADC_ScanConvMode = DISABLE; <span class="comment">//模数转换工作在单通道模式  不用扫描模式   单通道模式:DISABLE  多通道模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; <span class="comment">//模数转换工作在连续转换模式    单次转换模式：DISABLE  连续转换模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	<span class="comment">//转换由软件而不是外部触发启动</span></span><br><span class="line">	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Left; <span class="comment">//ADC数据左对齐</span></span><br><span class="line">	ADC_InitStructure.ADC_NbrOfChannel = <span class="number">1</span>;	<span class="comment">//顺序进行规则转换的ADC通道的数目</span></span><br><span class="line">	ADC_Init(ADC2, &amp;ADC_InitStructure);	<span class="comment">//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器 </span></span><br><span class="line">  </span><br><span class="line">	ADC_Cmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2</span></span><br><span class="line">	</span><br><span class="line">	ADC_ResetCalibration(ADC2);	<span class="comment">//使能复位校准  </span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC2));	<span class="comment">//等待复位校准结束</span></span><br><span class="line">	</span><br><span class="line">	ADC_StartCalibration(ADC2); <span class="comment">//开启AD校准</span></span><br><span class="line"> </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC2)); <span class="comment">//等待校准结束</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//	ADC_SoftwareStartConvCmd(ADC2, ENABLE); //使能指定的ADC2的软件转换启动功能</span></span><br><span class="line"></span><br><span class="line">&#125;				  </span><br><span class="line"><span class="comment">//获得ADC值</span></span><br><span class="line"><span class="comment">//ch:通道值 0~3</span></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc</span><span class="params">(u8 ch)</span>   </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  	<span class="comment">//设置指定ADC的规则组通道，一个序列，采样时间</span></span><br><span class="line">	ADC_RegularChannelConfig(ADC2, ch, <span class="number">1</span>, ADC_SampleTime_13Cycles5 ); <span class="comment">//ADC2,ADC通道,采样时间为13.5周期	  			    </span></span><br><span class="line">  </span><br><span class="line">	ADC_SoftwareStartConvCmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2的软件转换启动功能	</span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(!ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC )); <span class="comment">//等待转换结束</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC2); <span class="comment">//返回最近一次ADC2规则组的转换结果</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	u32 temp_val=<span class="number">0</span>;</span><br><span class="line">	u8 t;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;times;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		temp_val+=Get_Adc(ch);</span><br><span class="line">		delay_ms(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> temp_val/times;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<div class="note warning">
-            <p>因作者学业繁忙，没能及时完成这篇文章，在填坑本文的时候已经隔了很多时间，后面的步骤可能会有些紊乱，请谅解。待后期有机会再做一次这项工程时，我会同步更新本文，并附上相应的截图。</p>
-          </div>
+<p><strong>(3). main.c：</strong>主要修改 while 循环部分，取 ADC 平均值参数设置为通道 5 和采样 5 次平均值；在 temp*=100 中，设置为 100 是为了取小数后两位</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">5</span>); <span class="comment">//通道5，采样5次取平均值</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">130</span>,adcx,<span class="number">4</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示ADC的值</span></span><br><span class="line">    temp=(<span class="keyword">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);</span><br><span class="line">    adcx=temp;</span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">150</span>,adcx,<span class="number">1</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示电压值</span></span><br><span class="line">    temp-=adcx;</span><br><span class="line">    temp*=<span class="number">100</span>; <span class="comment">//1000取小数点后3位，100取后2位</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">172</span>,<span class="number">150</span>,temp,<span class="number">3</span>,<span class="number">16</span>,<span class="number">0X80</span>);</span><br><span class="line">    LED0=!LED0;</span><br><span class="line">    delay_ms(<span class="number">250</span>);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
-<li>一台VPS公网服务器</li>
-<li>开启端口</li>
-<li>Github下载相关文件<ul>
-<li>Github内搜索frp，进入开源项目后找到releases</li>
+<h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>ADC实验原码下载：</p>
+<ul>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/iZMLbq6lbod" target="_blank" rel="noopener">ADC实验.zip</a>    密码：ey1e</li>
+<li>内容包含：<ul>
+<li>寄存器和库函数模板初始原码</li>
+<li>按实验要求修改后的原码</li>
 </ul>
 </li>
 </ul>
-<h2 id="放开端口"><a href="#放开端口" class="headerlink" title="放开端口"></a>放开端口</h2><p>因为我的服务器是腾讯云的，以腾讯云为例(放通6000，7000端口)<br><img src="https://pic.downk.cc/item/5fd864313ffa7d37b3c76f23.png" style="zoom: 50%;"></p>
-<h3 id="SSH连接服务器"><a href="#SSH连接服务器" class="headerlink" title="SSH连接服务器"></a>SSH连接服务器</h3><p>安全组放开后只是能去这两个端口，服务器的这两个端口还是没有打开，所以得通过命令打开服务器的这两个端口</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=6000/tcp --&gt;开启6000端口</span><br><span class="line">firewall-cmd --permanent --add-port=7000/tcp --&gt;开启7000端口</span><br><span class="line">firewall-cmd --reload --&gt;重启firewall让修改的配置生效</span><br><span class="line">firewall-cmd --query-port=6000/tcp --&gt;查看6000端口是否开启</span><br><span class="line">firewall-cmd --query-port=000/tcp --&gt;查看7000端口是否开启</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>出现success 或 yes 字样时即为开启成功</p>
-</blockquote>
-<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a></p>
-<p>amd64为64位使用，386是32位使用,选择对应版本下载。下载的包可以通过宝塔上传并解压到服务器的根目录下。也可以通过Linux指令进行下载和解压</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<p>下载完成后，在命令行中可以看到 <strong>frp_0.34.3_linux_amd64</strong> 文件夹，我们cd一下进入该文件夹中，可以看到 <strong>frpc、frpc_full.ini、frpc.ini、frps、frps_full.ini、frps.ini、LICENSE、systemd</strong> 这几个文件，其中 <strong>frpc、frpc.ini</strong> 这个两个是客户端的文件，可以通过Linux指令删除（frpc_full.ini这个可能也是客户端文件，具体功能我还没有仔细了解，我没有删除这个文件）。</p>
-<h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><h3 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h3><blockquote>
-<p>frpc —&gt; 字面上可以看出是frp client，也就是客户端<br>frps —&gt; 即frp server，也就是服务器<br>接下来我们需要修改配置文件，也就是<strong>frps.ini</strong>，按个人喜好用vi或者nano指令进行编辑；来看一下我这里的服务器端的配制文件：</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//服务器端配置</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">token = aaabbbccc //这里就是客户端与我们服务器端frp进行链接时的密码，越复杂越好</span><br></pre></td></tr></table></figure>
-<p>配置完成后，输入指令：<br><code>./frps -c ./frps.ini  ---&gt;服务端启动frp</code><br>可以看到提示start frps success（frps开启成功）</p>
-<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>在客户端机子下载相应的frp文件，以我的电脑为例（Windows 10）：<code>frp_0.34.3_windows_amd64</code> （注意客户端和服务器端版本要对应），文件夹可以放到任意盘，进入文件夹配置<strong>frpc.ini</strong>，Windows系统可以用记事本打开进行配置：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
-<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code>.\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
+<p>嵌入式STM32学习视频：</p>
+<ul>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+</ul>
+<h1 id="4-最后"><a href="#4-最后" class="headerlink" title="4. 最后"></a>4. 最后</h1><p>这是【嵌入式STM32】系列文章的最后一篇文章了，在这里做一个结束总结</p>
+<p>关于【嵌入式STM32】是作者大三第二学期的课程，其内容是以实验课内容为主来撰写的。文章部分内容不多，所以只靠阅读文章是不够的，需要自行将提供的原码资料下载出来，通过Keil 5 来查看、对比和动手修改才能学到相应的知识</p>
+<p>最后希望能对读者学习有帮助，祝考运昌盛！</p>
 <div class="note info">
-            <p>这里注意一下，windows一般为反斜杠 \  ，所以输入的指令不是 ./frpc.exe -c ./frpc.ini</p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
           </div>
 
 
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><p>frp服务搭建成功后先别急着高兴，还有一些小问题需要解决。虽然服务器上还可以运行，但一旦我们断开ssh，我们建立的frps进程也会被kill，这时就要用到一个工具 —&gt; screen </p>
-<h3 id="安装screen服务"><a href="#安装screen服务" class="headerlink" title="安装screen服务"></a>安装screen服务</h3><p><code>yum install screen -y</code></p>
-<p>安装完成后，用screen新建一个会话，在这里面运行frps，退出ssh后它也不会结束进程：<br><code>screen -S frp</code></p>
-<p>新建完成之后输入 <code>nohup ./frps -c ./frps.ini -&amp;</code> ，nohup是让它后台运行，-&amp;是锁定它不让它结束进程，此时即使断开了ssh我们仍可以进行连接，除非服务器重启…</p>
-<h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><p>如果出现无法连接的问题，有可能是需要关闭防火墙输入以下指令即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br></pre></td></tr></table></figure>
-<h2 id="非局域网远程连接Windows"><a href="#非局域网远程连接Windows" class="headerlink" title="非局域网远程连接Windows"></a>非局域网远程连接Windows</h2><p>所有配置工作都做完后我们就可以进行远程连接了，在另一台计算机上 Win + R 后输入<code>mstsc</code>进入Windows远程桌面，输入服务器IP后点击连接，然后成功输入Windows密码，即可成功连接到自己的电脑。在移动端远程也是可以实现的，例如我会使用iPad对我的电脑进行远程，只需下载微软官方软件 <strong>RD Client</strong>，同样输入相关IP和密码后就可以实现移动端远程。</p>
-<div class="note info">
-            <p>注意</p><ul><li>两台设备需在非同一网络下进行实验</li><li>需要使用该服务时，服务器和客户端都必须打开fps服务，任何一方服务停止都无法连接成功</li><li>服务器端一般是已经配置好可以不用动了，客户端如上述打开服务出现success字样即可</li></ul>
-          </div>
+
 
     </div>
 
@@ -359,7 +339,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://franxhao.top/undefined/773c1282.html" title="自建frp内网穿透，实现非局域网远程windows">https://franxhao.top/undefined/773c1282.html</a>
+    <a href="https://franxhao.top/undefined/d8eae319.html" title="【嵌入式STM32】（七）ADC实验">https://franxhao.top/undefined/d8eae319.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -400,7 +380,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/frp/" rel="tag"><i class="fa fa-tags"></i>  frp</a>
+              <a href="/tags/STM32/" rel="tag"><i class="fa fa-tags"></i>  STM32</a>
           </div>
 
         
@@ -409,13 +389,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/undefined/f82c66a5.html" rel="prev" title="双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS">
-      <i class="fa fa-chevron-left"></i> 双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS
+    <a href="/undefined/64afecd0.html" rel="prev" title="【嵌入式STM32】系列文章汇总">
+      <i class="fa fa-chevron-left"></i> 【嵌入式STM32】系列文章汇总
     </a></div>
-      <div class="post-nav-item">
-    <a href="/undefined/acec2d97.html" rel="next" title="【C51单片机】（三）共阳极LED数码管实现0-9显示">
-      【C51单片机】（三）共阳极LED数码管实现0-9显示 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -474,7 +451,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">2.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#放开端口"><span class="nav-number">3.</span> <span class="nav-text">放开端口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH连接服务器"><span class="nav-number">3.1.</span> <span class="nav-text">SSH连接服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frp下载"><span class="nav-number">4.</span> <span class="nav-text">frp下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑配置文件"><span class="nav-number">5.</span> <span class="nav-text">编辑配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端配置"><span class="nav-number">5.1.</span> <span class="nav-text">服务器端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端配置"><span class="nav-number">5.2.</span> <span class="nav-text">客户端配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装screen服务"><span class="nav-number">6.1.</span> <span class="nav-text">安装screen服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭防火墙"><span class="nav-number">6.2.</span> <span class="nav-text">关闭防火墙</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非局域网远程连接Windows"><span class="nav-number">7.</span> <span class="nav-text">非局域网远程连接Windows</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-实验要求"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-库函数版"><span class="nav-number">2.</span> <span class="nav-text">1. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-参考资料"><span class="nav-number">3.</span> <span class="nav-text">3.  参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-最后"><span class="nav-number">4.</span> <span class="nav-text">4. 最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
