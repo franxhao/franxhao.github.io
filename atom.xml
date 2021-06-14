@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-06-14T01:59:16.150Z</updated>
+  <updated>2021-06-14T04:06:03.951Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://franxhao.top/undefined/64afecd0.html"/>
     <id>https://franxhao.top/undefined/64afecd0.html</id>
     <published>2021-06-12T12:54:33.000Z</published>
-    <updated>2021-06-14T01:59:16.150Z</updated>
+    <updated>2021-06-14T04:06:03.951Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;a href=&quot;#嵌入式STM32——实验相关文章汇总传送门&quot; class=&quot;headerlink&quot; title=&quot;嵌入式STM32——实验相关文章汇总传送门&quot;&gt;&lt;/a&gt;嵌入式STM32——实验相关文章汇总传送门&lt;/h2&gt;&lt;ul&gt;
@@ -33,7 +33,57 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/d0886a84.html&quot; title=&quot;第四篇：串口实验&quot;&gt;第四篇：串口实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/5817d212.html&quot; title=&quot;第五篇：外部中断实验&quot;&gt;第五篇：外部中断实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/c0feab90.html&quot; title=&quot;第六篇：定时器中断实验&quot;&gt;第六篇：定时器中断实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（六）定时器中断实验</title>
+    <link href="https://franxhao.top/undefined/c0feab90.html"/>
+    <id>https://franxhao.top/undefined/c0feab90.html</id>
+    <published>2021-06-01T04:04:47.000Z</published>
+    <updated>2021-06-14T04:55:58.820Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器版和库函数版的&lt;strong&gt;定时器中断实验&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本次实验以跑马灯为基础，&lt;u&gt;LED灯&lt;/u&gt;接端口 PC8-PC11并依次点亮，点亮时间间隔2s。使用定时器 2 中断、向下计数、2s 产生 1 次中断（溢出）；中断优先级分组为组 3，抢占优先级 4 级，响应优先级 1 级&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）&lt;/em&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（五）外部中断实验</title>
+    <link href="https://franxhao.top/undefined/5817d212.html"/>
+    <id>https://franxhao.top/undefined/5817d212.html</id>
+    <published>2021-05-20T03:11:38.000Z</published>
+    <updated>2021-06-14T04:46:42.895Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握寄存器版和库函数版的&lt;strong&gt;外部中断实验&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本次实验以按键亮灯为基础，&lt;u&gt;按键&lt;/u&gt;接端口 PC0-PC3，&lt;u&gt;LED灯&lt;/u&gt;接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）&lt;/em&gt;&lt;/p&gt;</summary>
     
     
     
@@ -432,52 +482,6 @@
     
     
     <category term="Hexo" scheme="https://franxhao.top/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【C51单片机】（一）4个按钮8盏灯，实现四种功能</title>
-    <link href="https://franxhao.top/undefined/ec01d655.html"/>
-    <id>https://franxhao.top/undefined/ec01d655.html</id>
-    <published>2020-04-01T23:13:19.000Z</published>
-    <updated>2021-06-12T13:04:34.679Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;简单介绍&quot;&gt;&lt;a href=&quot;#简单介绍&quot; class=&quot;headerlink&quot; title=&quot;简单介绍&quot;&gt;&lt;/a&gt;简单介绍&lt;/h2&gt;&lt;p&gt;文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。&lt;/p&gt;
-&lt;h2 id=&quot;实验一&quot;&gt;&lt;a href=&quot;#实验一&quot; class=&quot;headerlink&quot; title=&quot;实验一&quot;&gt;&lt;/a&gt;实验一&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;按下P3.2 P1的8个灯奇亮偶不亮；&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;按下P3.3 P1的8个灯偶量奇不亮；&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;按下P3.4 P1的8个灯流水灯顺着滚动遍；&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;按下P3.5 P1的8个灯流水灯倒着滚动一遍。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;编写程序实现以上功能。&lt;/strong&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
-    
-    <category term="C51单片机" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
-    
-    
-    <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的第一篇博客</title>
-    <link href="https://franxhao.top/undefined/d95d7e09.html"/>
-    <id>https://franxhao.top/undefined/d95d7e09.html</id>
-    <published>2020-03-31T04:33:08.000Z</published>
-    <updated>2020-08-17T17:10:32.659Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;关于第一篇博客&quot;&gt;&lt;a href=&quot;#关于第一篇博客&quot; class=&quot;headerlink&quot; title=&quot;关于第一篇博客&quot;&gt;&lt;/a&gt;关于第一篇博客&lt;/h2&gt;&lt;p&gt;关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。&lt;/p&gt;
-&lt;p&gt;首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 &lt;strong&gt;强制清除缓存&lt;/strong&gt; 指令&lt;code&gt;npm cache clean --force&lt;/code&gt; 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://pic.downk.cc/item/5f3a9d7014195aa594b1fa04.png&quot; alt=&quot;出错时的图片&quot;&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="博客" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    <category term="踩坑记录" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
-    
-    
-    <category term="博客" scheme="https://franxhao.top/tags/%E5%8D%9A%E5%AE%A2/"/>
     
   </entry>
   

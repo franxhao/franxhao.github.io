@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"franxhao.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="0. 实验要求掌握寄存器版和库函数版的外部中断实验 本次实验以按键亮灯为基础，按键接端口 PC0-PC3，LED灯接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102 （注：文章仅贴出修改部分代码，详细原码请下载资料包查看）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【嵌入式STM32】（五）外部中断实验">
+<meta property="og:url" content="https://franxhao.top/undefined/5817d212.html">
+<meta property="og:site_name" content="FranxHao">
+<meta property="og:description" content="0. 实验要求掌握寄存器版和库函数版的外部中断实验 本次实验以按键亮灯为基础，按键接端口 PC0-PC3，LED灯接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102 （注：文章仅贴出修改部分代码，详细原码请下载资料包查看）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-20T03:11:38.000Z">
+<meta property="article:modified_time" content="2021-06-14T04:46:42.895Z">
+<meta property="article:author" content="豪少super">
+<meta property="article:tag" content="categories-java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://franxhao.top/undefined/5817d212.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+  <title>【嵌入式STM32】（五）外部中断实验 | FranxHao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="FranxHao" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FranxHao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://franxhao.top/undefined/5817d212.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuming.jpg">
+      <meta itemprop="name" content="豪少super">
+      <meta itemprop="description" content="是正在努力的学生党呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FranxHao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【嵌入式STM32】（五）外部中断实验
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 11:11:38" itemprop="dateCreated datePublished" datetime="2021-05-20T11:11:38+08:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-14 12:46:42" itemprop="dateModified" datetime="2021-06-14T12:46:42+08:00">2021-06-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/" itemprop="url" rel="index"><span itemprop="name">STM32</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握寄存器版和库函数版的<strong>外部中断实验</strong></p>
+<p>本次实验以按键亮灯为基础，<u>按键</u>接端口 PC0-PC3，<u>LED灯</u>接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102</p>
+<p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
+<a id="more"></a>
+
+<h1 id="1-寄存器版"><a href="#1-寄存器版" class="headerlink" title="1. 寄存器版"></a>1. 寄存器版</h1><p><strong>exit.c：</strong>设置外部中断服务，初始化外部中断程序，PC0-PC3 为中断输入，中 断优先级分组为组 2，抢占优先级 2 级，响应优先级 3102</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//外部中断0服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI0_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED0=!LED0;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">0</span>;  <span class="comment">//清除LINE0上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断1服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI1_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED1=!LED1;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">1</span>;  <span class="comment">//清除LINE1上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断2服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI2_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED2=!LED2;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">2</span>;  <span class="comment">//清除LINE2上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断3服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI3_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED3=!LED3;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">3</span>;  <span class="comment">//清除LINE3上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外部中断初始化程序</span></span><br><span class="line"><span class="comment">//初始化PC0-PC3为中断输入.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	KEY_Init();</span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">0</span>,FTIR); 		<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">1</span>,FTIR);		<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">2</span>,FTIR);		<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">3</span>,FTIR);		<span class="comment">//下降沿触发</span></span><br><span class="line"></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">3</span>,EXTI0_IRQn,<span class="number">2</span>);    	<span class="comment">//抢占2，子优先级3，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">1</span>,EXTI1_IRQn,<span class="number">2</span>);  		<span class="comment">//抢占2，子优先级1，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">0</span>,EXTI2_IRQn,<span class="number">2</span>);			<span class="comment">//抢占2，子优先级0，组2	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">2</span>,EXTI3_IRQn,<span class="number">2</span>);			<span class="comment">//抢占2，子优先级2，组2	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-库函数版"><a href="#2-库函数版" class="headerlink" title="2. 库函数版"></a>2. 库函数版</h1><p><strong>exti.c：</strong>外部中断初始化函数。使能 AFIO 时钟，设置中断模式且下降沿触发， 根据 EXTI_InitStruct 中指定的参数初始化外设 EXTI 寄存器；使能按键所在 的外部中断通道，抢占优先级 2 级、响应优先级 3102，开启使能后根据 NVIC_InitStruct 中指定的参数初始化外设 NVIC 寄存器。最后开启外部中断 服务，服务最后清除 EXTI*线路挂起位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//外部中断初始化函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTIX_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    EXTI_InitTypeDef EXTI_InitStructure;</span><br><span class="line">    NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line"></span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE); <span class="comment">//外部中断，需要使能AFIO时钟</span></span><br><span class="line"></span><br><span class="line">    KEY_Init();<span class="comment">//初始化按键对应io模式</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//GPIOC.0 中断线以及中断初始化配置</span></span><br><span class="line">    GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource0);</span><br><span class="line"></span><br><span class="line">    EXTI_InitStructure.EXTI_Line = EXTI_Line0;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;<span class="comment">//下降沿触发</span></span><br><span class="line">    EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure); <span class="comment">//根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//GPIOC.1 中断线以及中断初始化配置</span></span><br><span class="line">    GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource1);</span><br><span class="line"></span><br><span class="line">    EXTI_InitStructure.EXTI_Line = EXTI_Line1;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;<span class="comment">//下降沿触发</span></span><br><span class="line">    EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure); <span class="comment">//根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//GPIOC.2 中断线以及中断初始化配置</span></span><br><span class="line">    GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource2);</span><br><span class="line"></span><br><span class="line">    EXTI_InitStructure.EXTI_Line = EXTI_Line2;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;<span class="comment">//下降沿触发</span></span><br><span class="line">    EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure); <span class="comment">//根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//GPIOC.3 中断线以及中断初始化配置</span></span><br><span class="line">    GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource3);</span><br><span class="line"></span><br><span class="line">    EXTI_InitStructure.EXTI_Line = EXTI_Line3;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;<span class="comment">//下降沿触发</span></span><br><span class="line">    EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure); <span class="comment">//根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器</span></span><br><span class="line"></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn; <span class="comment">//使能按键所在的外部中断通道</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; <span class="comment">//抢占优先级2</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x03</span>; <span class="comment">//子优先级3</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//使能外部中断通道</span></span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器</span></span><br><span class="line"></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn; <span class="comment">//使能按键所在的外部中断通道</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; <span class="comment">//抢占优先级2</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x01</span>; <span class="comment">//子优先级1</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//使能外部中断通道</span></span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器</span></span><br><span class="line"></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn; <span class="comment">//使能按键所在的外部中断通道</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; <span class="comment">//抢占优先级2</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x00</span>; <span class="comment">//子优先级0</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//使能外部中断通道</span></span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器</span></span><br><span class="line"></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn; <span class="comment">//使能按键所在的外部中断通道</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; <span class="comment">//抢占优先级2</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x02</span>; <span class="comment">//子优先级2</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//使能外部中断通道</span></span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI0_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    delay_ms(<span class="number">10</span>);    <span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(KEY0 == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        LED0 = !LED0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line0);  <span class="comment">//清除EXTI0线路挂起位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI1_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    delay_ms(<span class="number">10</span>);    <span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(KEY1 == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        LED1 = !LED1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line1);  <span class="comment">//清除EXTI1线路挂起位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI2_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    delay_ms(<span class="number">10</span>);    <span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(KEY2 == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        LED2 = !LED2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line2);  <span class="comment">//清除EXTI2线路挂起位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI3_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    delay_ms(<span class="number">10</span>);    <span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(KEY3 == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        LED3 = !LED3;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line3);  <span class="comment">//清除EXTI3线路挂起位</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main函数中添加 <strong>NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</strong> 来设置中断优先级分组为组2</p>
+<h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>外部中断实验原码下载：</p>
+<ul>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/itsZ9q6j1if" target="_blank" rel="noopener">外部中断实验.zip</a>    密码：3gg8</li>
+<li>内容包含：<ul>
+<li>寄存器和库函数模板初始原码</li>
+<li>按实验要求修改后的原码</li>
+</ul>
+</li>
+</ul>
+<p>嵌入式STM32学习视频：</p>
+<ul>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+</ul>
+<div class="note info">
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+          </div>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果文章对你有用的话，请随意赞赏吧~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="豪少super 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="豪少super 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>豪少super
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://franxhao.top/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验">https://franxhao.top/undefined/5817d212.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-paw"></i>感谢阅读-------------</div>
+    
+</div>
+  
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/STM32/" rel="tag"><i class="fa fa-tags"></i>  STM32</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/undefined/d0886a84.html" rel="prev" title="【嵌入式STM32】（四）串口实验">
+      <i class="fa fa-chevron-left"></i> 【嵌入式STM32】（四）串口实验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/undefined/c0feab90.html" rel="next" title="【嵌入式STM32】（六）定时器中断实验">
+      【嵌入式STM32】（六）定时器中断实验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-实验要求"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-寄存器版"><span class="nav-number">2.</span> <span class="nav-text">1. 寄存器版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-库函数版"><span class="nav-number">3.</span> <span class="nav-text">2. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-参考资料"><span class="nav-number">4.</span> <span class="nav-text">3.  参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="豪少super"
+      src="/images/wuming.jpg">
+  <p class="site-author-name" itemprop="name">豪少super</p>
+  <div class="site-description" itemprop="description">是正在努力的学生党呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:franxhao@163.com" title="E-Mail → mailto:franxhao@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1015635582" title="QQ → 1015635582"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <!-- modify icon to fire by szw -->
+              <i class="fa fa-history fa-" aria-hidden="true"></i>
+              近期文章
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+              
+                <li>
+                  <a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总" target="_blank">【嵌入式STM32】文章汇总</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/d0886a84.html" title="【嵌入式STM32】（四）串口实验" target="_blank">【嵌入式STM32】（四）串口实验</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/86d73a10.html" title="将网站迁移到Vercel托管" target="_blank">将网站迁移到Vercel托管</a>
+                </li>
+              
+            </ul>
+          </div>
+      <div>
+  <canvas id="canvasDiyBlock" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+<script src="/js/custom/clock.js"></script>
+
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">豪少super</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">50k</span>
+</div>
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://franxhao.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+
+
+<script
+  async
+  src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"
+></script>
+
+        
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = false;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <body>
+        ....
+        
+<!-- 自定义的js文件 -->
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+
+ 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<script>
+  function timer() {
+    var ages = moment.preciseDiff(moment(),moment(20200327,"YYYYMMDD"));
+    ages = ages.replace(/years?/, "年");
+    ages = ages.replace(/months?/, "月");
+    ages = ages.replace(/days?/, "天");
+    ages = ages.replace(/hours?/, "小时");
+    ages = ages.replace(/minutes?/, "分");
+    ages = ages.replace(/seconds?/, "秒");
+    ages = ages.replace(/\d+/g, '<span style="color:#1890ff">$&</span>');
+    div.innerHTML = `我已在此等候你 ${ages}`;
+  }
+  var div = document.createElement("div");
+  //插入到copyright之后
+  var copyright = document.querySelector(".copyright");
+  document.querySelector(".footer-inner").insertBefore(div, copyright.nextSibling);
+  timer();
+  setInterval("timer()",1000)
+</script>
+
+
+        
+</body>
+</html>
