@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-06-14T05:35:09.937Z</updated>
+  <updated>2021-07-08T04:05:04.361Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -17,34 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【嵌入式STM32】（七）ADC实验</title>
-    <link href="https://franxhao.top/undefined/d8eae319.html"/>
-    <id>https://franxhao.top/undefined/d8eae319.html</id>
-    <published>2021-06-14T05:00:16.000Z</published>
-    <updated>2021-06-14T05:35:09.937Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握库函数版的&lt;strong&gt;ADC实验&lt;/strong&gt;（寄存器版为自学内容）&lt;/p&gt;
-&lt;p&gt;要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）&lt;/em&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
-    
-    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
-    
-    
-    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
-    
-  </entry>
-  
-  <entry>
     <title>【嵌入式STM32】系列文章汇总</title>
     <link href="https://franxhao.top/undefined/64afecd0.html"/>
     <id>https://franxhao.top/undefined/64afecd0.html</id>
-    <published>2021-06-12T12:54:33.000Z</published>
-    <updated>2021-06-14T05:43:00.550Z</updated>
+    <published>2021-06-15T12:54:33.000Z</published>
+    <updated>2021-07-08T04:05:04.361Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;嵌入式STM32——实验系列文章汇总传送门&quot;&gt;&lt;a href=&quot;#嵌入式STM32——实验系列文章汇总传送门&quot; class=&quot;headerlink&quot; title=&quot;嵌入式STM32——实验系列文章汇总传送门&quot;&gt;&lt;/a&gt;嵌入式STM32——实验系列文章汇总传送门&lt;/h1&gt;&lt;ul&gt;
@@ -63,6 +40,29 @@
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;/undefined/d8eae319.html&quot; title=&quot;第七篇：ADC实验&quot;&gt;第七篇：ADC实验&lt;/a&gt;&lt;/strong&gt; &lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="嵌入式" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="STM32" scheme="https://franxhao.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/STM32/"/>
+    
+    
+    <category term="STM32" scheme="https://franxhao.top/tags/STM32/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【嵌入式STM32】（七）ADC实验</title>
+    <link href="https://franxhao.top/undefined/d8eae319.html"/>
+    <id>https://franxhao.top/undefined/d8eae319.html</id>
+    <published>2021-06-14T05:00:16.000Z</published>
+    <updated>2021-06-14T05:35:09.937Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;0-实验要求&quot;&gt;&lt;a href=&quot;#0-实验要求&quot; class=&quot;headerlink&quot; title=&quot;0. 实验要求&quot;&gt;&lt;/a&gt;0. 实验要求&lt;/h1&gt;&lt;p&gt;掌握库函数版的&lt;strong&gt;ADC实验&lt;/strong&gt;（寄存器版为自学内容）&lt;/p&gt;
+&lt;p&gt;要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）&lt;/em&gt;&lt;/p&gt;</summary>
     
     
     
