@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-07-08T04:05:04.361Z</updated>
+  <updated>2021-09-04T03:10:08.337Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于 git add 的一点细节</title>
+    <link href="https://franxhao.top/undefined/a2153dde.html"/>
+    <id>https://franxhao.top/undefined/a2153dde.html</id>
+    <published>2021-09-04T02:50:20.000Z</published>
+    <updated>2021-09-04T03:10:08.337Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最近又感受了下使用 git 命令提交代码（图形化的Sourcetree太好用了 ），但是在使用 &lt;code&gt;git add *&lt;/code&gt; 添加到暂存区时，出现无法添加的情况，记录一下细节&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://franxhao.top/categories/Java/"/>
+    
+    <category term="Tools" scheme="https://franxhao.top/categories/Java/Tools/"/>
+    
+    
+    <category term="Git" scheme="https://franxhao.top/tags/Git/"/>
+    
+  </entry>
   
   <entry>
     <title>【嵌入式STM32】系列文章汇总</title>
@@ -465,27 +486,6 @@
     
     
     <category term="C51单片机" scheme="https://franxhao.top/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>进阶之路！从0开始搭建Hexo博客（二）</title>
-    <link href="https://franxhao.top/undefined/91ba00fe.html"/>
-    <id>https://franxhao.top/undefined/91ba00fe.html</id>
-    <published>2020-04-11T23:01:22.000Z</published>
-    <updated>2020-08-17T17:30:50.517Z</updated>
-    
-    
-    <summary type="html">&lt;img src=&quot;https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg&quot; style=&quot;zoom: 67%;&quot;&gt;</summary>
-    
-    
-    
-    <category term="博客" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    <category term="Hexo" scheme="https://franxhao.top/categories/%E5%8D%9A%E5%AE%A2/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="https://franxhao.top/tags/Hexo/"/>
     
   </entry>
   
