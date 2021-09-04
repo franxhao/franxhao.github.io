@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-09-04T03:10:08.337Z</updated>
+  <updated>2021-09-04T04:55:38.009Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://franxhao.top/undefined/a2153dde.html"/>
     <id>https://franxhao.top/undefined/a2153dde.html</id>
     <published>2021-09-04T02:50:20.000Z</published>
-    <updated>2021-09-04T03:10:08.337Z</updated>
+    <updated>2021-09-04T04:55:38.009Z</updated>
     
     
     <summary type="html">&lt;p&gt;最近又感受了下使用 git 命令提交代码（图形化的Sourcetree太好用了 ），但是在使用 &lt;code&gt;git add *&lt;/code&gt; 添加到暂存区时，出现无法添加的情况，记录一下细节&lt;/p&gt;</summary>
