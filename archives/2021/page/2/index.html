@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -45,7 +45,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>归档 | FranxHao</title>
   
 
@@ -198,13 +198,33 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 24 篇日志。 继续努力。</span>
+        <span class="collection-header">嗯..! 目前共计 25 篇日志。 继续努力。</span>
       </div>
 
       
     <div class="collection-year">
       <span class="collection-header">2021</span>
     </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-03-27T00:20:59+08:00"
+              content="2021-03-27">
+          03-27
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/undefined/fc8a844.html" itemprop="url">
+            <span itemprop="name">【嵌入式STM32】（一）新建库函数版和寄存器版工程模板</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
 
   <article itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -363,20 +383,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -408,6 +428,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -421,10 +445,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -461,7 +481,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -564,10 +584,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

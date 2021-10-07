@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -33,7 +33,7 @@
 <meta property="article:published_time" content="2021-05-20T03:11:38.000Z">
 <meta property="article:modified_time" content="2021-06-15T17:12:23.367Z">
 <meta property="article:author" content="豪少super">
-<meta property="article:tag" content="categories-java">
+<meta property="article:tag" content="STM32">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://franxhao.top/undefined/5817d212.html">
@@ -48,7 +48,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>【嵌入式STM32】（五）外部中断实验 | FranxHao</title>
   
 
@@ -273,7 +273,7 @@
         <h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握寄存器版和库函数版的<strong>外部中断实验</strong></p>
 <p>本次实验以按键亮灯为基础，<u>按键</u>接端口 PC0-PC3，<u>LED灯</u>接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102</p>
 <p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-寄存器版"><a href="#1-寄存器版" class="headerlink" title="1. 寄存器版"></a>1. 寄存器版</h1><p><strong>exit.c：</strong>设置外部中断服务，初始化外部中断程序，PC0-PC3 为中断输入，中 断优先级分组为组 2，抢占优先级 2 级，响应优先级 3102</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//外部中断0服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI0_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED0=!LED0;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">0</span>;  <span class="comment">//清除LINE0上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断1服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI1_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED1=!LED1;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">1</span>;  <span class="comment">//清除LINE1上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断2服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI2_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED2=!LED2;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">2</span>;  <span class="comment">//清除LINE2上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断3服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI3_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED3=!LED3;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">3</span>;  <span class="comment">//清除LINE3上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外部中断初始化程序</span></span><br><span class="line"><span class="comment">//初始化PC0-PC3为中断输入.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	KEY_Init();</span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">0</span>,FTIR); 	<span class="comment">//下降沿触发(上升沿触发：RTIR)</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">1</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">2</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">3</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line"></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">3</span>,EXTI0_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级3，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">1</span>,EXTI1_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级1，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">0</span>,EXTI2_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级0，组2	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">2</span>,EXTI3_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级2，组2	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -284,7 +284,7 @@
 <p><code>main函数</code>中添加 <strong>NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</strong> 来设置中断优先级分组为组2</p>
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>外部中断实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/i8kvlq83wsh" target="_blank" rel="noopener">外部中断实验.zip</a>    密码：ac9y</li>
+<li>网盘下载：<a target="_blank" rel="noopener" href="https://wwr.lanzoui.com/i8kvlq83wsh">外部中断实验.zip</a>    密码：ac9y</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -293,10 +293,10 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>
     </div>
 
@@ -447,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-实验要求"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-寄存器版"><span class="nav-number">2.</span> <span class="nav-text">1. 寄存器版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-库函数版"><span class="nav-number">3.</span> <span class="nav-text">2. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-参考资料"><span class="nav-number">4.</span> <span class="nav-text">3.  参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AF%84%E5%AD%98%E5%99%A8%E7%89%88"><span class="nav-number">2.</span> <span class="nav-text">1. 寄存器版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%BA%93%E5%87%BD%E6%95%B0%E7%89%88"><span class="nav-number">3.</span> <span class="nav-text">2. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">3.  参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -463,20 +463,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -508,6 +508,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -521,10 +525,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -561,7 +561,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -664,10 +664,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -50,7 +50,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>【C51单片机】（一）4个按钮8盏灯，实现四种功能 | FranxHao</title>
   
 
@@ -275,18 +275,18 @@
         <h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
 <h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
 <p><strong>编写程序实现以上功能。</strong></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <ol>
 <li><p>首先根据题目发现使用到的I/O端口为P1和P3，注意8个灯接P1.0-1.7,4个按钮接P3.2-3.5。灯的问题由十六进制代码实现。</p>
 </li>
 <li><p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          delay(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          delay(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
 <p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
 </li>
 <li><p>仿真演示：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9d9914195aa594b204d2.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9d9914195aa594b204d2.gif"></p>
 </li>
 </ol>
 <p><strong>小结</strong></p>
@@ -303,7 +303,7 @@
 </li>
 <li><p><strong>Keil 3</strong>：用来对代码进行编译和生成.HEX文件。</p>
 <ul>
-<li><a href="[https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F](https://baike.baidu.com/item/hex文件格式)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
+<li><a href="%5Bhttps://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%5D(https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
 </ul>
 </li>
 <li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
@@ -459,7 +459,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验一"><span class="nav-number">2.</span> <span class="nav-text">实验一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用到的软件"><span class="nav-number">3.</span> <span class="nav-text">使用到的软件</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%80"><span class="nav-number">2.</span> <span class="nav-text">实验一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">使用到的软件</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -475,20 +475,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -520,6 +520,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -533,10 +537,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -573,7 +573,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -676,10 +676,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

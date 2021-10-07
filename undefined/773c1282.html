@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -35,7 +35,7 @@
 <meta property="article:published_time" content="2021-03-12T15:50:36.000Z">
 <meta property="article:modified_time" content="2021-03-13T06:53:42.544Z">
 <meta property="article:author" content="豪少super">
-<meta property="article:tag" content="categories-java">
+<meta property="article:tag" content="frp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png">
 
@@ -51,7 +51,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>自建frp内网穿透，实现非局域网远程windows | FranxHao</title>
   
 
@@ -272,8 +272,8 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 <strong>Win + R</strong> 输入  <code>mstsc</code> 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。</p>
 <p>当然这是需要前期准备工作的，比较老的系统，如Win7打开远程桌面服务比较麻烦，如果没有密码还需要设置密码，当然没有密码也可以远程登录啦，直接回车回车… 而Win10就很方便，现在最新的Win10系统设置的UI界面越来越扁平化，直接就可以找到远程桌面这一项，一键开启即可！具体如何开启远程可以找度娘。</p>
 <p>回归正题，当我不在局域内，又想远程访问远在天边的电脑，该怎么办呢，这时就有了这篇折腾frp非局域网下实现Windows远程的文章～～～</p>
-<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png" alt></p>
-<a id="more"></a>
+<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png"></p>
+<span id="more"></span>
 
 
 
@@ -286,10 +286,8 @@
 <h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
 <li>一台VPS公网服务器</li>
 <li>开启端口</li>
-<li>Github下载相关文件<ul>
+<li>Github下载相关文件</li>
 <li>Github内搜索frp，进入开源项目后找到releases</li>
-</ul>
-</li>
 </ul>
 <h2 id="放开端口"><a href="#放开端口" class="headerlink" title="放开端口"></a>放开端口</h2><p>因为我的服务器是腾讯云的，以腾讯云为例(放通6000，7000端口)<br><img src="https://pic.downk.cc/item/5fd864313ffa7d37b3c76f23.png" style="zoom: 50%;"></p>
 <h3 id="SSH连接服务器"><a href="#SSH连接服务器" class="headerlink" title="SSH连接服务器"></a>SSH连接服务器</h3><p>安全组放开后只是能去这两个端口，服务器的这两个端口还是没有打开，所以得通过命令打开服务器的这两个端口</p>
@@ -297,9 +295,9 @@
 <blockquote>
 <p>出现success 或 yes 字样时即为开启成功</p>
 </blockquote>
-<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a></p>
+<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
 <p>amd64为64位使用，386是32位使用,选择对应版本下载。下载的包可以通过宝塔上传并解压到服务器的根目录下。也可以通过Linux指令进行下载和解压</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>下载完成后，在命令行中可以看到 <strong>frp_0.34.3_linux_amd64</strong> 文件夹，我们cd一下进入该文件夹中，可以看到 <strong>frpc、frpc_full.ini、frpc.ini、frps、frps_full.ini、frps.ini、LICENSE、systemd</strong> 这几个文件，其中 <strong>frpc、frpc.ini</strong> 这个两个是客户端的文件，可以通过Linux指令删除（frpc_full.ini这个可能也是客户端文件，具体功能我还没有仔细了解，我没有删除这个文件）。</p>
 <h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><h3 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h3><blockquote>
 <p>frpc —&gt; 字面上可以看出是frp client，也就是客户端<br>frps —&gt; 即frp server，也就是服务器<br>接下来我们需要修改配置文件，也就是<strong>frps.ini</strong>，按个人喜好用vi或者nano指令进行编辑；来看一下我这里的服务器端的配制文件：</p>
@@ -307,8 +305,8 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//服务器端配置</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">token = aaabbbccc //这里就是客户端与我们服务器端frp进行链接时的密码，越复杂越好</span><br></pre></td></tr></table></figure>
 <p>配置完成后，输入指令：<br><code>./frps -c ./frps.ini  ---&gt;服务端启动frp</code><br>可以看到提示start frps success（frps开启成功）</p>
 <h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>在客户端机子下载相应的frp文件，以我的电脑为例（Windows 10）：<code>frp_0.34.3_windows_amd64</code> （注意客户端和服务器端版本要对应），文件夹可以放到任意盘，进入文件夹配置<strong>frpc.ini</strong>，Windows系统可以用记事本打开进行配置：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
-<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code>.\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code> .\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
 <div class="note info">
             <p>这里注意一下，windows一般为反斜杠 \  ，所以输入的指令不是 ./frpc.exe -c ./frpc.ini</p>
           </div>
@@ -319,7 +317,7 @@
 <p>安装完成后，用screen新建一个会话，在这里面运行frps，退出ssh后它也不会结束进程：<br><code>screen -S frp</code></p>
 <p>新建完成之后输入 <code>nohup ./frps -c ./frps.ini -&amp;</code> ，nohup是让它后台运行，-&amp;是锁定它不让它结束进程，此时即使断开了ssh我们仍可以进行连接，除非服务器重启…</p>
 <h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><p>如果出现无法连接的问题，有可能是需要关闭防火墙输入以下指令即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="非局域网远程连接Windows"><a href="#非局域网远程连接Windows" class="headerlink" title="非局域网远程连接Windows"></a>非局域网远程连接Windows</h2><p>所有配置工作都做完后我们就可以进行远程连接了，在另一台计算机上 Win + R 后输入<code>mstsc</code>进入Windows远程桌面，输入服务器IP后点击连接，然后成功输入Windows密码，即可成功连接到自己的电脑。在移动端远程也是可以实现的，例如我会使用iPad对我的电脑进行远程，只需下载微软官方软件 <strong>RD Client</strong>，同样输入相关IP和密码后就可以实现移动端远程。</p>
 <div class="note info">
             <p>注意</p><ul><li>两台设备需在非同一网络下进行实验</li><li>需要使用该服务时，服务器和客户端都必须打开fps服务，任何一方服务停止都无法连接成功</li><li>服务器端一般是已经配置好可以不用动了，客户端如上述打开服务出现success字样即可</li></ul>
@@ -474,7 +472,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">2.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#放开端口"><span class="nav-number">3.</span> <span class="nav-text">放开端口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH连接服务器"><span class="nav-number">3.1.</span> <span class="nav-text">SSH连接服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frp下载"><span class="nav-number">4.</span> <span class="nav-text">frp下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑配置文件"><span class="nav-number">5.</span> <span class="nav-text">编辑配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端配置"><span class="nav-number">5.1.</span> <span class="nav-text">服务器端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端配置"><span class="nav-number">5.2.</span> <span class="nav-text">客户端配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装screen服务"><span class="nav-number">6.1.</span> <span class="nav-text">安装screen服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭防火墙"><span class="nav-number">6.2.</span> <span class="nav-text">关闭防火墙</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非局域网远程连接Windows"><span class="nav-number">7.</span> <span class="nav-text">非局域网远程连接Windows</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BE%E5%BC%80%E7%AB%AF%E5%8F%A3"><span class="nav-number">3.</span> <span class="nav-text">放开端口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">SSH连接服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frp%E4%B8%8B%E8%BD%BD"><span class="nav-number">4.</span> <span class="nav-text">frp下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">编辑配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">服务器端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">5.2.</span> <span class="nav-text">客户端配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85screen%E6%9C%8D%E5%8A%A1"><span class="nav-number">6.1.</span> <span class="nav-text">安装screen服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">6.2.</span> <span class="nav-text">关闭防火墙</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E5%B1%80%E5%9F%9F%E7%BD%91%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5Windows"><span class="nav-number">7.</span> <span class="nav-text">非局域网远程连接Windows</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -490,20 +488,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -535,6 +533,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -548,10 +550,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -588,7 +586,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -691,10 +689,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

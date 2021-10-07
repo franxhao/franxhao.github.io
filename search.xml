@@ -1,10 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>初识JVM</title>
+    <url>/undefined/c1baee3f.html</url>
+    <content><![CDATA[<h2 id="JVM的位置"><a href="#JVM的位置" class="headerlink" title="JVM的位置"></a>JVM的位置</h2><p>JVM 在操作系统之上</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233327093.png" style="zoom:60%;">
+
+
+
+<span id="more"></span>
+
+
+
+<h2 id="JVM-的体系结构"><a href="#JVM-的体系结构" class="headerlink" title="JVM 的体系结构"></a>JVM 的体系结构</h2><ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233523713.png" style="zoom:67%;"></li>
+<li><p>栈为什么没有垃圾，打个比方，运行一个程序时 main 方法总会压在栈底，因为每执行一个方法都会压入栈中，执行完后会出栈，直到 main 方法出栈程序才运行结束，所以要是栈中有垃圾，那这个程序就相当于是个死程序了 。</p>
+</li>
+</ul>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>作用：加载 Class 文件~</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211002135242638.png" style="zoom:67%;">
+
+
+
+<ol>
+<li>虚拟机自带的加载器</li>
+<li>启动类（根）加载器 —- BootClassLoader</li>
+<li>扩展类加载器 —- ExtClassLoader</li>
+<li>应用程序加载器 —- AppClassLoader</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Java 为什么能调用底层 C++ 代码：</span><br><span class="line">     首先因为 JVM 在操作系统之上，不能自己去调用操作系统的东西，这就需要通过接口调用；</span><br><span class="line">     怎么通过接口去调用，也就是用到了 native 关键字调用本地方法；</span><br><span class="line">     (比如 Thread类中的 main 方法有这样一条语句 ---&gt; private native void start0(); )</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h2><ol>
+<li>类加载器收到类加载请求</li>
+<li>将这个请求向上委托给父类加载器去完成，一直向上委托，直到启动类加载器</li>
+<li>启动类加载检查是否能够加载当前这个类，能加载就结束，使用当前的加载器，否则，抛出异常，通知子加载器进行加载</li>
+<li>重复步骤 3</li>
+</ol>
+<blockquote>
+<p>如果实在找不到会报一个很经典的错：Class Not Found<br>null：Java 调用不到 — 底层用 C/C++ 写的<br>Java = C++ ：去掉繁琐的东西，指针、内存管理<br>        = C++–</p>
+</blockquote>
+<h2 id="Native"><a href="#Native" class="headerlink" title="Native"></a>Native</h2><ul>
+<li><p>凡是带了 native 关键字的，说明 Java 的作用范围达不到了，回去调用底层C语言的库！</p>
+</li>
+<li><p>会进入本地方法栈</p>
+<ul>
+<li>调用本地方法本地接口 — JNI (Java Native Interface)；</li>
+<li>JNI 作用：拓展 Java 的使用，融合不同的编程语言为 Java 所用（最初 C、C++）；</li>
+<li>Java 诞生的时候，C、C++ 横行，想要立足，必须要有调用 C、C++ 的程序；</li>
+<li>它在内存区域中专门开辟了一块标记区域：Native Method Stack ，登记 Native 方法；</li>
+<li>在最终执行的时候，加载本地方法库中的方法通过 JNI；</li>
+<li>例如 Java 程序驱动打印机、管理系统、Robot 类等。（掌握即可，在企业级应用中较为少见）</li>
+</ul>
+</li>
+</ul>
+<h2 id="PC-寄存器"><a href="#PC-寄存器" class="headerlink" title="PC 寄存器"></a>PC 寄存器</h2><p>程序计数器：Program Counter Register</p>
+<p>每个线程都有一个程序计数器，是线程私有的，就是一个指针，指向方法区中的方法字节码（用来存储指向像一条指令的地址，也即将要执行的指令代码)，在执行引擎读取下一条指令，是一个非常小的内存空间，几乎可以忽略不计。</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>Method Area 方法区</p>
+<p>==静态变量、常量、类信息（构造方法、接口定义）、运行时的常量池 存在方法区中，但是 实例变量存在堆内存中，和方法区无关==</p>
+<p>简言之：static、final、Class、常量池  —&gt;  方法区</p>
+<h2 id="栈：数据结构"><a href="#栈：数据结构" class="headerlink" title="栈：数据结构"></a>栈：数据结构</h2><p>程序 = 数据结构 + 算法</p>
+<p>栈：先进先出、后进先出  — 桶</p>
+<p>队列：先进先出 （FIFO ：First Input First Output）</p>
+<blockquote>
+<p>为什么 main() 先执行，最后结束：其实就是因为方法运行压栈，main先入栈，直到 main 出栈后程序执行结束；</p>
+</blockquote>
+<p>栈：栈内存，主管程序的运行，生命周期和线程同步；</p>
+<p>线程结束，栈内存也就释放了，对于栈来说，==不存在垃圾回收问题==；</p>
+<p>一但线程结束，栈就 over；</p>
+<p>栈中存储的东西：8大基本类型 + 对象引用 + 实例的方法；</p>
+<p>栈运行原理：栈帧</p>
+<ul>
+<li><strong>栈的内部结构：</strong><ul>
+<li>图中栈,包含了两个方法引用,引用就是指对象的引用,从栈到堆中,还有下面方法指向上面方法的子帧和父帧(由于栈是先进后出的,所以最上面一定是程序正在执行的方法,而main方法一定在最下面,因为他是最先进栈的)</li>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105305930.png" style="zoom:67%;"></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105753899.png"></p>
+<h3 id="画出一个对象在内存中的实例化过程"><a href="#画出一个对象在内存中的实例化过程" class="headerlink" title="画出一个对象在内存中的实例化过程"></a>画出一个对象在内存中的实例化过程</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span></span>&#123;</span><br><span class="line">    String name; <span class="comment">// 定义一个成员变量 name</span></span><br><span class="line">    <span class="keyword">int</span> age; <span class="comment">// 成员变量 age</span></span><br><span class="line">    Double height; <span class="comment">// 成员变量 height</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sing</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;人的姓名：&quot;</span>+name);</span><br><span class="line">        System.out.println(<span class="string">&quot;人的年龄：&quot;</span>+age);</span><br><span class="line">        System.out.println(<span class="string">&quot;人的身高：&quot;</span>+height);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String name; <span class="comment">// 定义一个局部变量 name</span></span><br><span class="line">    	<span class="keyword">int</span> age; <span class="comment">// 局部变量 age</span></span><br><span class="line">    	Double height; <span class="comment">// 局部变量 height</span></span><br><span class="line">        </span><br><span class="line">        People people = <span class="keyword">new</span> People() ; <span class="comment">//实例化对象people</span></span><br><span class="line">        people.name = <span class="string">&quot;张三&quot;</span> ;       <span class="comment">//赋值</span></span><br><span class="line">        people.age = <span class="number">18</span>;            <span class="comment">//赋值</span></span><br><span class="line">        people.stuid = <span class="number">180.0</span> ;   	<span class="comment">//赋值</span></span><br><span class="line">        people.sing();              <span class="comment">//调用方法sing</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>代码解读：</strong></p>
+<ul>
+<li>这段代码首先定义三个成员变量：String name、int age、Double height 这三个变量都是只声明了没有初始化，然后定义了一个成员方法 sing();</li>
+<li>在 main()方法里同样定义了三个一样的变量，只不过这些是局部变量；</li>
+<li>在 main() 函数里实例化对象 people , 内存中在堆区内会给实例化对象 people 分配一片地址，紧接着我们对实例化对象 people 进行了赋值。people 调用成员方法 sing() 。mian()函数打印输入人的姓名，人的年龄和人的身高，系统执行完毕。</li>
+</ul>
+</li>
+<li><p><strong>图示：</strong></p>
+<ul>
+<li>1、在程序的执行过程中，首先类中的成员变量和方法体会进入到方法区：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate1.jpg"></li>
+</ul>
+</li>
+<li>2、程序执行到 main() 方法时，main()函数方法体会进入栈区，这一过程叫做进栈(压栈)，定义了一个用于指向 Person 实例的变量 person。如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate2.jpg"></li>
+</ul>
+</li>
+<li>3、程序执行到 Person person = new Person(); 就会在堆内存开辟一块内存区间，用于存放 Person 实例对象，然后将成员变量和成员方法放在 new 实例中都是取成员变量&amp;成员方法的地址值 如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate3.jpg"></li>
+</ul>
+</li>
+<li>4、接下来对 person 对象进行赋值， person.name = “小二” ; perison.age = 13; person.height= 180.0；先在栈区找到 person，然后根据地址值找到 new Person() 进行赋值操作。如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate4.jpg"></li>
+</ul>
+</li>
+<li>5、当程序走到 sing() 方法时，先到栈区找到 person这个引用变量，然后根据该地址值在堆内存中找到 new Person() 进行方法调用。在方法体void speak()被调用完成后，就会立刻马上从栈内弹出（出栈 )。最后，在main()函数完成后，main()函数也会出栈 如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate5.jpg"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三种-JVM"><a href="#三种-JVM" class="headerlink" title="三种 JVM"></a>三种 JVM</h2><ul>
+<li>Sun 公司 —- <code>Hotspot</code></li>
+<li>BEA 公司  <code>JRockit</code></li>
+<li>IBM 公司  <code>J9 VM</code></li>
+</ul>
+<p>我们学习的都是 <code>Hotspot</code></p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>Heap，一个 JVM 只有一个堆内存，堆内存的大小是可以调节的</p>
+<p>类加载器读取了类文件后，一般会把什么东西放到堆中？     类、方法、常量、变量，保存我们所有引用类型的真实对象；</p>
+<p>堆内存中还要细分为三个区域：</p>
+<ul>
+<li>新生区（伊甸园区）  Young / New</li>
+<li>养老区  old</li>
+<li>永久区  Perm</li>
+</ul>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003143551856.png" style="zoom:67%;">
+
+<p>GC 垃圾回收，主要在伊甸园区和养老区；</p>
+<p>假设内存满了，出现OOM，堆内存不够 — <code>java.lang.OutOfMemoryError: Java heap space</code></p>
+<p>在 JDK8 以后，永久区改了个名字叫<strong>元空间</strong>；</p>
+<h2 id="新生区、老年区、永久区"><a href="#新生区、老年区、永久区" class="headerlink" title="新生区、老年区、永久区"></a>新生区、老年区、永久区</h2><ul>
+<li><p><strong>新生区</strong></p>
+<ul>
+<li>类：诞生 和成长的地方，甚至死亡；</li>
+<li>伊甸园：所有的对象都是在 伊甸园 区 new 出来的！</li>
+<li>幸存者区（0, 1）</li>
+</ul>
+</li>
+<li><p><strong>老年区</strong></p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003151054565.png"></li>
+</ul>
+<p>真理：经过研究，99%的对象是临时对象！</p>
+</li>
+<li><p><strong>永久区</strong></p>
+<p>这个区域是常驻内存的。用来存放 JDK 自身携带的 Class 对象。Interface 元数据，存储的是 Java运行时的一些环境或类信息<del>，这个区域不存在垃圾回收！关闭 JVM 虚拟机就会释放这个区域的内存</del></p>
+<ul>
+<li>JDK 1.6 之前 ：永久代，常量池是在方法区；</li>
+<li>JDK 1.7          ：永久代，但是慢慢的退化了，<code>去永久代</code>，常量池在堆中；</li>
+<li>JDK 1.8 之后 ：无永久代，常量池在元空间。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003160018688.png"></p>
+<p><strong>什么情况会在永久区崩？</strong></p>
+<ul>
+<li>一个启动类，加载了大量的第三方 jar 包。tomcat 部署了太多的应用，大量动态生成的反射类。不断的被加载，直到内存满，就会出现 OOM；</li>
+</ul>
+<p><strong>元空间 —&gt;  通过新生代 + 老年代得知：逻辑上存在，物理上不存在。</strong></p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003164500625.png" style="zoom:67%;">
+
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003213551996.png" style="zoom:67%;">
+
+
+
+<h2 id="堆内存调优"><a href="#堆内存调优" class="headerlink" title="堆内存调优"></a>堆内存调优</h2><p>在一个项目中，突然出现了 OOM 故障，那么该如何排除，如何研究为什么出错：</p>
+<ul>
+<li>能够看到代码第几行出错：内存快照分析工具 —- MAT(Eclipse)、JProfiler(现在常用)</li>
+<li>Debug，一行行分析代码！</li>
+</ul>
+<p><strong>MAT、JProfiler 作用</strong></p>
+<ul>
+<li>分析 Dump 内存文件，快速定位内存泄露；</li>
+<li>获得堆中的数据；</li>
+<li>获得大的对象~</li>
+<li>….</li>
+</ul>
+<p><strong>JProfiler</strong></p>
+<ul>
+<li><p>IDE 安装</p>
+</li>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003220534254.png" style="zoom:67%;"></li>
+<li><p>软件安装（百度）</p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003232224838.png" style="zoom:67%;"></li>
+</ul>
+</li>
+<li><p>key（JProfiles 9版本适应，12看起来优化挺好的，等一波12的破解码吧）：</p>
+<ul>
+<li><pre><code>L-Larry_Lau@163.com#23874-hrwpdp1sh1wrn#0620
+L-Larry_Lau@163.com#36573-fdkscp15axjj6#25257
+L-Larry_Lau@163.com#5481-ucjn4a16rvd98#6038
+L-Larry_Lau@163.com#99016-hli5ay1ylizjj#27215
+L-Larry_Lau@163.com#40775-3wle0g1uin5c1#0674
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>常用部分</p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003234308733.png" style="zoom:67%;"></li>
+</ul>
+</li>
+</ul>
+<h2 id="GC：垃圾回收"><a href="#GC：垃圾回收" class="headerlink" title="GC：垃圾回收"></a>GC：垃圾回收</h2><p>无法手动回收，只能手动提醒GC回收（注意这个点！）</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004133530108.png" style="zoom:67%;">
+
+<p>JVM在进行GC时，并不是对这三个区域统一回收。大部分时候，回收都是在新生代</p>
+<ul>
+<li>新生代</li>
+<li>幸存区（from, to）</li>
+<li>老年区</li>
+</ul>
+<p>GC 两种类型：轻GC（普通的 GC），重GC（全局 GC）</p>
+<p><strong>GC 思考题：</strong></p>
+<ul>
+<li>JVM 的内存模型和分区~详细到每个区放什么？</li>
+<li>堆里面的分区有哪些？<ul>
+<li>Eden、from、to、老年区。说说他们的特点？</li>
+</ul>
+</li>
+<li>GC 的算法有哪些？标记清除法、标记压缩、复制算法、引用计数法，怎么用的？</li>
+<li>轻GC 和 重GC 分别在什么时候发生？</li>
+</ul>
+<h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><h3 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h3><p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004135840814.png"></p>
+<h3 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h3><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004150726684.png" style="zoom:67%;">
+
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/复制算法过程.gif" style="zoom:67%;">
+
+<ul>
+<li><strong>好处：</strong>没有内存碎片~</li>
+<li><strong>坏处：</strong>浪费了内存空间~：多了一半空间永远是空的（to）。<ul>
+<li>假设对象100%存活（极端情况），且是满的，则全部从from 复制到 to 将会产生很大的压力成本。</li>
+<li>所以 复制算法最佳使用场景：对象存活度较低的时候；即新生区~</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-标记清除法"><a href="#3-标记清除法" class="headerlink" title="3. 标记清除法"></a>3. 标记清除法</h3><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170400916.png" style="zoom:67%;">
+
+<ul>
+<li><strong>优点：</strong>不需要额外的内存空间；</li>
+<li><strong>缺点：</strong>两次扫描，严重浪费时间，会产生内存碎片。</li>
+</ul>
+<h3 id="4-标记压缩法"><a href="#4-标记压缩法" class="headerlink" title="4. 标记压缩法"></a>4. 标记压缩法</h3><p><u>标记清除法</u> 再优化：</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170736623.png" style="zoom:67%;">
+
+
+
+<h3 id="5-标记清除压缩"><a href="#5-标记清除压缩" class="headerlink" title="5. 标记清除压缩"></a>5. 标记清除压缩</h3><p>先进行几次标记清除，等碎片多了再进行压缩~</p>
+<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p><strong>学习方法：</strong> 这是什么？这是干嘛的？这个怎么学习？</p>
+<ol>
+<li><p>什么是 JMM？</p>
+<p>JMM（Java Memory Model的缩写）：<strong>Java 内存模型</strong></p>
+</li>
+<li><p>它是干嘛的？（官方、其他人的博客、对应的视频）</p>
+<p>作用：缓存一致性协议，用于定义数据读写的规则（遵守，找到这个规则）</p>
+</li>
+<li><p>它如何学习？</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>内存效率：复制算法 &gt; 标记清除法 &gt; 标记压缩法  (时间复杂度)</p>
+<p>内存整齐度：复制算法 = 标记压缩法 &gt; 标记清除法</p>
+<p>内存利用率：标记压缩法 = 标记清除法 &gt; 复制算法</p>
+<p><strong>思考题：难道没有最优的算法吗？</strong></p>
+<ul>
+<li>答案：没有，没有最好的算法，只有最合适的算法  —-&gt; GC：<strong>分代收集算法</strong><ul>
+<li><strong>年轻代</strong><ul>
+<li>存活率低</li>
+<li>适用 复制算法</li>
+</ul>
+</li>
+<li><strong>老年代</strong><ul>
+<li>区域大：存活率高</li>
+<li>适用 标记清除 (内存碎片不太多的时候) + 标记压缩 混合实现</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="推荐与思考"><a href="#推荐与思考" class="headerlink" title="推荐与思考"></a>推荐与思考</h2><ul>
+<li><p><strong>推荐书籍：《深入理解 JVM》</strong></p>
+</li>
+<li><p><strong>入门JVM推荐视频：<a href="https://www.bilibili.com/video/BV1iJ411d7jS?p=2&spm_id_from=pageDriver">【狂神说Java】JVM快速入门篇</a></strong></p>
+</li>
+<li><p><strong>JVM探究 思考题：</strong></p>
+<ul>
+<li>请你谈谈你对 JVM 的理解？Java8 虚拟机和之前的变化更新？</li>
+<li>什么是 OOM，什么是栈溢出 StackOverFlowError？怎么分析？</li>
+<li>JVM 的常用调优参数有哪些？</li>
+<li>内存快照如何抓取，怎么分析 Dump 文件？知道吗？</li>
+<li>谈谈 JVM 中，类加载器你的认识？</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于 git add 的一点细节</title>
     <url>/undefined/a2153dde.html</url>
     <content><![CDATA[<p>最近又感受了下使用 git 命令提交代码（图形化的Sourcetree太好用了 ），但是在使用 <code>git add *</code> 添加到暂存区时，出现无法添加的情况，记录一下细节</p>
-<a id="more"></a>
+<span id="more"></span>
 
 
 
@@ -57,11 +363,9 @@
 <li><p><strong><a href="/undefined/c0feab90.html" title="第六篇：定时器中断实验">第六篇：定时器中断实验</a></strong> </p>
 </li>
 <li><p><strong><a href="/undefined/d8eae319.html" title="第七篇：ADC实验">第七篇：ADC实验</a></strong> </p>
-</li>
+<span id="more"></span></li>
 </ul>
-  <a id="more"></a>
-
-<h1 id="STM32中文参考手册"><a href="#STM32中文参考手册" class="headerlink" title="STM32中文参考手册"></a>STM32中文参考手册</h1><p>网盘下载：<a href="https://wwr.lanzoui.com/i0haoq50u3e" target="_blank" rel="noopener">STM32中文参考手册_V10.pdf</a>    密码：axgt</p>
+<h1 id="STM32中文参考手册"><a href="#STM32中文参考手册" class="headerlink" title="STM32中文参考手册"></a>STM32中文参考手册</h1><p>网盘下载：<a href="https://wwr.lanzoui.com/i0haoq50u3e">STM32中文参考手册_V10.pdf</a>    密码：axgt</p>
 ]]></content>
       <categories>
         <category>嵌入式</category>
@@ -77,10 +381,10 @@
     <content><![CDATA[<h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握库函数版的<strong>ADC实验</strong>（寄存器版为自学内容）</p>
 <p>要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位</p>
 <p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-库函数版"><a href="#1-库函数版" class="headerlink" title="1. 库函数版"></a>1. 库函数版</h1><p><strong>(1). adc.h：</strong>定义 ADC 初始化函数，声明 Get_Adc 和 Get_Adc_Average 两个函数</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ADC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADC_H	</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sys.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">u16  <span class="title">Get_Adc</span><span class="params">(u8 ch)</span></span>; </span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ADC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADC_H	</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;sys.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">u16  <span class="title">Get_Adc</span><span class="params">(u8 ch)</span></span>; </span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span>; </span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). adc.c：</strong></p>
 <ul>
@@ -90,11 +394,11 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化ADC2</span></span><br><span class="line"><span class="comment">//开启通道5															   </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123; 	</span><br><span class="line">	ADC_InitTypeDef ADC_InitStructure; </span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line"></span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_ADC2, ENABLE ); <span class="comment">//使能ADC2通道时钟</span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">//PA1 作为模拟通过输入引脚</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5; <span class="comment">//通道5</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; <span class="comment">//模拟输入引脚  设置工作模式:模拟输入</span></span><br><span class="line">	GPIO_Init(GPIOA, &amp;GPIO_InitStructure);	</span><br><span class="line">	</span><br><span class="line">	RCC_ADCCLKConfig(RCC_PCLK2_Div8); <span class="comment">//设置ADC分频因子8 72M/8=9M,ADC最大时间不能超过14M</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	ADC_DeInit(ADC2); <span class="comment">//复位ADC2,将外设 ADC2 的全部寄存器重设为缺省值</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化ADC参数</span></span><br><span class="line">	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	<span class="comment">//ADC工作模式:ADC1和ADC2工作在独立模式</span></span><br><span class="line">	ADC_InitStructure.ADC_ScanConvMode = DISABLE; <span class="comment">//模数转换工作在单通道模式  不用扫描模式   单通道模式:DISABLE  多通道模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; <span class="comment">//模数转换工作在连续转换模式    单次转换模式：DISABLE  连续转换模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	<span class="comment">//转换由软件而不是外部触发启动</span></span><br><span class="line">	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Left; <span class="comment">//ADC数据左对齐</span></span><br><span class="line">	ADC_InitStructure.ADC_NbrOfChannel = <span class="number">1</span>;	<span class="comment">//顺序进行规则转换的ADC通道的数目</span></span><br><span class="line">	ADC_Init(ADC2, &amp;ADC_InitStructure);	<span class="comment">//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器 </span></span><br><span class="line">  </span><br><span class="line">	ADC_Cmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2</span></span><br><span class="line">	</span><br><span class="line">	ADC_ResetCalibration(ADC2);	<span class="comment">//使能复位校准  </span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC2));	<span class="comment">//等待复位校准结束</span></span><br><span class="line">	</span><br><span class="line">	ADC_StartCalibration(ADC2); <span class="comment">//开启AD校准</span></span><br><span class="line"> </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC2)); <span class="comment">//等待校准结束</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//	ADC_SoftwareStartConvCmd(ADC2, ENABLE); //使能指定的ADC2的软件转换启动功能</span></span><br><span class="line"></span><br><span class="line">&#125;				  </span><br><span class="line"><span class="comment">//获得ADC值</span></span><br><span class="line"><span class="comment">//ch:通道值 0~3</span></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc</span><span class="params">(u8 ch)</span>   </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  	<span class="comment">//设置指定ADC的规则组通道，一个序列，采样时间</span></span><br><span class="line">	ADC_RegularChannelConfig(ADC2, ch, <span class="number">1</span>, ADC_SampleTime_13Cycles5 ); <span class="comment">//ADC2,ADC通道,采样时间为13.5周期	  			    </span></span><br><span class="line">  </span><br><span class="line">	ADC_SoftwareStartConvCmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2的软件转换启动功能	</span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(!ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC )); <span class="comment">//等待转换结束</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC2); <span class="comment">//返回最近一次ADC2规则组的转换结果</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	u32 temp_val=<span class="number">0</span>;</span><br><span class="line">	u8 t;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;times;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		temp_val+=Get_Adc(ch);</span><br><span class="line">		delay_ms(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> temp_val/times;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(3). main.c：</strong>主要修改 while 循环部分，取 ADC 平均值参数设置为通道 5 和采样 5 次平均值；在 temp*=100 中，设置为 100 是为了取小数后两位</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">5</span>); <span class="comment">//通道5，采样5次取平均值</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">130</span>,adcx,<span class="number">4</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示ADC的值</span></span><br><span class="line">    temp=(<span class="keyword">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);</span><br><span class="line">    adcx=temp;</span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">150</span>,adcx,<span class="number">1</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示电压值</span></span><br><span class="line">    temp-=adcx;</span><br><span class="line">    temp*=<span class="number">100</span>; <span class="comment">//1000取小数点后3位，100取后2位</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">172</span>,<span class="number">150</span>,temp,<span class="number">3</span>,<span class="number">16</span>,<span class="number">0X80</span>);</span><br><span class="line">    LED0=!LED0;</span><br><span class="line">    delay_ms(<span class="number">250</span>);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">5</span>); <span class="comment">//通道5，采样5次取平均值</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">130</span>,adcx,<span class="number">4</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示ADC的值</span></span><br><span class="line">    temp=(<span class="keyword">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);</span><br><span class="line">    adcx=temp;</span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">150</span>,adcx,<span class="number">1</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示电压值</span></span><br><span class="line">    temp-=adcx;</span><br><span class="line">    temp*=<span class="number">100</span>; <span class="comment">//1000取小数点后3位，100取后2位</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">172</span>,<span class="number">150</span>,temp,<span class="number">3</span>,<span class="number">16</span>,<span class="number">0X80</span>);</span><br><span class="line">    LED0=!LED0;</span><br><span class="line">    delay_ms(<span class="number">250</span>);	</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
 
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>ADC实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/iZMLbq6lbod" target="_blank" rel="noopener">ADC实验.zip</a>    密码：ey1e</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/iZMLbq6lbod">ADC实验.zip</a>    密码：ey1e</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -103,13 +407,13 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <h1 id="4-最后"><a href="#4-最后" class="headerlink" title="4. 最后"></a>4. 最后</h1><p>这是【嵌入式STM32】系列文章的最后一篇文章了，在这里做一个结束总结</p>
 <p>关于【嵌入式STM32】是作者大三第二学期的课程，其内容是以实验课内容为主来撰写的。文章部分内容不多，所以只靠阅读文章是不够的，需要自行将提供的原码资料下载出来，通过Keil 5 来查看、对比和动手修改才能学到相应的知识</p>
 <p>最后希望能对读者学习有帮助，祝考运昌盛！</p>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>
 
 
@@ -129,7 +433,7 @@
     <content><![CDATA[<h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握寄存器版和库函数版的<strong>定时器中断实验</strong></p>
 <p>本次实验以跑马灯为基础，<u>LED灯</u>接端口 PC8-PC11并依次点亮，点亮时间间隔2s。使用定时器 2 中断、向下计数、2s 产生 1 次中断（溢出）；中断优先级分组为组 3，抢占优先级 4 级，响应优先级 1 级</p>
 <p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-寄存器版"><a href="#1-寄存器版" class="headerlink" title="1. 寄存器版"></a>1. 寄存器版</h1><p><strong>(1). timer.c：</strong></p>
 <ul>
@@ -151,7 +455,7 @@
 
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>定时器中断实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/ivZWcq6khsh" target="_blank" rel="noopener">定时器中断实验.zip</a>    密码：8jsp</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/ivZWcq6khsh">定时器中断实验.zip</a>    密码：8jsp</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -160,10 +464,10 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -179,7 +483,7 @@
     <content><![CDATA[<h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握寄存器版和库函数版的<strong>外部中断实验</strong></p>
 <p>本次实验以按键亮灯为基础，<u>按键</u>接端口 PC0-PC3，<u>LED灯</u>接端口 PC8-PC11。中断优先级分组组 2，抢占优先级 2 级，响应优先级分别为 3102</p>
 <p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-寄存器版"><a href="#1-寄存器版" class="headerlink" title="1. 寄存器版"></a>1. 寄存器版</h1><p><strong>exit.c：</strong>设置外部中断服务，初始化外部中断程序，PC0-PC3 为中断输入，中 断优先级分组为组 2，抢占优先级 2 级，响应优先级 3102</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//外部中断0服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI0_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED0=!LED0;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">0</span>;  <span class="comment">//清除LINE0上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断1服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI1_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED1=!LED1;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">1</span>;  <span class="comment">//清除LINE1上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断2服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI2_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED2=!LED2;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">2</span>;  <span class="comment">//清除LINE2上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//外部中断3服务程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI3_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	delay_ms(<span class="number">10</span>);	<span class="comment">//消抖</span></span><br><span class="line">	LED3=!LED3;	</span><br><span class="line">	EXTI-&gt;PR=<span class="number">1</span>&lt;&lt;<span class="number">3</span>;  <span class="comment">//清除LINE3上的中断标志位  </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外部中断初始化程序</span></span><br><span class="line"><span class="comment">//初始化PC0-PC3为中断输入.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EXTI_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	KEY_Init();</span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">0</span>,FTIR); 	<span class="comment">//下降沿触发(上升沿触发：RTIR)</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">1</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">2</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line">	Ex_NVIC_Config(GPIO_C,<span class="number">3</span>,FTIR);	<span class="comment">//下降沿触发</span></span><br><span class="line"></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">3</span>,EXTI0_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级3，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">1</span>,EXTI1_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级1，组2</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">0</span>,EXTI2_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级0，组2	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">2</span>,<span class="number">2</span>,EXTI3_IRQn,<span class="number">2</span>);	<span class="comment">//抢占2，子优先级2，组2	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -190,7 +494,7 @@
 <p><code>main函数</code>中添加 <strong>NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</strong> 来设置中断优先级分组为组2</p>
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>外部中断实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/i8kvlq83wsh" target="_blank" rel="noopener">外部中断实验.zip</a>    密码：ac9y</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/i8kvlq83wsh">外部中断实验.zip</a>    密码：ac9y</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -199,10 +503,10 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -221,7 +525,7 @@
 <li>寄存器要求：波特率为 115200，设置1位停止位、1位奇数校验位，开启接受中断。发送端推挽复用输出，速度为 10MHz，接收端浮空输入。使用串口助手调试，并能够对代码进行解释，理解中断服务逻辑</li>
 <li>库函数要求：波特率为 115200，设置 0.5 位停止位、1位偶数校验位，开启接受中断。发送端推挽复用输出，速度 10MHz；接收端下拉输入。中断优先级组 3，抢占优先级 2 级，响应优先级 1 级</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="0-1-前期准备"><a href="#0-1-前期准备" class="headerlink" title="0.1 前期准备"></a>0.1 前期准备</h2><ol>
 <li>串口 1 对应串口时钟 RCC 是 APB2ENR，串口 2-5 对应串口时钟 RCC 是 APB1ENR</li>
@@ -241,10 +545,10 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> USART_REC_LEN  			200  	<span class="comment">//定义最大接收字节数 200</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EN_USART1_RX 			1	<span class="comment">//使能（1）/禁止（0）串口1接收</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符 </span></span><br><span class="line"><span class="keyword">extern</span> u8  USART_RX_BUF[USART_REC_LEN];</span><br><span class="line"><span class="keyword">extern</span> u16 USART_RX_STA; <span class="comment">//接收状态标记	</span></span><br><span class="line"><span class="comment">//如果想串口中断接收，请不要注释以下宏定义</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 pclk2,u32 bound)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). usart.c：</strong>修改 IO 口使能时钟和功能参数<em>（仅展示修改部分代码，详细原码请下载资料包查看）</em></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//PA9-PA10  串口1</span></span><br><span class="line"><span class="comment">//初始化IO</span></span><br><span class="line"><span class="comment">//pclk2:PCLK2时钟频率(72Mhz)</span></span><br><span class="line"><span class="comment">//bound:波特率 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 pclk2,u32 bound)</span></span></span><br><span class="line"><span class="function"></span>&#123;  	 </span><br><span class="line">	<span class="keyword">float</span> temp;</span><br><span class="line">	u16 mantissa;</span><br><span class="line">	u16 fraction;	   </span><br><span class="line">	temp=(<span class="keyword">float</span>)(pclk2*<span class="number">1000000</span>)/(bound*<span class="number">16</span>); <span class="comment">//得到USARTDIV</span></span><br><span class="line">	mantissa=temp; <span class="comment">//得到整数部分</span></span><br><span class="line">	fraction=(temp-mantissa)*<span class="number">16</span>; <span class="comment">//得到小数部分	 </span></span><br><span class="line">	mantissa&lt;&lt;=<span class="number">4</span>;</span><br><span class="line">	mantissa+=fraction; </span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>; <span class="comment">//使能PORTA口时钟  </span></span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">14</span>; <span class="comment">//使能串口时钟 </span></span><br><span class="line">	GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFF00F</span>;<span class="comment">//IO状态设置    10:0100--&gt;4   9:1001--&gt;9</span></span><br><span class="line">	GPIOA-&gt;CRH|=<span class="number">0X00000490</span>;<span class="comment">//IO状态设置 </span></span><br><span class="line">	RCC-&gt;APB2RSTR|=<span class="number">1</span>&lt;&lt;<span class="number">14</span>;   <span class="comment">//复位串口1</span></span><br><span class="line">	RCC-&gt;APB2RSTR&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">14</span>);<span class="comment">//停止复位	   	   </span></span><br><span class="line">	<span class="comment">//波特率设置</span></span><br><span class="line"> 	USART1-&gt;BRR=mantissa; <span class="comment">// 波特率设置	 </span></span><br><span class="line">	USART1-&gt;CR1|=<span class="number">0X360C</span>;  <span class="comment">//校验位:1奇校验.数据位+1--&gt;9位  </span></span><br><span class="line">	<span class="comment">//360c--&gt;0011 0110 0000 1100</span></span><br><span class="line">	</span><br><span class="line">	USART1-&gt;CR2|=<span class="number">0X0000</span>;  <span class="comment">//1位停止  位13:12--&gt;00--&gt;1位停止</span></span><br><span class="line">	</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> EN_USART1_RX  <span class="comment">//如果使能了接收</span></span></span><br><span class="line">	<span class="comment">//使能接收中断 </span></span><br><span class="line">	USART1-&gt;CR1|=<span class="number">1</span>&lt;&lt;<span class="number">5</span>; <span class="comment">//接收缓冲区非空中断使能	    	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">3</span>,<span class="number">3</span>,USART1_IRQn,<span class="number">2</span>); <span class="comment">//组2，最低优先级 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//PA9-PA10  串口1</span></span><br><span class="line"><span class="comment">//初始化IO</span></span><br><span class="line"><span class="comment">//pclk2:PCLK2时钟频率(72Mhz)</span></span><br><span class="line"><span class="comment">//bound:波特率 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 pclk2,u32 bound)</span></span></span><br><span class="line"><span class="function"></span>&#123;  	 </span><br><span class="line">	<span class="keyword">float</span> temp;</span><br><span class="line">	u16 mantissa;</span><br><span class="line">	u16 fraction;	   </span><br><span class="line">	temp=(<span class="keyword">float</span>)(pclk2*<span class="number">1000000</span>)/(bound*<span class="number">16</span>); <span class="comment">//得到USARTDIV</span></span><br><span class="line">	mantissa=temp; <span class="comment">//得到整数部分</span></span><br><span class="line">	fraction=(temp-mantissa)*<span class="number">16</span>; <span class="comment">//得到小数部分	 </span></span><br><span class="line">	mantissa&lt;&lt;=<span class="number">4</span>;</span><br><span class="line">	mantissa+=fraction; </span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>; <span class="comment">//使能PORTA口时钟  </span></span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">14</span>; <span class="comment">//使能串口时钟 </span></span><br><span class="line">	GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFF00F</span>;<span class="comment">//IO状态设置    10:0100--&gt;4   9:1001--&gt;9</span></span><br><span class="line">	GPIOA-&gt;CRH|=<span class="number">0X00000490</span>;<span class="comment">//IO状态设置 </span></span><br><span class="line">	RCC-&gt;APB2RSTR|=<span class="number">1</span>&lt;&lt;<span class="number">14</span>;   <span class="comment">//复位串口1</span></span><br><span class="line">	RCC-&gt;APB2RSTR&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">14</span>);<span class="comment">//停止复位	   	   </span></span><br><span class="line">	<span class="comment">//波特率设置</span></span><br><span class="line"> 	USART1-&gt;BRR=mantissa; <span class="comment">// 波特率设置	 </span></span><br><span class="line">	USART1-&gt;CR1|=<span class="number">0X360C</span>;  <span class="comment">//校验位:1奇校验.数据位+1--&gt;9位  </span></span><br><span class="line">	<span class="comment">//360c--&gt;0011 0110 0000 1100</span></span><br><span class="line">	</span><br><span class="line">	USART1-&gt;CR2|=<span class="number">0X0000</span>;  <span class="comment">//1位停止  位13:12--&gt;00--&gt;1位停止</span></span><br><span class="line">	</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> EN_USART1_RX  <span class="comment">//如果使能了接收</span></span></span><br><span class="line">	<span class="comment">//使能接收中断 </span></span><br><span class="line">	USART1-&gt;CR1|=<span class="number">1</span>&lt;&lt;<span class="number">5</span>; <span class="comment">//接收缓冲区非空中断使能	    	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">3</span>,<span class="number">3</span>,USART1_IRQn,<span class="number">2</span>); <span class="comment">//组2，最低优先级 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>(3). main.c：</strong>主函数，串口 1→pclk2，速度 72MHz，所以 uart_init 中修改为 72，波特率 115200</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;			</span><br><span class="line">	u8 t;</span><br><span class="line">	u8 len;	</span><br><span class="line">	u16 times=<span class="number">0</span>;  </span><br><span class="line">	Stm32_Clock_Init(<span class="number">9</span>); <span class="comment">//系统时钟设置</span></span><br><span class="line">	delay_init(<span class="number">72</span>); <span class="comment">//延时初始化 </span></span><br><span class="line">	uart_init(<span class="number">72</span>,<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">	LED_Init(); <span class="comment">//初始化与LED连接的硬件接口    </span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(USART_RX_STA&amp;<span class="number">0x8000</span>)</span><br><span class="line">		&#123;</span><br><span class="line">            <span class="comment">//得到此次接收到的数据长度  0011 1111 1111 1111  bit13~0.接收到的有效字节数目</span></span><br><span class="line">			len=USART_RX_STA&amp;<span class="number">0x3fff</span>;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\r\n您发送的消息为:\r\n"</span>);</span><br><span class="line">			<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;len;t++)</span><br><span class="line">			&#123;</span><br><span class="line">				USART1-&gt;DR=USART_RX_BUF[t];</span><br><span class="line">				<span class="keyword">while</span>((USART1-&gt;SR&amp;<span class="number">0X40</span>)==<span class="number">0</span>);<span class="comment">//等待发送结束</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\r\n\r\n"</span>);<span class="comment">//插入换行</span></span><br><span class="line">			USART_RX_STA=<span class="number">0</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			times++;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">5000</span>==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\r\nALIENTEK MiniSTM32开发板 串口实验\r\n"</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"正点原子@ALIENTEK\r\n\r\n\r\n"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">200</span>==<span class="number">0</span>)<span class="built_in">printf</span>(<span class="string">"请输入数据,以回车键结束\r\n"</span>);  </span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">30</span>==<span class="number">0</span>)LED0=!LED0;<span class="comment">//闪烁LED,提示系统正在运行.</span></span><br><span class="line">			delay_ms(<span class="number">10</span>);   </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;			</span><br><span class="line">	u8 t;</span><br><span class="line">	u8 len;	</span><br><span class="line">	u16 times=<span class="number">0</span>;  </span><br><span class="line">	Stm32_Clock_Init(<span class="number">9</span>); <span class="comment">//系统时钟设置</span></span><br><span class="line">	delay_init(<span class="number">72</span>); <span class="comment">//延时初始化 </span></span><br><span class="line">	uart_init(<span class="number">72</span>,<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">	LED_Init(); <span class="comment">//初始化与LED连接的硬件接口    </span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(USART_RX_STA&amp;<span class="number">0x8000</span>)</span><br><span class="line">		&#123;</span><br><span class="line">            <span class="comment">//得到此次接收到的数据长度  0011 1111 1111 1111  bit13~0.接收到的有效字节数目</span></span><br><span class="line">			len=USART_RX_STA&amp;<span class="number">0x3fff</span>;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;\r\n您发送的消息为:\r\n&quot;</span>);</span><br><span class="line">			<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;len;t++)</span><br><span class="line">			&#123;</span><br><span class="line">				USART1-&gt;DR=USART_RX_BUF[t];</span><br><span class="line">				<span class="keyword">while</span>((USART1-&gt;SR&amp;<span class="number">0X40</span>)==<span class="number">0</span>);<span class="comment">//等待发送结束</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;\r\n\r\n&quot;</span>);<span class="comment">//插入换行</span></span><br><span class="line">			USART_RX_STA=<span class="number">0</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			times++;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">5000</span>==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;\r\nALIENTEK MiniSTM32开发板 串口实验\r\n&quot;</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;正点原子@ALIENTEK\r\n\r\n\r\n&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">200</span>==<span class="number">0</span>)<span class="built_in">printf</span>(<span class="string">&quot;请输入数据,以回车键结束\r\n&quot;</span>);  </span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">30</span>==<span class="number">0</span>)LED0=!LED0;<span class="comment">//闪烁LED,提示系统正在运行.</span></span><br><span class="line">			delay_ms(<span class="number">10</span>);   </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-2-库函数版"><a href="#1-2-库函数版" class="headerlink" title="1.2 库函数版"></a>1.2 库函数版</h2><p><strong>(1). usart.c：</strong>配置串口 1 和 GPIOA 使能时钟，以及配置功能参数:</p>
 <ul>
@@ -257,7 +561,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//串口初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 bound)</span></span>&#123;</span><br><span class="line">  <span class="comment">//GPIO端口设置</span></span><br><span class="line">  GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">  USART_InitTypeDef USART_InitStructure;</span><br><span class="line">  NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line">	 </span><br><span class="line">  RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1|RCC_APB2Periph_GPIOA, ENABLE);	<span class="comment">//使能USART1，GPIOA时钟</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//USART1_TX   GPIOA.9</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; <span class="comment">//PA.9</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz; <span class="comment">//10MHz </span></span><br><span class="line">  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; <span class="comment">//推挽复用输出</span></span><br><span class="line">  GPIO_Init(GPIOA, &amp;GPIO_InitStructure); <span class="comment">//初始化GPIOA.9</span></span><br><span class="line">   </span><br><span class="line">  <span class="comment">//USART1_RX	GPIOA.10初始化</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;<span class="comment">//PA10</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;<span class="comment">//下拉输入</span></span><br><span class="line">  GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOA.10  </span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//Usart1 NVIC 配置</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=<span class="number">2</span> ; <span class="comment">//抢占优先级2</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">1</span>; <span class="comment">//子优先级1 (响应)</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//IRQ通道使能</span></span><br><span class="line">  NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据指定的参数初始化VIC寄存器</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//USART 初始化设置</span></span><br><span class="line">  USART_InitStructure.USART_BaudRate = bound; <span class="comment">//串口波特率</span></span><br><span class="line">  USART_InitStructure.USART_WordLength = USART_WordLength_9b; <span class="comment">//字长为9位数据格式  加入1位校验位,数据位+1</span></span><br><span class="line">  USART_InitStructure.USART_StopBits = USART_StopBits_0_5; <span class="comment">//0.5个停止位</span></span><br><span class="line">  USART_InitStructure.USART_Parity = USART_Parity_Even; <span class="comment">//偶校验位</span></span><br><span class="line">  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None; <span class="comment">//无硬件数据流控制</span></span><br><span class="line">  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; <span class="comment">//收发模式</span></span><br><span class="line"></span><br><span class="line">  USART_Init(USART1, &amp;USART_InitStructure); <span class="comment">//初始化串口1</span></span><br><span class="line">  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE); <span class="comment">//开启串口接受中断</span></span><br><span class="line">  USART_Cmd(USART1, ENABLE); <span class="comment">//使能串口1 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). main.c：</strong>设置中断优先级分组 3，修改串口初始化波特率为 115200<em>（仅展示修改部分代码，详细原码请下载资料包查看）</em></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">delay_init(); <span class="comment">//延时函数初始化	</span></span><br><span class="line"><span class="comment">//设置中断优先级分组3</span></span><br><span class="line">NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);</span><br><span class="line">uart_init(<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">LED_Init(); <span class="comment">//初始化与LED连接的硬件接口</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">delay_init(); <span class="comment">//延时函数初始化	</span></span><br><span class="line"><span class="comment">//设置中断优先级分组3</span></span><br><span class="line">NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);</span><br><span class="line">uart_init(<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">LED_Init(); <span class="comment">//初始化与LED连接的硬件接口 </span></span><br></pre></td></tr></table></figure>
 
 <h1 id="2-串口5通信"><a href="#2-串口5通信" class="headerlink" title="2. 串口5通信"></a>2. 串口5通信</h1><h2 id="2-1-寄存器版"><a href="#2-1-寄存器版" class="headerlink" title="2.1 寄存器版"></a>2.1 寄存器版</h2><p><strong>(1). usart.h：</strong>头文件中自定义的函数将 USART 改为 UART，其对应的 usart.c 和 main.c 文件中对应的自定义函数名也要修改正确</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UART_REC_LEN  			200  	<span class="comment">//定义最大接收字节数 200</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EN_UART5_RX 			1	<span class="comment">//使能（1）/禁止（0）串口1接收</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//接收缓冲,最大UART_REC_LEN个字节.末字节为换行符 </span></span><br><span class="line"><span class="keyword">extern</span> u8  UART_RX_BUF[UART_REC_LEN]; </span><br><span class="line"><span class="keyword">extern</span> u16 UART_RX_STA; <span class="comment">//接收状态标记	</span></span><br><span class="line"><span class="comment">//如果想串口中断接收，请不要注释以下宏定义</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 pclk1,u32 bound)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -266,17 +570,17 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//PD2-PC12  串口5</span></span><br><span class="line"><span class="comment">//初始化IO</span></span><br><span class="line"><span class="comment">//pclk1:PCLK1时钟频率(36Mhz)</span></span><br><span class="line"><span class="comment">//bound:波特率 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 pclk1,u32 bound)</span></span></span><br><span class="line"><span class="function"></span>&#123;  	 </span><br><span class="line">	<span class="keyword">float</span> temp;</span><br><span class="line">	u16 mantissa;</span><br><span class="line">	u16 fraction;	   </span><br><span class="line">	temp=(<span class="keyword">float</span>)(pclk1*<span class="number">1000000</span>)/(bound*<span class="number">16</span>); <span class="comment">//得到USARTDIV</span></span><br><span class="line">	mantissa=temp; <span class="comment">//得到整数部分</span></span><br><span class="line">	fraction=(temp-mantissa)*<span class="number">16</span>; <span class="comment">//得到小数部分	 </span></span><br><span class="line">    mantissa&lt;&lt;=<span class="number">4</span>;</span><br><span class="line">	mantissa+=fraction; </span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">5</span>; <span class="comment">//使能PORTD口时钟 </span></span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">4</span>; <span class="comment">//使能PORTC口时钟 </span></span><br><span class="line">	RCC-&gt;APB1ENR|=<span class="number">1</span>&lt;&lt;<span class="number">20</span>; <span class="comment">//使能串口5时钟 </span></span><br><span class="line">	</span><br><span class="line">	GPIOD-&gt;CRL&amp;=<span class="number">0XFFFFF0FF</span>; <span class="comment">//IO状态设置	PD2:0100--&gt;4,接收端浮空输入</span></span><br><span class="line">	GPIOD-&gt;CRL|=<span class="number">0X00000400</span>; <span class="comment">//IO状态设置</span></span><br><span class="line">	</span><br><span class="line">	GPIOC-&gt;CRH&amp;=<span class="number">0XFFF0FFFF</span>; <span class="comment">//IO状态设置	PC12:1001--&gt;9,发送端推挽复用，速度为10MHz</span></span><br><span class="line">	GPIOC-&gt;CRH|=<span class="number">0X00090000</span>; <span class="comment">//IO状态设置 </span></span><br><span class="line">	</span><br><span class="line">	RCC-&gt;APB1RSTR|=<span class="number">1</span>&lt;&lt;<span class="number">20</span>; <span class="comment">//复位串口5</span></span><br><span class="line">	RCC-&gt;APB1RSTR&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">20</span>); <span class="comment">//停止复位	   	   </span></span><br><span class="line">	<span class="comment">//波特率设置</span></span><br><span class="line"> 	UART5-&gt;BRR=mantissa; <span class="comment">// 波特率设置	 </span></span><br><span class="line">	UART5-&gt;CR1|=<span class="number">0X360C</span>; <span class="comment">//校验位:1奇校验.数据位+1--&gt;9位  </span></span><br><span class="line">	<span class="comment">//360c--&gt;0011 0110 0000 1100</span></span><br><span class="line">	</span><br><span class="line">	UART5-&gt;CR2|=<span class="number">0X0000</span>; <span class="comment">//1位停止  位13:12--&gt;00--&gt;1位停止</span></span><br><span class="line">	</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> EN_UART5_RX <span class="comment">//如果使能了接收</span></span></span><br><span class="line">	<span class="comment">//使能接收中断 </span></span><br><span class="line">	UART5-&gt;CR1|=<span class="number">1</span>&lt;&lt;<span class="number">5</span>; <span class="comment">//接收缓冲区非空中断使能	    	</span></span><br><span class="line">	MY_NVIC_Init(<span class="number">3</span>,<span class="number">3</span>,UART5_IRQn,<span class="number">2</span>); <span class="comment">//组2，最低优先级 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(3). main.c：</strong>串口 5→pclk1，对应速度 36MHz，所以 uart_init 中修改为 36，波特率 115200</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;			</span><br><span class="line">	u8 t;</span><br><span class="line">	u8 len;	</span><br><span class="line">	u16 times=<span class="number">0</span>;  </span><br><span class="line">	Stm32_Clock_Init(<span class="number">9</span>); <span class="comment">//系统时钟设置</span></span><br><span class="line">	delay_init(<span class="number">36</span>);	     <span class="comment">//延时初始化 </span></span><br><span class="line">	uart_init(<span class="number">36</span>,<span class="number">115200</span>);	 <span class="comment">//串口初始化为115200</span></span><br><span class="line">	LED_Init();		  	 <span class="comment">//初始化与LED连接的硬件接口    </span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(UART_RX_STA&amp;<span class="number">0x8000</span>)</span><br><span class="line">		&#123;					   </span><br><span class="line">			len=UART_RX_STA&amp;<span class="number">0x3fff</span>;<span class="comment">//得到此次接收到的数据长度</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\r\n您发送的消息为:\r\n"</span>);</span><br><span class="line">			<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;len;t++)</span><br><span class="line">			&#123;</span><br><span class="line">				UART5-&gt;DR=UART_RX_BUF[t];</span><br><span class="line">				<span class="keyword">while</span>((UART5-&gt;SR&amp;<span class="number">0X40</span>)==<span class="number">0</span>);<span class="comment">//等待发送结束</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\r\n\r\n"</span>);<span class="comment">//插入换行</span></span><br><span class="line">			UART_RX_STA=<span class="number">0</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			times++;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">5000</span>==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\r\nALIENTEK MiniSTM32开发板 串口实验\r\n"</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"正点原子@ALIENTEK\r\n\r\n\r\n"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">200</span>==<span class="number">0</span>)<span class="built_in">printf</span>(<span class="string">"请输入数据,以回车键结束\r\n"</span>);  </span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">30</span>==<span class="number">0</span>)LED0=!LED0;<span class="comment">//闪烁LED,提示系统正在运行.</span></span><br><span class="line">			delay_ms(<span class="number">10</span>);   </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;			</span><br><span class="line">	u8 t;</span><br><span class="line">	u8 len;	</span><br><span class="line">	u16 times=<span class="number">0</span>;  </span><br><span class="line">	Stm32_Clock_Init(<span class="number">9</span>); <span class="comment">//系统时钟设置</span></span><br><span class="line">	delay_init(<span class="number">36</span>);	     <span class="comment">//延时初始化 </span></span><br><span class="line">	uart_init(<span class="number">36</span>,<span class="number">115200</span>);	 <span class="comment">//串口初始化为115200</span></span><br><span class="line">	LED_Init();		  	 <span class="comment">//初始化与LED连接的硬件接口    </span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(UART_RX_STA&amp;<span class="number">0x8000</span>)</span><br><span class="line">		&#123;					   </span><br><span class="line">			len=UART_RX_STA&amp;<span class="number">0x3fff</span>;<span class="comment">//得到此次接收到的数据长度</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;\r\n您发送的消息为:\r\n&quot;</span>);</span><br><span class="line">			<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;len;t++)</span><br><span class="line">			&#123;</span><br><span class="line">				UART5-&gt;DR=UART_RX_BUF[t];</span><br><span class="line">				<span class="keyword">while</span>((UART5-&gt;SR&amp;<span class="number">0X40</span>)==<span class="number">0</span>);<span class="comment">//等待发送结束</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;\r\n\r\n&quot;</span>);<span class="comment">//插入换行</span></span><br><span class="line">			UART_RX_STA=<span class="number">0</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			times++;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">5000</span>==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;\r\nALIENTEK MiniSTM32开发板 串口实验\r\n&quot;</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;正点原子@ALIENTEK\r\n\r\n\r\n&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">200</span>==<span class="number">0</span>)<span class="built_in">printf</span>(<span class="string">&quot;请输入数据,以回车键结束\r\n&quot;</span>);  </span><br><span class="line">			<span class="keyword">if</span>(times%<span class="number">30</span>==<span class="number">0</span>)LED0=!LED0;<span class="comment">//闪烁LED,提示系统正在运行.</span></span><br><span class="line">			delay_ms(<span class="number">10</span>);   </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-2-库函数版"><a href="#2-2-库函数版" class="headerlink" title="2.2 库函数版"></a>2.2 库函数版</h2><p><strong>(1). usart.c：</strong>配置串口 5 和 GPIOC、GPIOD 使能时钟，以及配置功能参数；初始化串口设置，设置 9 位字长数据格式（加入校验位，数据位+1）、0.5 位停止位和偶校验位 Even；配置串口中断优先级，抢占优先级 2 级、相应优先级 1 级；最后开启串口接受中断并使能串口 1。将自定义的 USART（USART1） 改为 UART（UART5）<em>（仅展示修改部分代码，详细原码请下载资料包查看）</em></p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//串口初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart_init</span><span class="params">(u32 bound)</span></span>&#123;</span><br><span class="line">  <span class="comment">//GPIO端口设置</span></span><br><span class="line">  GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">  USART_InitTypeDef USART_InitStructure;</span><br><span class="line">  NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line">	 </span><br><span class="line">  RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE); <span class="comment">//使能UART5</span></span><br><span class="line"></span><br><span class="line">  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD, ENABLE); <span class="comment">//GPIOC,GPIOD时钟</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//UART5_TX	GPIOC.12</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12; <span class="comment">//PC.12</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;  <span class="comment">//10MHz </span></span><br><span class="line">  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;	<span class="comment">//推挽复用输出</span></span><br><span class="line">  GPIO_Init(GPIOC, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOC.12</span></span><br><span class="line">   </span><br><span class="line">  <span class="comment">//UART5_RX	GPIOD.2初始化</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; <span class="comment">//PD.2</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; <span class="comment">//下拉输入</span></span><br><span class="line">  GPIO_Init(GPIOD, &amp;GPIO_InitStructure); <span class="comment">//初始化GPIOD.2  </span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//UART5 NVIC 配置</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannel = UART5_IRQn;</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=<span class="number">2</span> ; <span class="comment">//抢占优先级2</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">1</span>; <span class="comment">//子优先级1 (响应)</span></span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; <span class="comment">//IRQ通道使能</span></span><br><span class="line">  NVIC_Init(&amp;NVIC_InitStructure); <span class="comment">//根据指定的参数初始化VIC寄存器</span></span><br><span class="line">  </span><br><span class="line">   <span class="comment">//UART 初始化设置</span></span><br><span class="line">  USART_InitStructure.USART_BaudRate = bound;<span class="comment">//串口波特率</span></span><br><span class="line">  USART_InitStructure.USART_WordLength = USART_WordLength_9b;<span class="comment">//字长为9位数据格式  加入1位校验位,数据位+1</span></span><br><span class="line">  USART_InitStructure.USART_StopBits = USART_StopBits_0_5;<span class="comment">//0.5个停止位</span></span><br><span class="line">  USART_InitStructure.USART_Parity = USART_Parity_Even;<span class="comment">//偶校验位</span></span><br><span class="line">  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;<span class="comment">//无硬件数据流控制</span></span><br><span class="line">  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	<span class="comment">//收发模式</span></span><br><span class="line"></span><br><span class="line">  USART_Init(UART5, &amp;USART_InitStructure); <span class="comment">//初始化串口5</span></span><br><span class="line">  USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);<span class="comment">//开启串口接受中断</span></span><br><span class="line">  USART_Cmd(UART5, ENABLE);                    <span class="comment">//使能串口5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). main.c：</strong>设置中断优先级分组 3，修改串口初始化波特率为 115200<em>（仅展示修改部分代码，详细原码请下载资料包查看）</em></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">delay_init(); <span class="comment">//延时函数初始化	</span></span><br><span class="line">NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3); <span class="comment">//设置中断优先级分组3</span></span><br><span class="line">uart_init(<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">LED_Init(); <span class="comment">//初始化与LED连接的硬件接口</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">delay_init(); <span class="comment">//延时函数初始化	</span></span><br><span class="line">NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3); <span class="comment">//设置中断优先级分组3</span></span><br><span class="line">uart_init(<span class="number">115200</span>); <span class="comment">//串口初始化为115200</span></span><br><span class="line">LED_Init(); <span class="comment">//初始化与LED连接的硬件接口 </span></span><br></pre></td></tr></table></figure>
 
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>串口实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/iiA5hq6h3he" target="_blank" rel="noopener">串口实验.zip</a>    密码：4mgf</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/iiA5hq6h3he">串口实验.zip</a>    密码：4mgf</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -285,10 +589,10 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -302,7 +606,7 @@
     <title>将网站迁移到Vercel托管</title>
     <url>/undefined/86d73a10.html</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="关于Vercel"><a href="#关于Vercel" class="headerlink" title="关于Vercel"></a>关于Vercel</h2><p>首先，Vercel是免费的网站托管商，其中有许多大官网如<code>Next.js</code>,<code>create-react-app</code>,<code>Nuxt.js</code>等就是部署在部署托管在<code>vercel</code>的。同时Vercel操作简单友好，支持从github、gitlab的代码库中一键导入，支持自定义域名和SSL证书配置。访问速度也很可观，简直就是<del>白嫖党</del>的福音。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="为什么取消了在coding上的托管"><a href="#为什么取消了在coding上的托管" class="headerlink" title="为什么取消了在coding上的托管"></a>为什么取消了在coding上的托管</h2><p>原来本站是部署到coding上来托管的，但由于现在coding网站托管和腾讯云打通并且开始主推新版，旧版迟早是要被淘汰的（现在我在旧版coding托管的网站IP已经ping不到了），不得不迁移到腾讯云上。</p>
 <blockquote>
@@ -311,29 +615,24 @@
 <p>也就是迁移新版是需要收费的，个人网站费用不高，域名不是已经备案的网站的话，可以选择香港的服务器节点，但其实这新版很鸡肋。</p>
 <h3 id="迁移新版后国内访问速度再起不能？"><a href="#迁移新版后国内访问速度再起不能？" class="headerlink" title="迁移新版后国内访问速度再起不能？"></a>迁移新版后国内访问速度再起不能？</h3><p>在设置好自定义域名后，网站在部署时会申请SSL证书，同时检验是否部署好COS实例，即使后面关闭了也会自动打开（尝试白嫖失败T^T），部署好后试着用域名去访问发现速度大大下跌，像校园网这种比较差的网络环境有时候根本打不开，查阅文章得知这是绕了地球一圈？好家伙，说好的香港节点呢(???￢_￢)</p>
 <ul>
-<li>关于迁移新版速度可以参考这篇文章：<a href="https://blog.csdn.net/nanshanvc/article/details/110454607" target="_blank" rel="noopener">CODING Pages 静态网站升级腾讯云新版踩坑小记</a> </li>
+<li>关于迁移新版速度可以参考这篇文章：<a href="https://blog.csdn.net/nanshanvc/article/details/110454607">CODING Pages 静态网站升级腾讯云新版踩坑小记</a> </li>
 </ul>
 <h1 id="如何在Vercel上部署"><a href="#如何在Vercel上部署" class="headerlink" title="如何在Vercel上部署"></a>如何在Vercel上部署</h1><h2 id="导入及部署"><a href="#导入及部署" class="headerlink" title="导入及部署"></a>导入及部署</h2><ol>
 <li><p>先成功部署Github Pages</p>
 </li>
-<li><p><a href="https://vercel.com/" target="_blank" rel="noopener">Vercel官网</a>，登录/注册账号，关联Github账号，一键导入（这里以新用户注册讲解）</p>
+<li><p><a href="https://vercel.com/">Vercel官网</a>，登录/注册账号，关联Github账号，一键导入（这里以新用户注册讲解）</p>
 </li>
 <li><p>跟随向导，关联好Github帐号后可以寻找库中的代码，选择<strong>Only select repositories</strong> 指定库中项目（也可以选择ALL，建议选择需要的就可以了）</p>
-<img src="https://pic.imgdb.cn/item/6098aff2d1a9ae528f35bc6a.png" style="zoom: 50%;">
-</li>
+<img src="https://pic.imgdb.cn/item/6098aff2d1a9ae528f35bc6a.png" style="zoom: 50%;"></li>
 <li><p>Import一键导入，导入后即可自动部署成功</p>
-<img src="https://pic.imgdb.cn/item/6098b085d1a9ae528f399093.png" style="zoom:50%">
-
-
-
-</li>
+<img src="https://pic.imgdb.cn/item/6098b085d1a9ae528f399093.png" style="zoom:50%"></li>
 </ol>
 <h2 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h2><p>部署成功后，进入项目，找到 <strong>Settings —&gt; Domains</strong> 。</p>
 <img src="https://pic.imgdb.cn/item/6098bca5d1a9ae528f99455b.png" style="zoom:50%">
 
 <p>添加后会提示重定向到哪个域名，也就是当输入 <code>baidu.com</code> 时会重定向到 <code>www.baidu.com</code> 的意思，当然反过来也可以，然后按要求配置好DNS的解析即可</p>
 <h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>Vercel的配置还是比较简单的，就是我的域名是在DNSPOD上解析的，所以没有配置vercel的NS会一直报配置不正确，但可以正常访问就可以了。</p>
-<p>除了Vercel，还有一个免费的托管商 <strong><a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a></strong> ，时间有限就不多折腾了，有兴趣的同学可以自行去查看。</p>
+<p>除了Vercel，还有一个免费的托管商 <strong><a href="https://www.netlify.com/">Netlify</a></strong> ，时间有限就不多折腾了，有兴趣的同学可以自行去查看。</p>
 <h4 id="补充（2021年5月31日更新）"><a href="#补充（2021年5月31日更新）" class="headerlink" title="补充（2021年5月31日更新）"></a>补充（2021年5月31日更新）</h4><p>1、前期在vercel使用自定义域名部署的网站在国内已经无法访问了（亲测翻墙可以访问，不翻墙无法访问），经过辛苦查找各大网站，终于在知乎一篇文章的评论下发现了有用的信息：</p>
 <div class="note warning">
             <p>官方已经对此问题响应，把A记录改成<code>76.223.126.88</code>，或把CNAME改成<code>cname-china.vercel-dns.com</code> （至于响应在哪个位置待我有时间去找找，知道的同学可以通过Email提示一下）<br>注意：这两项修改均是在vercel的DNS解析中修改，且默认记录是无法修改的，直接Add就行。</p>
@@ -341,7 +640,7 @@
 
 <p>2、使用vercel出现的DNS解析的问题，建议暂停在DNSPOD解析，直接在域名商解析，这样就不会出现配置报错问题了，同时也是为了避免服务器找不到的问题。</p>
 <div class="note info">
-            <p>本文参考：<a href="https://zhuanlan.zhihu.com/p/338057700" target="_blank" rel="noopener">如何将 github pages 迁移到 vercel 上托管</a><br>有关 <strong>Netlify</strong> 的部署可参考：<a href="https://zhuanlan.zhihu.com/p/338058109" target="_blank" rel="noopener">如何将网站代码部署到 netlify 上免费托管</a></p>
+            <p>本文参考：<a href="https://zhuanlan.zhihu.com/p/338057700">如何将 github pages 迁移到 vercel 上托管</a><br>有关 <strong>Netlify</strong> 的部署可参考：<a href="https://zhuanlan.zhihu.com/p/338058109">如何将网站代码部署到 netlify 上免费托管</a></p>
           </div>]]></content>
       <categories>
         <category>博客</category>
@@ -360,7 +659,7 @@
 <li>一个按键控制一个灯</li>
 <li>一个按键控制两个灯</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-一个按键控制一个灯"><a href="#1-一个按键控制一个灯" class="headerlink" title="1. 一个按键控制一个灯"></a>1. 一个按键控制一个灯</h1><h2 id="1-1-寄存器版"><a href="#1-1-寄存器版" class="headerlink" title="1.1 寄存器版"></a>1.1 寄存器版</h2><p><strong>(1). key.h：</strong>配置 4 个按键状态，初始化 IO</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0_PRES	1	<span class="comment">//KEY0按下</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1_PRES	2	<span class="comment">//KEY1按下</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2_PRES	3	<span class="comment">//KEY2按下</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3_PRES	4	<span class="comment">//KEY3按下</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0  PCin(0)   <span class="comment">//PC0</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1  PCin(1)	<span class="comment">//PC1</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2  PCin(2)	<span class="comment">//PC2 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3  PCin(3)	<span class="comment">//PC3 </span></span></span><br><span class="line">	 </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">KEY_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//IO初始化</span></span><br><span class="line"><span class="function">u8 <span class="title">KEY_Scan</span><span class="params">(u8 mode)</span></span>;	<span class="comment">//按键扫描函数</span></span><br></pre></td></tr></table></figure>
@@ -377,7 +676,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按键处理(扫描)函数</span></span><br><span class="line"><span class="function">u8 <span class="title">KEY_Scan</span><span class="params">(u8 mode)</span></span></span><br><span class="line"><span class="function"></span>&#123;	 </span><br><span class="line">	<span class="keyword">static</span> u8 key_up=<span class="number">1</span>;<span class="comment">//按键按松开标志</span></span><br><span class="line">	<span class="keyword">if</span>(mode)key_up=<span class="number">1</span>;  <span class="comment">//支持连按		  </span></span><br><span class="line">	<span class="keyword">if</span>(key_up&amp;&amp;(KEY0==<span class="number">0</span>||KEY1==<span class="number">0</span>||KEY2==<span class="number">0</span>||KEY3==<span class="number">0</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		delay_ms(<span class="number">10</span>);<span class="comment">//去抖动 </span></span><br><span class="line">		key_up=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span>(KEY0==<span class="number">0</span>)<span class="keyword">return</span> KEY0_PRES;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(KEY1==<span class="number">0</span>)<span class="keyword">return</span> KEY1_PRES;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(KEY2==<span class="number">0</span>)<span class="keyword">return</span> KEY2_PRES;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(KEY3==<span class="number">0</span>)<span class="keyword">return</span> KEY3_PRES; </span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(KEY0==<span class="number">1</span>&amp;&amp;KEY1==<span class="number">1</span>&amp;&amp;KEY2==<span class="number">1</span>&amp;&amp;KEY3==<span class="number">1</span>)key_up=<span class="number">1</span>; 	     </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 无按键按下</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(3). led.h：</strong>LED 端口定义及初始化</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//LED端口定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED0 PCout(8)	<span class="comment">// PC8</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1 PCout(9)	<span class="comment">// PC9	</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2 PCout(10)	<span class="comment">// PC10</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED3 PCout(11)	<span class="comment">// PC11</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//初始化</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//LED端口定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED0 PCout(8)	<span class="comment">// PC8</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1 PCout(9)	<span class="comment">// PC9	</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2 PCout(10)	<span class="comment">// PC10</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED3 PCout(11)	<span class="comment">// PC11</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//初始化		</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>(4). led.c：</strong>LED IO初始化</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化PC8-PC11为输出口.并使能时钟		    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">4</span>;    <span class="comment">//使能PORTC时钟   	 </span></span><br><span class="line">	GPIOC-&gt;CRH&amp;=<span class="number">0XFFFF0000</span>; </span><br><span class="line">	GPIOC-&gt;CRH|=<span class="number">0X00003333</span>;<span class="comment">//PC8-PC11 推挽输出 </span></span><br><span class="line">    </span><br><span class="line">	GPIOC-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">8</span>;      <span class="comment">//PC8 输出高</span></span><br><span class="line">	GPIOC-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">9</span>;      <span class="comment">//PC9输出高 </span></span><br><span class="line">	GPIOC-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">10</span>;     <span class="comment">//PC10输出高 </span></span><br><span class="line">	GPIOC-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">11</span>;     <span class="comment">//PC11输出高 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -386,7 +685,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;		 </span><br><span class="line">	vu8 t;	  </span><br><span class="line">	Stm32_Clock_Init(<span class="number">9</span>); 	<span class="comment">//系统时钟设置</span></span><br><span class="line">	delay_init(<span class="number">72</span>);	     	<span class="comment">//延时初始化 </span></span><br><span class="line">	LED_Init();		  	 	<span class="comment">//初始化与LED连接的硬件接口</span></span><br><span class="line">	KEY_Init();          	<span class="comment">//初始化与按键连接的硬件接口</span></span><br><span class="line">	LED0=<span class="number">1</span>;					<span class="comment">//LED初始状态</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		t=KEY_Scan(<span class="number">0</span>);		<span class="comment">//得到键值</span></span><br><span class="line">		<span class="keyword">switch</span>(t)</span><br><span class="line">		&#123;				 </span><br><span class="line">			<span class="keyword">case</span> KEY0_PRES:</span><br><span class="line">				LED0=!LED0;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> KEY1_PRES:</span><br><span class="line">				LED1=!LED1;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> KEY2_PRES:</span><br><span class="line">				LED2=!LED2;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> KEY3_PRES:</span><br><span class="line">				LED3=!LED3;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				delay_ms(<span class="number">10</span>);	</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;		 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-2-库函数版"><a href="#1-2-库函数版" class="headerlink" title="1.2 库函数版"></a>1.2 库函数版</h2><p><strong>(1). key.h：</strong>配置 4 个按键状态，初始化 IO</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0)<span class="comment">//读取按键0</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_1)<span class="comment">//读取按键1</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_2)<span class="comment">//读取按键2 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_3)<span class="comment">//读取按键3</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0_PRES	1	<span class="comment">//KEY0  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1_PRES	2	<span class="comment">//KEY1 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2_PRES	3	<span class="comment">//KEY2</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3_PRES	4	<span class="comment">//KEY3</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">KEY_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//IO初始化</span></span><br><span class="line"><span class="function">u8 <span class="title">KEY_Scan</span><span class="params">(u8 mode)</span></span>;  	<span class="comment">//按键扫描函数</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0)<span class="comment">//读取按键0</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_1)<span class="comment">//读取按键1</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_2)<span class="comment">//读取按键2 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_3)<span class="comment">//读取按键3</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY0_PRES	1	<span class="comment">//KEY0  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY1_PRES	2	<span class="comment">//KEY1 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY2_PRES	3	<span class="comment">//KEY2</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY3_PRES	4	<span class="comment">//KEY3</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">KEY_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//IO初始化</span></span><br><span class="line"><span class="function">u8 <span class="title">KEY_Scan</span><span class="params">(u8 mode)</span></span>;  	<span class="comment">//按键扫描函数			</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). key.c：</strong></p>
 <ul>
@@ -415,7 +714,7 @@
 
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>按键实验源码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/iRFbAq6guoh" target="_blank" rel="noopener">按键亮灯实验.zip</a>    密码：edu5</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/iRFbAq6guoh">按键亮灯实验.zip</a>    密码：edu5</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -424,10 +723,10 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -441,10 +740,10 @@
     <title>【嵌入式STM32】（二）跑马灯实验</title>
     <url>/undefined/35ffacf0.html</url>
     <content><![CDATA[<h1 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h1><p>使用PA8和PD2端口，用寄存器和库函数两个模板实现</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="寄存器版"><a href="#寄存器版" class="headerlink" title="寄存器版"></a>寄存器版</h2><p><strong>led.h：</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//LED端口定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED0 PAout(8)	<span class="comment">// PA8</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1 PDout(2)	<span class="comment">// PD2	</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//初始化</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//LED端口定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED0 PAout(8)	<span class="comment">// PA8</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1 PDout(2)	<span class="comment">// PD2	</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;	<span class="comment">//初始化		 				    </span></span><br></pre></td></tr></table></figure>
 
 <p><strong>led.c：</strong></p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化PA8和PD2为输出口.并使能这两个口的时钟</span></span><br><span class="line"><span class="comment">//LED IO初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>;    <span class="comment">//使能PORTA时钟</span></span><br><span class="line">	RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">5</span>;    <span class="comment">//使能PORTD时钟</span></span><br><span class="line">	GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFFFF0</span>; </span><br><span class="line">	GPIOA-&gt;CRH|=<span class="number">0X00000003</span>;		<span class="comment">//PA8 推挽输出</span></span><br><span class="line">	GPIOA-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">8</span>;     		<span class="comment">//PA8 输出高</span></span><br><span class="line">    </span><br><span class="line">	GPIOD-&gt;CRL&amp;=<span class="number">0XFFFFF0FF</span>;</span><br><span class="line">	GPIOD-&gt;CRL|=<span class="number">0X00000300</span>;<span class="comment">//PD.2推挽输出</span></span><br><span class="line">	GPIOD-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>;      <span class="comment">//PD.2输出高</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -466,14 +765,14 @@
 <p>代码敬请期待~ ~ ~</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>跑马灯实验源码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/iFnm2q4wble" target="_blank" rel="noopener">跑马灯实验（含寄存器和库函数）.zip</a>    密码：8k6g</li>
+<li>网盘下载：<a href="https://wwr.lanzoui.com/iFnm2q4wble">跑马灯实验（含寄存器和库函数）.zip</a>    密码：8k6g</li>
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -488,18 +787,18 @@
     <url>/undefined/fc8a844.html</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>开个新坑，STM32的相关文章是作者大三第二学期学习嵌入式这门课程的相关记录和总结。理论部分我们主要学习 STM32F103ZET6 和 STM32F103RCT6；而实验部分使用的是 STM32F103VCT6。不用担心，它们在学习上差别不是很大。</p>
 <h1 id="新建库函数版和寄存器版工程模板"><a href="#新建库函数版和寄存器版工程模板" class="headerlink" title="新建库函数版和寄存器版工程模板"></a>新建库函数版和寄存器版工程模板</h1><p>在做实验前，当然是要先建好工程模板才能进行下一项操作啦，STM32的开篇文章就以新建工程模板开始。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>首先STM32的代码分为寄存器版本和库函数版本，实验环境是 Keil 5 和 MDK5。这次笔记记录在幕布中，分享链接如下：</p>
 <div class="note success">
-            <p>STM32新建工程模板笔记：</p><ul><li>幕布传送门：文档链接:  <a href="https://share.mubu.com/doc/3_-lVqCPlu3" target="_blank" rel="noopener">https://share.mubu.com/doc/3_-lVqCPlu3</a>  密码: lzh9</li></ul><p>相关文件：</p><ul><li>包含寄存器和库函数的模板</li><li>STM32F10x_StdPeriph_Lib_V3.5.0 文件</li><li>分享链接：<ul><li>网盘下载: <a href="https://wwr.lanzoui.com/itX1Spyuqvg" target="_blank" rel="noopener">新建工程模板.zip</a>   密码:3fg5</li></ul></li></ul><p>嵌入式STM32学习视频：</p><ul><li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li></ul>
+            <p>STM32新建工程模板笔记：</p><ul><li>幕布传送门：文档链接:  <a href="https://share.mubu.com/doc/3_-lVqCPlu3">https://share.mubu.com/doc/3_-lVqCPlu3</a>  密码: lzh9</li></ul><p>相关文件：</p><ul><li>包含寄存器和库函数的模板</li><li>STM32F10x_StdPeriph_Lib_V3.5.0 文件</li><li>分享链接：<ul><li>网盘下载: <a href="https://wwr.lanzoui.com/itX1Spyuqvg">新建工程模板.zip</a>   密码:3fg5</li></ul></li></ul><p>嵌入式STM32学习视频：</p><ul><li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li></ul>
           </div>
 
 
 
 <h1 id="关于笔记的说明"><a href="#关于笔记的说明" class="headerlink" title="关于笔记的说明"></a>关于笔记的说明</h1><p>其实博客的文章更多是总结出笔记的终稿，然后再将它们上传，需要一定的时间去撰写。而在日常中，除了手写做笔记，我还使用<strong>幕布</strong>，幕布是一款思维导图软件，风格简约。在记录笔记时使用的是大纲模式，分层要更加明显，可以从大纲模式转为思维导图模式，同时还可以生成链接分享自己的笔记，是一款不错的笔记软件。所以我在幕布上有相关文章的笔记的话会附上分享链接，通过看大纲或思维导图更直观地进行学习。</p>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>]]></content>
       <categories>
         <category>嵌入式</category>
@@ -514,14 +813,14 @@
     <url>/undefined/fc63a592.html</url>
     <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>使用共阴极数码管动态显示 00—20，要求 P1.0—P1.7 接 a—dp，P2.0 接1，P2.1 接2。</p>
 <h2 id="动态显示和静态显示"><a href="#动态显示和静态显示" class="headerlink" title="动态显示和静态显示"></a>动态显示和静态显示</h2><h3 id="静态显示"><a href="#静态显示" class="headerlink" title="静态显示"></a>静态显示</h3><p>就是每一个数码管的段码都要独占具有锁存功能的输出口, CPU把要显示的字码送到输出口上,就可以使数码管显示对应的字符, 直到下一次送出另外一个字码之前, 显示的内容一直不会消失</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h3 id="动态显示"><a href="#动态显示" class="headerlink" title="动态显示"></a>动态显示</h3><p>就是把所有显示器的8个段码中的A-dp的各个相同段连接在一起, 接到一个公共的输出口上,而数码管的位端分别接在另外的输出口上,通过这两个输出口的两组信号相互作用来产生显示效果。即让各位数码管按照一定顺序轮流显示, 只要扫描频率足够高, 由于人眼的“ 视觉暂留”现象,就能连续稳定的显示</p>
 <div class="note success">
             <p>静态显示优点：显示稳定、亮度大, 节约CPU时间, 但占有I/O口线较多, 硬件成本高。<br>动态显示优点：其特点在于能显著降低显示部分成本,大大减少显示接口的连线结构。<br>举例, 静态驱动4位数码管, 需要4×8=32个I/O口, 而动态的驱动位数码管只需要4+8=12个I/O口。</p>
           </div>
 
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">100</span>;j++)</span><br><span class="line">			;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">21</span>;n++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=table[n/<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfe</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">			P1=table[n%<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfd</span>;</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		P1=<span class="number">0x00</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">100</span>;j++)</span><br><span class="line">			;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">21</span>;n++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=table[n/<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfe</span>;</span><br><span class="line">			delay(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">			P1=table[n%<span class="number">10</span>];</span><br><span class="line">			P2=<span class="number">0xfd</span>;</span><br><span class="line">			delay(<span class="number">300</span>);</span><br><span class="line">			P2=<span class="number">0xff</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		P1=<span class="number">0x00</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>调整延时函数 delay() 可以控制显示速度的快慢</p>
@@ -541,9 +840,9 @@
     <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1和P1接两个<strong>共阴极</strong>的数码管，P3.2接一个按钮，P3.3接一个按钮。</p>
 <p>按下3.3，2个数码管从00显示到20；按下3.3，2个数码管从20减到00</p>
 <p>3.2闭合，3.3断开，00-20；3.3断开，3.2闭合，20-00</p>
-<a id="more"></a>
+<span id="more"></span>
 
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义共阴极数值表</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//开启时，数码管显示00</span></span><br><span class="line">	P1=<span class="number">0x3f</span>;</span><br><span class="line">	P2=<span class="number">0x3f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==<span class="number">0xfb</span>)  <span class="comment">//按下P3.2</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(c=<span class="number">0</span>;c&lt;<span class="number">20</span>;c++)</span><br><span class="line">			&#123;</span><br><span class="line">				P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">				P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">				<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)  <span class="comment">//按下P3.3</span></span><br><span class="line">		&#123;	</span><br><span class="line">				<span class="keyword">for</span>(c=<span class="number">20</span>;c&gt;<span class="number">0</span>;c--)</span><br><span class="line">				&#123;</span><br><span class="line">					P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">					P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">					<span class="built_in">delay</span>(<span class="number">30</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">		P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="comment">//定义共阴极数值表</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0x3f</span>,<span class="number">0x06</span>,<span class="number">0x5b</span>,<span class="number">0x4f</span>,<span class="number">0x66</span>,<span class="number">0x6d</span>,<span class="number">0x7d</span>,<span class="number">0x07</span>,<span class="number">0x7f</span>,<span class="number">0x6f</span>&#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//开启时，数码管显示00</span></span><br><span class="line">	P1=<span class="number">0x3f</span>;</span><br><span class="line">	P2=<span class="number">0x3f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==<span class="number">0xfb</span>)  <span class="comment">//按下P3.2</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(c=<span class="number">0</span>;c&lt;<span class="number">20</span>;c++)</span><br><span class="line">			&#123;</span><br><span class="line">				P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">				P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">				delay(<span class="number">30</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)  <span class="comment">//按下P3.3</span></span><br><span class="line">		&#123;	</span><br><span class="line">				<span class="keyword">for</span>(c=<span class="number">20</span>;c&gt;<span class="number">0</span>;c--)</span><br><span class="line">				&#123;</span><br><span class="line">					P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">					P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">					delay(<span class="number">30</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=dofly_table[c/<span class="number">10</span>];</span><br><span class="line">		P2=dofly_table[c%<span class="number">10</span>];</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/60759a3a8322e6675c782b3c.gif" style="zoom:50%">
 
@@ -566,11 +865,11 @@
     <title>【C51单片机】（三）共阳极LED数码管实现0-9显示</title>
     <url>/undefined/acec2d97.html</url>
     <content><![CDATA[<h2 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h2><p>P1接一个共阳极的LED数码管，实现显示 0 - 9</p>
-<a id="more"></a>
+<span id="more"></span>
 
 
 
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;  //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//共阳极数码管0-9显示数值表</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> k;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;<span class="number">10</span>;k++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=dofly_table[k];</span><br><span class="line">			<span class="built_in">delay</span>(<span class="number">40</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span>  <span class="comment">//包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//共阳极数码管0-9显示数值表</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> code dofly_table[<span class="number">10</span>]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> k;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;<span class="number">10</span>;k++)</span><br><span class="line">		&#123;</span><br><span class="line">			P1=dofly_table[k];</span><br><span class="line">			delay(<span class="number">40</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="仿真演示"><a href="#仿真演示" class="headerlink" title="仿真演示"></a>仿真演示</h2><img src="https://img.imgdb.cn/item/604c63dd5aedab222c3b77b7.gif" style="zoom: 60%;">
 
@@ -591,8 +890,8 @@
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在计算机网络的课上，留意到老师都是通过远程连接来将办公室的电脑和教室的电脑进行连接，我很好奇！刚好之前我的树莓派就是通过VNC远程连接来实现桌面连接，所以就想折腾下Windows的远程连接。其实并不难，在局域网内，通过 <strong>Win + R</strong> 输入  <code>mstsc</code> 打开Windows远程桌面程序，输入局域网内想要连接的电脑的IP，然后输入密码就可以连接到另一台电脑上。</p>
 <p>当然这是需要前期准备工作的，比较老的系统，如Win7打开远程桌面服务比较麻烦，如果没有密码还需要设置密码，当然没有密码也可以远程登录啦，直接回车回车… 而Win10就很方便，现在最新的Win10系统设置的UI界面越来越扁平化，直接就可以找到远程桌面这一项，一键开启即可！具体如何开启远程可以找度娘。</p>
 <p>回归正题，当我不在局域内，又想远程访问远在天边的电脑，该怎么办呢，这时就有了这篇折腾frp非局域网下实现Windows远程的文章～～～</p>
-<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png" alt></p>
-<a id="more"></a>
+<p><img src="https://img.imgdb.cn/item/604b8d1d5aedab222cee6f0e.png"></p>
+<span id="more"></span>
 
 
 
@@ -605,10 +904,8 @@
 <h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
 <li>一台VPS公网服务器</li>
 <li>开启端口</li>
-<li>Github下载相关文件<ul>
+<li>Github下载相关文件</li>
 <li>Github内搜索frp，进入开源项目后找到releases</li>
-</ul>
-</li>
 </ul>
 <h2 id="放开端口"><a href="#放开端口" class="headerlink" title="放开端口"></a>放开端口</h2><p>因为我的服务器是腾讯云的，以腾讯云为例(放通6000，7000端口)<br><img src="https://pic.downk.cc/item/5fd864313ffa7d37b3c76f23.png" style="zoom: 50%;"></p>
 <h3 id="SSH连接服务器"><a href="#SSH连接服务器" class="headerlink" title="SSH连接服务器"></a>SSH连接服务器</h3><p>安全组放开后只是能去这两个端口，服务器的这两个端口还是没有打开，所以得通过命令打开服务器的这两个端口</p>
@@ -616,9 +913,9 @@
 <blockquote>
 <p>出现success 或 yes 字样时即为开启成功</p>
 </blockquote>
-<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a></p>
+<h2 id="frp下载"><a href="#frp下载" class="headerlink" title="frp下载"></a>frp下载</h2><p>传送门:<a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
 <p>amd64为64位使用，386是32位使用,选择对应版本下载。下载的包可以通过宝塔上传并解压到服务器的根目录下。也可以通过Linux指令进行下载和解压</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_0.34.3_linux_amd64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>下载完成后，在命令行中可以看到 <strong>frp_0.34.3_linux_amd64</strong> 文件夹，我们cd一下进入该文件夹中，可以看到 <strong>frpc、frpc_full.ini、frpc.ini、frps、frps_full.ini、frps.ini、LICENSE、systemd</strong> 这几个文件，其中 <strong>frpc、frpc.ini</strong> 这个两个是客户端的文件，可以通过Linux指令删除（frpc_full.ini这个可能也是客户端文件，具体功能我还没有仔细了解，我没有删除这个文件）。</p>
 <h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><h3 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h3><blockquote>
 <p>frpc —&gt; 字面上可以看出是frp client，也就是客户端<br>frps —&gt; 即frp server，也就是服务器<br>接下来我们需要修改配置文件，也就是<strong>frps.ini</strong>，按个人喜好用vi或者nano指令进行编辑；来看一下我这里的服务器端的配制文件：</p>
@@ -626,8 +923,8 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//服务器端配置</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">token = aaabbbccc //这里就是客户端与我们服务器端frp进行链接时的密码，越复杂越好</span><br></pre></td></tr></table></figure>
 <p>配置完成后，输入指令：<br><code>./frps -c ./frps.ini  ---&gt;服务端启动frp</code><br>可以看到提示start frps success（frps开启成功）</p>
 <h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>在客户端机子下载相应的frp文件，以我的电脑为例（Windows 10）：<code>frp_0.34.3_windows_amd64</code> （注意客户端和服务器端版本要对应），文件夹可以放到任意盘，进入文件夹配置<strong>frpc.ini</strong>，Windows系统可以用记事本打开进行配置：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
-<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code>.\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//客户端配置</span><br><span class="line">[common]</span><br><span class="line">server_addr = ***.***.*** //你的域名或IP</span><br><span class="line">server_port = 7000 //这个就是指我们在服务器端监听我们客户端的端口号与上面保持一致</span><br><span class="line">token = aaabbbccc //这个就是我们服务器端设置的密码要保持一致不然会无法连接</span><br><span class="line"></span><br><span class="line">[rdp]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>配置好保存退出后，在这个文件夹中 <strong>按住Shift + 右单击</strong>，在下拉菜单栏中单击 <strong>在此处打开PowerShell窗口</strong> ，输入指令 ：<code> .\frpc.exe -c .\frpc.ini</code> ，当出现success字样的时候就表示已经成功连接到服务器了。</p>
 <div class="note info">
             <p>这里注意一下，windows一般为反斜杠 \  ，所以输入的指令不是 ./frpc.exe -c ./frpc.ini</p>
           </div>
@@ -638,7 +935,7 @@
 <p>安装完成后，用screen新建一个会话，在这里面运行frps，退出ssh后它也不会结束进程：<br><code>screen -S frp</code></p>
 <p>新建完成之后输入 <code>nohup ./frps -c ./frps.ini -&amp;</code> ，nohup是让它后台运行，-&amp;是锁定它不让它结束进程，此时即使断开了ssh我们仍可以进行连接，除非服务器重启…</p>
 <h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><p>如果出现无法连接的问题，有可能是需要关闭防火墙输入以下指令即可：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">//or</span><br><span class="line">systemctl stop iptables</span><br><span class="line">systemctl disable iptables</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="非局域网远程连接Windows"><a href="#非局域网远程连接Windows" class="headerlink" title="非局域网远程连接Windows"></a>非局域网远程连接Windows</h2><p>所有配置工作都做完后我们就可以进行远程连接了，在另一台计算机上 Win + R 后输入<code>mstsc</code>进入Windows远程桌面，输入服务器IP后点击连接，然后成功输入Windows密码，即可成功连接到自己的电脑。在移动端远程也是可以实现的，例如我会使用iPad对我的电脑进行远程，只需下载微软官方软件 <strong>RD Client</strong>，同样输入相关IP和密码后就可以实现移动端远程。</p>
 <div class="note info">
             <p>注意</p><ul><li>两台设备需在非同一网络下进行实验</li><li>需要使用该服务时，服务器和客户端都必须打开fps服务，任何一方服务停止都无法连接成功</li><li>服务器端一般是已经配置好可以不用动了，客户端如上述打开服务出现success字样即可</li></ul>
@@ -656,7 +953,7 @@
     <url>/undefined/f82c66a5.html</url>
     <content><![CDATA[<p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
 <p>Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="创建Coding项目"><a href="#创建Coding项目" class="headerlink" title="创建Coding项目"></a>创建Coding项目</h2><p>1、创建一个Coding的账号。现在的Coding是以团队的方式加入，身边没有Coding团队的小伙伴可以自己创建一个团队，身边有人有团队的话可以申请加入，这样就可以省去创建团队的功夫啦。</p>
 <p>2、账号创建好后，找到 <strong>个人账户设置</strong> ，将本地生成的SSH公钥添加进去。（同Github上的设置）一般公钥路径在 <code>C:\Users\用户名\.ssh</code> 目录下的 <code>id_rsa.pub</code> 文件里，用记事本打开，将所有内容复制出来即可。</p>
@@ -664,35 +961,31 @@
 <p>4、创建一个托管静态页面的项目</p>
 <ul>
 <li><p>选择代码托管项目（或选择DevOps项目）</p>
-<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;">
-</li>
+<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;"></li>
 <li><p>项目名称建议是使用自己在Coding上设置的用户名</p>
 </li>
 <li><p>进入刚创建的仓库，复制SSH的路径（据说SSH比较稳定）</p>
 </li>
 </ul>
 <h2 id="配置到Hexo并部署到Coding"><a href="#配置到Hexo并部署到Coding" class="headerlink" title="配置到Hexo并部署到Coding"></a>配置到Hexo并部署到Coding</h2><p>1、配置主站目录下的 <code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
 <p>2、执行三件套指令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
 
 <p>3、部署到Coding</p>
 <ul>
 <li><p>打开持续部署开关</p>
-<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%">
-</li>
+<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%"></li>
 <li><p>部署静态网站</p>
-<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png">
-
-</li>
+<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png"></li>
 </ul>
 <p>部署完成后点开上面的访问地址可以打开你的Hexo博客说明已经部署成功啦</p>
 <h2 id="添加自定义域名"><a href="#添加自定义域名" class="headerlink" title="添加自定义域名"></a>添加自定义域名</h2><p>首先需要拥有一个域名，国内购买的域名需要进行备案，国外域名商购买的域名可以不进行备案</p>
 <p>本站域名是在国外域名平台 Namesilo 购买，是目前价格较便宜的域名平台，支持支付宝，提供免费的域名隐私保护，性价比较高。</p>
 <blockquote>
 <p>关于Namesilo域名购买可以查找度娘或者看以下这篇文章：</p>
-<p><a href="https://tding.top/archives/b48e2719.html" target="_blank" rel="noopener">https://tding.top/archives/b48e2719.html</a></p>
+<p><a href="https://tding.top/archives/b48e2719.html">https://tding.top/archives/b48e2719.html</a></p>
 </blockquote>
 <p>域名解析我使用的是DNSPod</p>
 <h3 id="添加解析记录"><a href="#添加解析记录" class="headerlink" title="添加解析记录"></a>添加解析记录</h3><p>1、ping一下Coding给你Hexo项目部署到的地址，获得Coding Page 的IP地址</p>
@@ -716,7 +1009,7 @@
 <p>申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败。</p>
 <p><strong>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问</strong>。</p>
 <div class="note default">
-            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html" target="_blank" rel="noopener">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/" target="_blank" rel="noopener">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top" target="_blank" rel="noopener">动态站</a></p>
+            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top/">动态站</a></p>
           </div>]]></content>
       <categories>
         <category>博客</category>
@@ -734,15 +1027,15 @@
 
 
 
-<a id="more"></a>
+<span id="more"></span>
 
-<h3 id="1、代码示例"><a href="#1、代码示例" class="headerlink" title="1、代码示例"></a>1、代码示例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在Hexo中：</span><br><span class="line">&lt;font color&#x3D;&quot;red&quot;&gt;这里是红色&lt;&#x2F;font&gt;</span><br><span class="line"></span><br><span class="line">在Typecho中：</span><br><span class="line">!!!</span><br><span class="line">&lt;font color&#x3D;&quot;red&quot;&gt;这里是红色&lt;&#x2F;font&gt;</span><br><span class="line">!!!</span><br></pre></td></tr></table></figure>
+<h3 id="1、代码示例"><a href="#1、代码示例" class="headerlink" title="1、代码示例"></a>1、代码示例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在Hexo中：</span><br><span class="line">&lt;font color=&quot;red&quot;&gt;这里是红色&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">在Typecho中：</span><br><span class="line">!!!</span><br><span class="line">&lt;font color=&quot;red&quot;&gt;这里是红色&lt;/font&gt;</span><br><span class="line">!!!</span><br></pre></td></tr></table></figure>
 
 <p><strong>效果：</strong><br><font color="red">这里是红色</font></p>
 <ul>
 <li>在Hexo中不用输入!，否则会直接输出! ；在Typecho中需要!，否则无法显示颜色</li>
 </ul>
-<h3 id="2、HTML5-CSS3颜色十六进制值演示站"><a href="#2、HTML5-CSS3颜色十六进制值演示站" class="headerlink" title="2、HTML5 CSS3颜色十六进制值演示站"></a>2、HTML5 CSS3颜色十六进制值演示站</h3><p>DEMO演示站：<a href="http://colors.cchosts.cn/" target="_blank" rel="noopener">http://colors.cchosts.cn/</a></p>
+<h3 id="2、HTML5-CSS3颜色十六进制值演示站"><a href="#2、HTML5-CSS3颜色十六进制值演示站" class="headerlink" title="2、HTML5 CSS3颜色十六进制值演示站"></a>2、HTML5 CSS3颜色十六进制值演示站</h3><p>DEMO演示站：<a href="http://colors.cchosts.cn/">http://colors.cchosts.cn/</a></p>
 <h3 id="3、color颜色代码大全："><a href="#3、color颜色代码大全：" class="headerlink" title="3、color颜色代码大全："></a>3、color颜色代码大全：</h3><table>
 <thead>
 <tr>
@@ -1203,7 +1496,7 @@
 
 <p>前几天发现我的动态主站崩溃了（2020.8.12），通过域名打开直接出现的是PHP源码，一番折腾后虽然能进主页了，但是所有子页面都无法打开，网页显示 <code>404 Not Found nginx</code> ，苦于我这嵌入式方向专业的童鞋没有前端基础折腾了好久没办法修复，只能删库重建网站了。更痛心的是数据库也因保存错误数据导致数据无法恢复了……我的头发白掉了啊(ㄒoㄒ)</p>
 <p>经过和重建网站的Nginx配置对比，为什么出问题自己心里算是有些眉目了，两份Nginx配置内容有很大差别，说明是在某个时候这份配置被覆盖了，为什么会被覆盖？将在文章RSSHub和跨域服务搭建过程中说明……</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <hr>
 <blockquote class="blockquote-center">
@@ -1215,10 +1508,10 @@
           </blockquote>
 
 <h2 id="1-利用宝塔PM2搭建RSSHub"><a href="#1-利用宝塔PM2搭建RSSHub" class="headerlink" title="1.利用宝塔PM2搭建RSSHub"></a>1.利用宝塔PM2搭建RSSHub</h2><ul>
-<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub" target="_blank" rel="noopener">DIYgod/RSSHub</a></li>
+<li><strong>RSSHub项目地址：</strong><a href="https://github.com/DIYgod/RSSHub">DIYgod/RSSHub</a></li>
 </ul>
 <p>对于小白来说，宝塔面板的PM2管理器非常方便，使用云服务器建站用起来容易上手。</p>
-<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;DIYgod&#x2F;RSSHub.git</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-clone源码到root目录下"><a href="#1-1-clone源码到root目录下" class="headerlink" title="1.1 clone源码到root目录下"></a>1.1 clone源码到root目录下</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/DIYgod/RSSHub.git</span><br></pre></td></tr></table></figure>
 
 <div class="note warning">
             <p>可能是因为RSSHub项目被墙的缘故，项目网页需要翻墙才可以打开，所以难免会出现clone速度很慢的同学，我们可以采用其他办法将源码下载出来，上传到root目录下，命名为RSSHub即可。<br>解决办法：</p><ul><li>使用代理下载速度快的同学可以直接将源码压缩包下载出来，解压并将RSSHub文件夹通过宝塔上传至root目录中</li><li>利用Gitee导入Github仓库功能，直接clone导入到Gitee仓库的RSSHub项目即可解决</li></ul>
@@ -1227,18 +1520,14 @@
 <h3 id="1-2-安装PM2管理器，启动RSSHub"><a href="#1-2-安装PM2管理器，启动RSSHub" class="headerlink" title="1.2 安装PM2管理器，启动RSSHub"></a>1.2 安装PM2管理器，启动RSSHub</h3><p>PM2管理器在宝塔面板软件商店中搜索找到并安装。</p>
 <h4 id="启动RSSHub"><a href="#启动RSSHub" class="headerlink" title="启动RSSHub"></a>启动RSSHub</h4><ul>
 <li><p><strong>命令行法添加项目</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib&#x2F;index.js --name rsshub</span><br></pre></td></tr></table></figure>
-
-</li>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd RSSHub</span><br><span class="line">pm2 start lib/index.js --name rsshub</span><br></pre></td></tr></table></figure></li>
 </ul>
 <blockquote>
 <p>命令行添加法优点是添加项目速度快，但是在PM2中有可能会无法打开项目目录导致最终搭建失败</p>
 </blockquote>
 <ul>
 <li><p><strong>PM2添加法</strong></p>
-<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png">
-
-</li>
+<img src="https://pic.downk.cc/item/5f3ad4a914195aa594bd99a3.png"></li>
 </ul>
 <p>添加好后点击「映射」，设置域名，如图：</p>
 <img src="https://pic.downk.cc/item/5f3ad5d614195aa594bdc6b5.png">
@@ -1246,35 +1535,34 @@
 <div class="note warning">
             <ul><li>设置的域名可以到你的域名解析里添加一个子域名映射到服务器IP即可。子域名例如<code>rsshub.xxx.com</code>中的rsshub部分可随意设置</li><li>解析好子域名后顺便去申请个SSL证书，并在宝塔站点中开启子域名的SSL，如果不支持https会造成浏览器加载失败</li><li>必须映射到根目录RSSHub中，宝塔有可能会默认映射到www目录中，如果映射到www目录可能会导致覆盖Typecho网站的Nginx配置，从而使网站出现各种错误，这就是我主站崩溃的原因</li></ul>
           </div>
-<p>最后在浏览器中打开<strong>你设置映射的域名(<code>https://rsshub.xxx.com</code>)</strong>看到RSSHub的图标并且显示<strong><code>Welcome to RSSHub!</code></strong>字样的页面说明搭建成功！</p>
+<p>最后在浏览器中打开**你设置映射的域名(<code>https://rsshub.xxx.com</code>)<strong>看到RSSHub的图标并且显示</strong><code>Welcome to RSSHub!</code>**字样的页面说明搭建成功！</p>
 <h3 id="2-利用宝塔Docker-部署RSSHub"><a href="#2-利用宝塔Docker-部署RSSHub" class="headerlink" title="2. 利用宝塔Docker 部署RSSHub"></a>2. 利用宝塔Docker 部署RSSHub</h3><div class="note info">
-            <p>可参考<strong><a href="https://blog.dlzhang.com/" target="_blank" rel="noopener">班班</a></strong>的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/" target="_blank" rel="noopener">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
+            <p>可参考**<a href="https://blog.dlzhang.com/">班班</a>**的文章：</p><ul><li><a href="https://blog.dlzhang.com/posts/49/">宝塔面板部署 RSSHub 和自动签到 Docker 应用</a></li></ul>
           </div>
-
 <h3 id="3-跨域服务"><a href="#3-跨域服务" class="headerlink" title="3. 跨域服务"></a>3. 跨域服务</h3><p>跨域最简单的解决办法是：在原有的RSS源地址前面加上<code>https://cors-anywhere.herokuapp.com/</code></p>
 <p>例如<code>https://cors-anywhere.herokuapp.com/https://rsshub.xxx.com/rss路由</code></p>
 <p>但是这个方法访问速度比较慢，我这甚至出现了无法加载的情况，所以我们需要自己搭建一个跨域服务：</p>
 <blockquote>
-<p><a href="https://github.com/netnr/proxy" target="_blank" rel="noopener">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
+<p><a href="https://github.com/netnr/proxy">proxy(HTTP请求代理，CORS跨域请求，HTTPS支持)</a></p>
 </blockquote>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;netnr&#x2F;proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/netnr/proxy.git</span><br><span class="line">cd proxy</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
 
 <p>如果clone不到使用，解决方法同上RSSHub，安装目录依旧是在根目录root下。</p>
 <h4 id="PM2管理器添加项目"><a href="#PM2管理器添加项目" class="headerlink" title="PM2管理器添加项目"></a>PM2管理器添加项目</h4><p>添加项目同RSSHub的PM2添加法，启动文件为<strong>server.js</strong>，项目名称可随意。添加好后点击「映射」，设置域名。（这里域名需要再解析一个新的子域名并申请SSL证书，记得在宝塔添加证书开启SSL）</p>
 <p>这时自己搭建的跨域服务为：<code>https://proxy.xxx.com/</code></p>
 <p>此时自己的代理为：<code>https://proxy.xxx.com/https://rsshub.xxx.com/rss路由</code>，浏览器打开代理可以看到爬到的RSS源代码说明成功啦，同时可以发现自建跨域服务速度飞快（/赞）</p>
 <h3 id="4-订阅RSS源"><a href="#4-订阅RSS源" class="headerlink" title="4. 订阅RSS源"></a>4. 订阅RSS源</h3><p>有了以上准备就可以订阅其他网站的RSS源啦，这里以B站为例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https:&#x2F;&#x2F;rsshub.app&#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;208259</span><br><span class="line"></span><br><span class="line">路由: &#x2F;bilibili&#x2F;user&#x2F;bangumi&#x2F;:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户追番列表</span><br><span class="line">作者: @wdssmq</span><br><span class="line"></span><br><span class="line">举例: https://rsshub.app/bilibili/user/bangumi/208259</span><br><span class="line"></span><br><span class="line">路由: /bilibili/user/bangumi/:uid</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">uid, 必选 - 用户 id</span><br></pre></td></tr></table></figure>
 
 <p>这时搭配上自建的两个服务后url就是：</p>
 <p><code>https://proxy.xxx.com/https://rsshub.xxx.com/bilibili/user/bangumi/:uid</code></p>
 <div class="note info">
-            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/" target="_blank" rel="noopener">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
+            <ul><li>具体RSS源网站内容聚合在时光机页面内的配置可参见handsome文档</li><li>RSSHub具体的配置和路由可参见<a href="https://docs.rsshub.app/">RSSHub文档</a>（RSSHub文档目前好像也被墙了）</li></ul>
           </div>
 
 <blockquote>
 <p>参考文章：</p>
-<p><a href="https://www.anleenoxu.top/archives/156.html" target="_blank" rel="noopener">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/" target="_blank" rel="noopener">https://www.jellyw.com/archives/170/</a></p>
+<p><a href="https://www.anleenoxu.top/archives/156.html">https://www.anleenoxu.top/archives/156.html</a><br><a href="https://www.jellyw.com/archives/170/">https://www.jellyw.com/archives/170/</a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -1293,7 +1581,7 @@
 <p>今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ </p>
 <img src="https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg" style="zoom: 10%;" alt="正在使用的4B">
 
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="VNC远程连接"><a href="#VNC远程连接" class="headerlink" title="VNC远程连接"></a>VNC远程连接</h2><p>树莓派4B自带VNC，我们不需要再使用指令安装</p>
 <ul>
@@ -1302,12 +1590,11 @@
 <li><p>树莓派的IP地址：给树莓派插上网线，在同一个内网（局域网）下，可以登录路由器管理界面查看树莓派的IP。</p>
 </li>
 <li><p>使用SSH远程树莓派（可以通过XShell、PuTTY或者SSH远程指令）</p>
-<p><a href="https://www.cncrk.com/downinfo/236592.html" target="_blank" rel="noopener">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
+<p><a href="https://www.cncrk.com/downinfo/236592.html">XShell6下载 v6.0.0086 64位破解版</a>：下载地址里面用普通下载地址下载即可，高速下载器通道会附有垃圾软件。</p>
 <p>SSH远程指令：<code>ssh pi@树莓派的IP地址</code></p>
 </li>
 <li><p>在自己的电脑上安装VNC。VNC是一款远程桌面软件，支持Windows、Mac、iOS、Linux、树莓派操作系统，而且树莓派自带VNC，只需要远程打开它就好了。</p>
-<img src="https://pic.downk.cc/item/5f30963914195aa5940609ca.jpg" style="zoom: 70%;">
-</li>
+<img src="https://pic.downk.cc/item/5f30963914195aa5940609ca.jpg" style="zoom: 70%;"></li>
 </ul>
 </li>
 <li><p>接下来是远程配置树莓派，指令为</p>
@@ -1317,15 +1604,13 @@
 
 <p>配置完成后树莓派上的VNC就可以使用了。</p>
 <p>在终端中输入指令 <code>vncserver</code> 后，等待字符跑完……然后如下图看到的，结束后最后一行的IP就是我们需要的，他告诉我们树莓派桌面的IP地址为192.168.3.20，端口号为1，有了这个我们就可以通过自己的电脑上的VNC远程树莓派了。</p>
-<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;">
-
-</li>
+<img src="https://pic.downk.cc/item/5f27dfe614195aa594eb17a8.png" style="zoom: 85%;"></li>
 </ul>
 <p>VNC远程树莓派操作和XShell远程操作相似就不在加以叙述。</p>
 <p>其实还可以通过手机或平板（ios端）对树莓派进行远程，只要在App Store中下载VNC，进行远程操作后就可以实现啦。</p>
 <h2 id="开启树莓派无线上网模式"><a href="#开启树莓派无线上网模式" class="headerlink" title="开启树莓派无线上网模式"></a>开启树莓派无线上网模式</h2><p>树莓派4B内置有WiFi模块，可以不用外接无线网卡实现WiFi上网功能，下面将简单写下WiFi模块的开启。</p>
 <p>在程序烧录进SD卡完成后，在boot中新建 <code>wpa_supplicant.conf</code> 文件，并写入无线的相关配置。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">country&#x3D;CN</span><br><span class="line">ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdev</span><br><span class="line">update_config&#x3D;1</span><br><span class="line">  </span><br><span class="line">network&#x3D;&#123;</span><br><span class="line">    ssid&#x3D;&quot;wi-fi name here&quot;</span><br><span class="line">    psk&#x3D;&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt&#x3D;WPA-PSK</span><br><span class="line">    priority&#x3D;1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">country=CN</span><br><span class="line">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev</span><br><span class="line">update_config=1</span><br><span class="line">  </span><br><span class="line">network=&#123;</span><br><span class="line">    ssid=&quot;wi-fi name here&quot;</span><br><span class="line">    psk=&quot;wi-fi password here&quot;</span><br><span class="line">    key_mgmt=WPA-PSK</span><br><span class="line">    priority=1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> WiFi 配置示例说明：</p>
 <ul>
@@ -1351,12 +1636,12 @@
     <title>【C51单片机】（二）实验一升级，进阶+复习！</title>
     <url>/undefined/6e490410.html</url>
     <content><![CDATA[<h2 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1. 前情提要"></a>1. 前情提要</h2><p>通过 <strong><a href="/undefined/ec01d655.html" title="实验一">实验一</a></strong> 我们知道，单片机（以AT89C51为例）I/O端口需要通过对应的十六进制代码来使用，通过编程每一个按钮实现的功能都不一样。嘿嘿，这期我们升级一下，通过按下两个按钮来实现他们的功能  ─=≡Σ((( つ•̀ω•́)つ Let’s go!</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="2-实验题目"><a href="#2-实验题目" class="headerlink" title="2. 实验题目"></a>2. 实验题目</h2><p><strong>P1接8个灯，P3.2、P3.3、P3.4、P3.5接4个按钮</strong>（以实验一为基础）</p>
 <p><strong>选择其中两个开关，完成按下一个开关流水灯顺着循环滚动不停，按下另一个，流水灯逆着滚动不停</strong> </p>
 <p>（本次实验仅实现题目功能，其他功能观众有兴趣的话可以继续造 o(￣▽￣)o 捏嘿）</p>
-<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-代码实现"><a href="#2-1-代码实现" class="headerlink" title="2.1 代码实现"></a>2.1 代码实现</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">unsigned</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</span><br><span class="line">		;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y,m,n;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;; <span class="comment">//a、b为顺逆流值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> c[<span class="number">4</span>]=&#123;<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>&#125;; <span class="comment">//只按一个按钮的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> d[<span class="number">6</span>]=&#123;<span class="number">0xf3</span>,<span class="number">0xeb</span>,<span class="number">0xdb</span>,<span class="number">0xe7</span>,<span class="number">0xd7</span>,<span class="number">0xcf</span>&#125;;  <span class="comment">//按两个按钮时的值</span></span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">	 <span class="keyword">for</span>(m=<span class="number">0</span>;m&lt;<span class="number">4</span>;m++) <span class="comment">//当只按一个按钮时顺流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		<span class="keyword">if</span>(P3==c[m])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=a[y];</span><br><span class="line">			  delay(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		P1=<span class="number">0xff</span>;	</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">for</span>(n=<span class="number">0</span>;n&lt;<span class="number">6</span>;n++) <span class="comment">//当按下两个按钮时逆流</span></span><br><span class="line">	 &#123;</span><br><span class="line">		 <span class="keyword">if</span>(P3==d[n])</span><br><span class="line">		 &#123;</span><br><span class="line">			<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">			 &#123;</span><br><span class="line">			  P1=b[y];</span><br><span class="line">			  delay(<span class="number">20</span>);</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">else</span></span><br><span class="line">		 P1=<span class="number">0xff</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -1368,13 +1653,13 @@
 </blockquote>
 <ul>
 <li><p>按下一个开关时：（这里以按下P3.3开关为例）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9dbe14195aa594b20d40.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9dbe14195aa594b20d40.gif"></p>
 </li>
 <li><p>按下两个开关时：</p>
 <p>如按下P3.3和P3.5开关：（相隔按钮）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9dd514195aa594b2143e.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9dd514195aa594b2143e.gif"></p>
 <p>如按下P3.4和P3.5开关：（相邻按钮）</p>
-<p><img src="https://pic.downk.cc/item/5f3a9de614195aa594b219ed.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9de614195aa594b219ed.gif"></p>
 </li>
 </ul>
 <h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>这次实验对于实验一来说是一次升格，因为通过双开关这一步更加加深了对I/O端口的了解和运用，是流水灯实验中一道不错的综合题。</p>
@@ -1392,7 +1677,7 @@
     <url>/undefined/91ba00fe.html</url>
     <content><![CDATA[<img src="https://1on1.today/blog/wp-content/uploads/2019/03/blog.jpg" style="zoom: 67%;">
 
-<a id="more"></a>
+<span id="more"></span>
 
 
 
@@ -1407,7 +1692,7 @@
 </li>
 </ul>
 <h1 id="2-运行测试"><a href="#2-运行测试" class="headerlink" title="2.运行测试"></a>2.运行测试</h1><p>首先介绍一下今后写博客时会经常用到的命令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean  #用来清理缓存文件</span><br><span class="line">hexo s      #运行本地服务器</span><br><span class="line">hexo g      #生成静态文件</span><br><span class="line">hexo d      #上传到服务器</span><br></pre></td></tr></table></figure>
 
 <p>博客搭建成功后，输入命令 <code>hexo s</code> (hexo server) 运行本地服务器</p>
 <img src="https://pic.downk.cc/item/5f3aa12a14195aa594b2e384.png" style="zoom: 80%;">
@@ -1419,7 +1704,7 @@
 
 <h1 id="3-部署到云端"><a href="#3-部署到云端" class="headerlink" title="3.部署到云端"></a>3.部署到云端</h1><p>将博客部署到远端后别人才可以访问到你的网站，这里以GitHub为例。</p>
 <ul>
-<li><p>首先在你所建立的blog文件夹根目录下找到<strong>_config.yml</strong>也就是<strong>站点配置文件</strong>，用编辑器打开文件。打开后拉到最下面找到<strong>deploy</strong>，做以下修改：</p>
+<li><p>首先在你所建立的blog文件夹根目录下找到**_config.yml<strong>也就是</strong>站点配置文件<strong>，用编辑器打开文件。打开后拉到最下面找到</strong>deploy**，做以下修改：</p>
 <img src="https://pic.downk.cc/item/5f3ab1d214195aa594b6fa78.png" style="zoom:80%;">
 
 <p>地址我使用的是SSH的地址，修改完成后保存配置文件。</p>
@@ -1432,16 +1717,16 @@
 <p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
 <p>或 <code>hexo clean &amp;&amp; hexo g -d</code></p>
 </blockquote>
-<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
-<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:</strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为<strong>themes文件目录</strong>中的主题文件名</p>
+<h1 id="4-更换主题"><a href="#4-更换主题" class="headerlink" title="4.更换主题"></a>4.更换主题</h1><p>Hexo的主题可以在官网的<a href="https://hexo.io/themes/"><strong>主题</strong></a>里找到自己喜欢的主题，点击主题名可以进入到主题的GitHub地址，里面会有相关主题的安装和配置说明等。</p>
+<p>主题安装完成后需要在<strong>博客的站点配置文件</strong>中找到<strong>theme:<strong>，并将其原来的landscape主题改成自己下载的主题的名字，主题名为</strong>themes文件目录</strong>中的主题文件名</p>
 <img src="https://pic.downk.cc/item/5f3ab23414195aa594b70eec.png" style="zoom:70%;">
 
 <p>这里以我用的next主题为例</p>
 <p>主题更换好后再来一次<code>hexo s</code>就能预览到自己更换的主题啦。关于主题的美化大家可以自己去研究，网上关于Hexo的文章有很多，出现问题一般都比较容易找到。关于next主题美化这里推荐以下参考视频：</p>
 <blockquote>
-<p>UP主<a href="https://space.bilibili.com/386767453/" target="_blank" rel="noopener"><strong>dp2px_com:</strong></a></p>
-<p><a href="https://www.bilibili.com/video/BV1VE411k7jP" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
-<p><a href="https://www.bilibili.com/video/BV1LE411k7SR" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
+<p>UP主<a href="https://space.bilibili.com/386767453/"><strong>dp2px_com:</strong></a></p>
+<p><a href="https://www.bilibili.com/video/BV1VE411k7jP">https://www.bilibili.com/video/BV1VE411k7jP</a></p>
+<p><a href="https://www.bilibili.com/video/BV1LE411k7SR">https://www.bilibili.com/video/BV1LE411k7SR</a></p>
 </blockquote>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><strong>“从0开始搭建Hexo博客”系列</strong>到这里就完结了，因为搭建过程需要更直观的表达会更好些，文字工程量其实是挺大的，所以该文章主要是基于UP主的视频所写，有不懂的地方可以去看视频，里面的操作会更直观。</p>
 <p>tips：</p>
@@ -1470,29 +1755,29 @@
 
 
 
-<a id="more"></a>
+<span id="more"></span>
 
 <hr>
-<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener">CodeSheep</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
-<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener">Master_lisa</a>:</font></strong></p>
-<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<h4 id="特别感谢以下UP主的教学视频："><a href="#特别感谢以下UP主的教学视频：" class="headerlink" title="特别感谢以下UP主的教学视频："></a>特别感谢以下UP主的教学视频：</h4><p><strong><font size="4">①<a href="https://space.bilibili.com/384068749/">CodeSheep</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<p><strong><font size="4">②<a href="https://space.bilibili.com/100518197/">Master_lisa</a>:</font></strong></p>
+<p>传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
 <hr>
 <p><strong>前情提要：</strong>我的搭建系统是windows 10，流程根据UP主Master_lisa的视频来写。OK,Here we go！</p>
 <h2 id="1-提前准备"><a href="#1-提前准备" class="headerlink" title="1.提前准备"></a>1.提前准备</h2><ul>
 <li><p><strong>创建Github/Gitee(码云)：</strong></p>
 <p>用户名都是最好用小写字母，可以加数字。创建好后点击网页右上角+号创建新库，如下图：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9e2a14195aa594b22af7.png" alt></p>
-<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="https://pic.downk.cc/item/5f3a9e4b14195aa594b2315a.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e2a14195aa594b22af7.png"></p>
+<p>新建库时应严格按照①中用户名，以这种<code>xxx.github.io</code>形式(②)输入：<img src="https://pic.downk.cc/item/5f3a9e4b14195aa594b2315a.png"></p>
 <p>输入完毕后点击下方绿色按钮<strong>Create repository</strong>就完成建库啦。</p>
 </li>
-<li><p><strong>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>：</strong><code>https://nodejs.org</code></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e6414195aa594b23695.png" alt></p>
+<li><p><strong>安装 <a href="https://nodejs.org/">Node.js</a>：</strong><code>https://nodejs.org</code></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e6414195aa594b23695.png"></p>
 <p>安装步骤很简单，一直next，默认安装就行。</p>
 </li>
-<li><p><strong>安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e7614195aa594b23b43.png" alt></p>
-<p><img src="https://pic.downk.cc/item/5f3a9e8614195aa594b23f16.png" alt></p>
+<li><p><strong>安装<a href="https://git-scm.com/downloads">Git</a>：</strong><code>https://git-scm.com/downloads</code></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e7614195aa594b23b43.png"></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e8614195aa594b23f16.png"></p>
 <p>安装步骤也是一直点下一步，按官方默认的来装就行。（路径可选）</p>
 <blockquote>
 <p>tips：Git安装完成后，发现右键有Git的功能快捷键，我们主要用Git Bash。</p>
@@ -1512,11 +1797,11 @@
 <p>tips：以上只需复制$符号之后的代码即可；在Git中复制粘贴不能使用ctrl+c/v，只能老老实实用鼠标。</p>
 <h2 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3.配置SSH"></a>3.配置SSH</h2><ul>
 <li><p>继续在终端窗口输入：<code>ssh-keygen -t rsa -C &quot;johndoe@example.com&quot;</code>，在接下来全部按回车键，出现选项选y然后继续回车。出现下图样式说明成功：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9e9814195aa594b243a9.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9e9814195aa594b243a9.png"></p>
 <p>这时可以按配置里说的public key的地址去找到自己的ssh公钥。一般在<code>C:\Users\Admin</code>中出现<code>.ssh</code>文件夹，右击该文件夹里的<code>id_rsa.pub</code>以记事本形式打开，里面就是你的SSH公钥。</p>
 </li>
 <li><p>将SSH配置到Github上。在Github上点击<strong>头像</strong>，找到<strong>Settings</strong>点击进入，找到左栏的<strong>SSH and GPG keys</strong>。然后点击<strong>New SSH key</strong>。</p>
-<p><img src="https://pic.downk.cc/item/5f3a9eaf14195aa594b24a55.png" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9eaf14195aa594b24a55.png"></p>
 </li>
 <li><p>输入以下检验是否配置成功：</p>
 <blockquote>
@@ -1543,18 +1828,18 @@
     <content><![CDATA[<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>文章主要分享本人的单片机学习过程，包含：课题、代码、程序仿真以及个人向的理解和推荐（不够专业，望理解）。希望能够对大家有帮助。</p>
 <h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><p><strong>P1接8个灯，P3.2、 P3.3、 P3.4、P3.5接4个按钮，</strong><br><strong>按下P3.2 P1的8个灯奇亮偶不亮；</strong><br><strong>按下P3.3 P1的8个灯偶量奇不亮；</strong><br><strong>按下P3.4 P1的8个灯流水灯顺着滚动遍；</strong><br><strong>按下P3.5 P1的8个灯流水灯倒着滚动一遍。</strong></p>
 <p><strong>编写程序实现以上功能。</strong></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <ol>
 <li><p>首先根据题目发现使用到的I/O端口为P1和P3，注意8个灯接P1.0-1.7,4个按钮接P3.2-3.5。灯的问题由十六进制代码实现。</p>
 </li>
 <li><p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          <span class="built_in">delay</span>(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> time)</span><span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i,j;</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;time;i++)</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> y;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> a[<span class="number">8</span>]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;<span class="comment">//流水灯P1口的值</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> b[<span class="number">8</span>]=&#123;<span class="number">0x7f</span>,<span class="number">0xbf</span>,<span class="number">0xdf</span>,<span class="number">0xef</span>,<span class="number">0xf7</span>,<span class="number">0xfb</span>,<span class="number">0xfd</span>,<span class="number">0xfe</span>&#125;;</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span>(P3==<span class="number">0xfb</span>)   <span class="comment">//按下P3.2 P1的8个灯奇亮偶不亮</span></span><br><span class="line">    P1=<span class="number">0xaa</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xf7</span>)   <span class="comment">//按下P3.3 P1的8个灯偶亮奇不亮</span></span><br><span class="line">  	P1=<span class="number">0x55</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xef</span>)    <span class="comment">//按下P3.4 P1的8个灯流水灯顺着滚动一遍</span></span><br><span class="line">  	 <span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=a[y];</span><br><span class="line">          delay(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(P3==<span class="number">0xdf</span>)    <span class="comment">//按下P3.5 P1的8个灯流水灯逆着滚动一遍</span></span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">0</span>;y&lt;<span class="number">8</span>;y++)</span><br><span class="line">         &#123;</span><br><span class="line">          P1=b[y];</span><br><span class="line">          delay(<span class="number">20</span>);</span><br><span class="line">         &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  P1=<span class="number">0xff</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
 <p>p.s<!--单词注释：postscript-->：此程序还可以进一步简化，关于P3.5可以使用for语句逆循环a数组里的数据，但是要注意的是需要将变量y的无符号型限制去掉才可以使用，否则会出现错误。</p>
 </li>
 <li><p>仿真演示：</p>
-<p><img src="https://pic.downk.cc/item/5f3a9d9914195aa594b204d2.gif" alt></p>
+<p><img src="https://pic.downk.cc/item/5f3a9d9914195aa594b204d2.gif"></p>
 </li>
 </ol>
 <p><strong>小结</strong></p>
@@ -1571,7 +1856,7 @@
 </li>
 <li><p><strong>Keil 3</strong>：用来对代码进行编译和生成.HEX文件。</p>
 <ul>
-<li><a href="[https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F](https://baike.baidu.com/item/hex文件格式)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
+<li><a href="%5Bhttps://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%5D(https://baike.baidu.com/item/hex%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F)">hex文件格式</a>是可以烧写到单片机中，被单片机执行的一种文件格式。生成hex文件的方式有很多种，可以通过不同的编译器将C程序或者汇编程序编译生成hex,这里用的是Keil。</li>
 </ul>
 </li>
 <li><p><strong>Proteus</strong>：EDA工具仿真软件，用来仿真单片机等器件。</p>
@@ -1592,14 +1877,14 @@
     <content><![CDATA[<h2 id="关于第一篇博客"><a href="#关于第一篇博客" class="headerlink" title="关于第一篇博客"></a>关于第一篇博客</h2><p>关于我创建这个博客的目的在关于一栏里有简单介绍，接下来这篇文章主要是写一下在我搭建博客过程中的心得吧。</p>
 <p>首先本站是我搭建的第三个Hexo博客网站，那另外两个呢？另外两个因为操作过于萌新不满意搭建效果都删掉重来了QAQ。其实这第三个网站我费尽了千辛万苦才成功搭建起来，因为有前两个网站的搭建历史，导致我重新建第三个网站的时候经常出现克隆失败的情况，我当时都懵了，以为我不能再建Hexo博客了，不断地去查找资料寻找解决方案，最后终于在这条 <strong>强制清除缓存</strong> 指令<code>npm cache clean --force</code> 下让我重新成功搭建起Hexo博客，所以搭建不易，大家要好好爱惜自己辛苦搭建起来的博客网站啊。</p>
 <p><img src="https://pic.downk.cc/item/5f3a9d7014195aa594b1fa04.png" alt="出错时的图片"></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>因为我的专业主要在嵌入式开发方向，只接触过C，Java和汇编语言，对JS和网页方面的知识不太了解，所以在搭建和完善本站的过程中出现了很多问题，比如主题、插入图片等问题，经常要花一部分时间去查找解决方案才能解决。在这里不得不说一下，真心想搭建好一个博客是需要花时间下功夫去摸索的，因为没有接触过JS和前端方面的知识做这个更是艰难，我只能尽自己所能把自己的博客做到自己满意的效果。</p>
 <h2 id="Hexo博客搭建教程视频推荐"><a href="#Hexo博客搭建教程视频推荐" class="headerlink" title="Hexo博客搭建教程视频推荐"></a>Hexo博客搭建教程视频推荐</h2><p>首先我搭建的Hexo博客是参考了以下教程视频的，在这里可以给大家分享一下：</p>
 <ul>
-<li><p>使用Mac或者Linux来搭建的话，推荐 <a href="https://space.bilibili.com/384068749/" target="_blank" rel="noopener"><strong>CodeSheep</strong></a> 羊哥的视频， 传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
+<li><p>使用Mac或者Linux来搭建的话，推荐 <a href="https://space.bilibili.com/384068749/"><strong>CodeSheep</strong></a> 羊哥的视频， 传送门：<a href="https://www.bilibili.com/video/BV1Yb411a7ty">https://www.bilibili.com/video/BV1Yb411a7ty</a></p>
 </li>
-<li><p>使用windows搭建的话，我是看了<a href="https://space.bilibili.com/100518197/" target="_blank" rel="noopener"><strong>Master_lisa</strong></a>小姐姐的视频，每一步都特别详细（声音也很好听 /滑稽），传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
+<li><p>使用windows搭建的话，我是看了<a href="https://space.bilibili.com/100518197/"><strong>Master_lisa</strong></a>小姐姐的视频，每一步都特别详细（声音也很好听 /滑稽），传送门：<a href="https://www.bilibili.com/video/BV1A4411G7SF">https://www.bilibili.com/video/BV1A4411G7SF</a></p>
 </li>
 </ul>
 <h2 id="聊一聊"><a href="#聊一聊" class="headerlink" title="聊一聊"></a>聊一聊</h2><h4 id="关于我的博客的发展"><a href="#关于我的博客的发展" class="headerlink" title="关于我的博客的发展"></a>关于我的博客的发展</h4><ul>

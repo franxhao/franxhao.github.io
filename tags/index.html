@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -47,7 +47,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>标签 | FranxHao
 </title>
   
@@ -219,10 +219,10 @@
       <div class="post-body">
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-              目前共计 9 个标签
+              目前共计 10 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 18px; color: #8e8e8e">C51单片机</a> <a href="/tags/Git/" style="font-size: 12px; color: #ccc">Git</a> <a href="/tags/Hexo/" style="font-size: 24px; color: #4f4f4f">Hexo</a> <a href="/tags/RSSHub/" style="font-size: 12px; color: #ccc">RSSHub</a> <a href="/tags/STM32/" style="font-size: 30px; color: #111">STM32</a> <a href="/tags/Typecho/" style="font-size: 12px; color: #ccc">Typecho</a> <a href="/tags/frp/" style="font-size: 12px; color: #ccc">frp</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 12px; color: #ccc">博客</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #ccc">树莓派</a>
+              <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 18px; color: #8e8e8e">C51单片机</a> <a href="/tags/Git/" style="font-size: 12px; color: #ccc">Git</a> <a href="/tags/Hexo/" style="font-size: 24px; color: #4f4f4f">Hexo</a> <a href="/tags/JVM/" style="font-size: 12px; color: #ccc">JVM</a> <a href="/tags/RSSHub/" style="font-size: 12px; color: #ccc">RSSHub</a> <a href="/tags/STM32/" style="font-size: 30px; color: #111">STM32</a> <a href="/tags/Typecho/" style="font-size: 12px; color: #ccc">Typecho</a> <a href="/tags/frp/" style="font-size: 12px; color: #ccc">frp</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 12px; color: #ccc">博客</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #ccc">树莓派</a>
             </div>
           </div>
         
@@ -301,20 +301,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -346,6 +346,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -359,10 +363,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -399,7 +399,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -502,10 +502,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

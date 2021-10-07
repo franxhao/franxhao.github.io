@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -33,7 +33,7 @@
 <meta property="article:published_time" content="2021-06-14T05:00:16.000Z">
 <meta property="article:modified_time" content="2021-06-14T05:35:09.937Z">
 <meta property="article:author" content="豪少super">
-<meta property="article:tag" content="categories-java">
+<meta property="article:tag" content="STM32">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://franxhao.top/undefined/d8eae319.html">
@@ -48,7 +48,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>【嵌入式STM32】（七）ADC实验 | FranxHao</title>
   
 
@@ -267,10 +267,10 @@
         <h1 id="0-实验要求"><a href="#0-实验要求" class="headerlink" title="0. 实验要求"></a>0. 实验要求</h1><p>掌握库函数版的<strong>ADC实验</strong>（寄存器版为自学内容）</p>
 <p>要求使用 ADC2，通道 5，连续转换模式，时钟频率 9M，采样时间为 13.5 周期， ADC 数据左对齐，采样 5 次取平均值，显示的值取小数点后 2 位</p>
 <p><em>（注：文章仅贴出修改部分代码，详细原码请下载资料包查看）</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="1-库函数版"><a href="#1-库函数版" class="headerlink" title="1. 库函数版"></a>1. 库函数版</h1><p><strong>(1). adc.h：</strong>定义 ADC 初始化函数，声明 Get_Adc 和 Get_Adc_Average 两个函数</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ADC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADC_H	</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sys.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">u16  <span class="title">Get_Adc</span><span class="params">(u8 ch)</span></span>; </span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ADC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADC_H	</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;sys.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">u16  <span class="title">Get_Adc</span><span class="params">(u8 ch)</span></span>; </span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span>; </span><br></pre></td></tr></table></figure>
 
 <p><strong>(2). adc.c：</strong></p>
 <ul>
@@ -280,11 +280,11 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化ADC2</span></span><br><span class="line"><span class="comment">//开启通道5															   </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">Adc_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123; 	</span><br><span class="line">	ADC_InitTypeDef ADC_InitStructure; </span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line"></span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_ADC2, ENABLE ); <span class="comment">//使能ADC2通道时钟</span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">//PA1 作为模拟通过输入引脚</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5; <span class="comment">//通道5</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; <span class="comment">//模拟输入引脚  设置工作模式:模拟输入</span></span><br><span class="line">	GPIO_Init(GPIOA, &amp;GPIO_InitStructure);	</span><br><span class="line">	</span><br><span class="line">	RCC_ADCCLKConfig(RCC_PCLK2_Div8); <span class="comment">//设置ADC分频因子8 72M/8=9M,ADC最大时间不能超过14M</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	ADC_DeInit(ADC2); <span class="comment">//复位ADC2,将外设 ADC2 的全部寄存器重设为缺省值</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化ADC参数</span></span><br><span class="line">	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	<span class="comment">//ADC工作模式:ADC1和ADC2工作在独立模式</span></span><br><span class="line">	ADC_InitStructure.ADC_ScanConvMode = DISABLE; <span class="comment">//模数转换工作在单通道模式  不用扫描模式   单通道模式:DISABLE  多通道模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; <span class="comment">//模数转换工作在连续转换模式    单次转换模式：DISABLE  连续转换模式：ENABLE</span></span><br><span class="line">	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	<span class="comment">//转换由软件而不是外部触发启动</span></span><br><span class="line">	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Left; <span class="comment">//ADC数据左对齐</span></span><br><span class="line">	ADC_InitStructure.ADC_NbrOfChannel = <span class="number">1</span>;	<span class="comment">//顺序进行规则转换的ADC通道的数目</span></span><br><span class="line">	ADC_Init(ADC2, &amp;ADC_InitStructure);	<span class="comment">//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器 </span></span><br><span class="line">  </span><br><span class="line">	ADC_Cmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2</span></span><br><span class="line">	</span><br><span class="line">	ADC_ResetCalibration(ADC2);	<span class="comment">//使能复位校准  </span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC2));	<span class="comment">//等待复位校准结束</span></span><br><span class="line">	</span><br><span class="line">	ADC_StartCalibration(ADC2); <span class="comment">//开启AD校准</span></span><br><span class="line"> </span><br><span class="line">	<span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC2)); <span class="comment">//等待校准结束</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//	ADC_SoftwareStartConvCmd(ADC2, ENABLE); //使能指定的ADC2的软件转换启动功能</span></span><br><span class="line"></span><br><span class="line">&#125;				  </span><br><span class="line"><span class="comment">//获得ADC值</span></span><br><span class="line"><span class="comment">//ch:通道值 0~3</span></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc</span><span class="params">(u8 ch)</span>   </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  	<span class="comment">//设置指定ADC的规则组通道，一个序列，采样时间</span></span><br><span class="line">	ADC_RegularChannelConfig(ADC2, ch, <span class="number">1</span>, ADC_SampleTime_13Cycles5 ); <span class="comment">//ADC2,ADC通道,采样时间为13.5周期	  			    </span></span><br><span class="line">  </span><br><span class="line">	ADC_SoftwareStartConvCmd(ADC2, ENABLE); <span class="comment">//使能指定的ADC2的软件转换启动功能	</span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(!ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC )); <span class="comment">//等待转换结束</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC2); <span class="comment">//返回最近一次ADC2规则组的转换结果</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">u16 <span class="title">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	u32 temp_val=<span class="number">0</span>;</span><br><span class="line">	u8 t;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;times;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		temp_val+=Get_Adc(ch);</span><br><span class="line">		delay_ms(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> temp_val/times;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>(3). main.c：</strong>主要修改 while 循环部分，取 ADC 平均值参数设置为通道 5 和采样 5 次平均值；在 temp*=100 中，设置为 100 是为了取小数后两位</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">5</span>); <span class="comment">//通道5，采样5次取平均值</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">130</span>,adcx,<span class="number">4</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示ADC的值</span></span><br><span class="line">    temp=(<span class="keyword">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);</span><br><span class="line">    adcx=temp;</span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">150</span>,adcx,<span class="number">1</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示电压值</span></span><br><span class="line">    temp-=adcx;</span><br><span class="line">    temp*=<span class="number">100</span>; <span class="comment">//1000取小数点后3位，100取后2位</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">172</span>,<span class="number">150</span>,temp,<span class="number">3</span>,<span class="number">16</span>,<span class="number">0X80</span>);</span><br><span class="line">    LED0=!LED0;</span><br><span class="line">    delay_ms(<span class="number">250</span>);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">5</span>); <span class="comment">//通道5，采样5次取平均值</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">130</span>,adcx,<span class="number">4</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示ADC的值</span></span><br><span class="line">    temp=(<span class="keyword">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);</span><br><span class="line">    adcx=temp;</span><br><span class="line">    LCD_ShowxNum(<span class="number">156</span>,<span class="number">150</span>,adcx,<span class="number">1</span>,<span class="number">16</span>,<span class="number">0</span>); <span class="comment">//显示电压值</span></span><br><span class="line">    temp-=adcx;</span><br><span class="line">    temp*=<span class="number">100</span>; <span class="comment">//1000取小数点后3位，100取后2位</span></span><br><span class="line">    LCD_ShowxNum(<span class="number">172</span>,<span class="number">150</span>,temp,<span class="number">3</span>,<span class="number">16</span>,<span class="number">0X80</span>);</span><br><span class="line">    LED0=!LED0;</span><br><span class="line">    delay_ms(<span class="number">250</span>);	</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
 
 <h1 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3.  参考资料"></a>3.  参考资料</h1><p>ADC实验原码下载：</p>
 <ul>
-<li>网盘下载：<a href="https://wwr.lanzoui.com/iZMLbq6lbod" target="_blank" rel="noopener">ADC实验.zip</a>    密码：ey1e</li>
+<li>网盘下载：<a target="_blank" rel="noopener" href="https://wwr.lanzoui.com/iZMLbq6lbod">ADC实验.zip</a>    密码：ey1e</li>
 <li>内容包含：<ul>
 <li>寄存器和库函数模板初始原码</li>
 <li>按实验要求修改后的原码</li>
@@ -293,13 +293,13 @@
 </ul>
 <p>嵌入式STM32学习视频：</p>
 <ul>
-<li>字母站传送门：<a href="https://www.bilibili.com/video/BV1kx411k7JT" target="_blank" rel="noopener">【正点原子】STM32开发板实验教程</a></li>
+<li>字母站传送门：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kx411k7JT">【正点原子】STM32开发板实验教程</a></li>
 </ul>
 <h1 id="4-最后"><a href="#4-最后" class="headerlink" title="4. 最后"></a>4. 最后</h1><p>这是【嵌入式STM32】系列文章的最后一篇文章了，在这里做一个结束总结</p>
 <p>关于【嵌入式STM32】是作者大三第二学期的课程，其内容是以实验课内容为主来撰写的。文章部分内容不多，所以只靠阅读文章是不够的，需要自行将提供的原码资料下载出来，通过Keil 5 来查看、对比和动手修改才能学到相应的知识</p>
 <p>最后希望能对读者学习有帮助，祝考运昌盛！</p>
 <div class="note info">
-            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：<strong><a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a></strong> </p>
+            <p>所有提供的资料和笔记仅供学习使用，未经许可请勿用于其他用途<br>想看更多有关【嵌入式STM32】的文章可以前往：**<a href="/undefined/64afecd0.html" title="【嵌入式STM32】文章汇总">【嵌入式STM32】文章汇总</a>** </p>
           </div>
 
 
@@ -454,7 +454,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-实验要求"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-库函数版"><span class="nav-number">2.</span> <span class="nav-text">1. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-参考资料"><span class="nav-number">3.</span> <span class="nav-text">3.  参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-最后"><span class="nav-number">4.</span> <span class="nav-text">4. 最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">0. 实验要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BA%93%E5%87%BD%E6%95%B0%E7%89%88"><span class="nav-number">2.</span> <span class="nav-text">1. 库函数版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">3.  参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">4. 最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -470,20 +470,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -515,6 +515,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -528,10 +532,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -568,7 +568,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -671,10 +671,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

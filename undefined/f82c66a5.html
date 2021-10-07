@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
@@ -38,7 +38,7 @@
 <meta property="article:published_time" content="2020-08-29T06:49:39.000Z">
 <meta property="article:modified_time" content="2020-08-29T08:31:00.523Z">
 <meta property="article:author" content="豪少super">
-<meta property="article:tag" content="categories-java">
+<meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png">
 
@@ -54,7 +54,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<link rel="stylesheet" type="text/css" href="/css/injector.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <title>双线部署 Coding Pages 和 GitHub Pages 并实现全站 HPPTS | FranxHao</title>
   
 
@@ -272,7 +272,7 @@
       
         <p>以前我的静态站是双线部署在Github Page 和 Gitee Page 上的，域名是指向Github上的所以每次访问我的静态站速度都很头疼，Gitee Page 服务每次都需要手动更新部署，而且部署速度有时也挺慢的，所以前段时间是想渐渐退出静态站的，直到后来我发现了 Coding Page 可以免费自动更新部署，而且在国内的访问速度也非常可观，让我重新燃起继续完善静态站的想法！</p>
 <p>Coding Page 服务还可以绑定自己的域名（包括国外服务商购买的域名），这服务这么香，赶紧搞起来吧 o(*≧▽≦)ツ ～</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="创建Coding项目"><a href="#创建Coding项目" class="headerlink" title="创建Coding项目"></a>创建Coding项目</h2><p>1、创建一个Coding的账号。现在的Coding是以团队的方式加入，身边没有Coding团队的小伙伴可以自己创建一个团队，身边有人有团队的话可以申请加入，这样就可以省去创建团队的功夫啦。</p>
 <p>2、账号创建好后，找到 <strong>个人账户设置</strong> ，将本地生成的SSH公钥添加进去。（同Github上的设置）一般公钥路径在 <code>C:\Users\用户名\.ssh</code> 目录下的 <code>id_rsa.pub</code> 文件里，用记事本打开，将所有内容复制出来即可。</p>
@@ -280,35 +280,31 @@
 <p>4、创建一个托管静态页面的项目</p>
 <ul>
 <li><p>选择代码托管项目（或选择DevOps项目）</p>
-<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;">
-</li>
+<img src="https://pic.downk.cc/item/5f4a03a9160a154a67001905.png" style="zoom: 55%;"></li>
 <li><p>项目名称建议是使用自己在Coding上设置的用户名</p>
 </li>
 <li><p>进入刚创建的仓库，复制SSH的路径（据说SSH比较稳定）</p>
 </li>
 </ul>
 <h2 id="配置到Hexo并部署到Coding"><a href="#配置到Hexo并部署到Coding" class="headerlink" title="配置到Hexo并部署到Coding"></a>配置到Hexo并部署到Coding</h2><p>1、配置主站目录下的 <code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: (自己的SSH)</span><br><span class="line">    coding: (自己的SSH)</span><br><span class="line">    #gitee: (自己的SSH)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
 <p>2、执行三件套指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
 
 <p>3、部署到Coding</p>
 <ul>
 <li><p>打开持续部署开关</p>
-<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%">
-</li>
+<img src="https://pic.downk.cc/item/5f4a076c160a154a6701391a.png" style="zoom: 50%"></li>
 <li><p>部署静态网站</p>
-<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png">
-
-</li>
+<img src="https://pic.downk.cc/item/5f4a08d0160a154a67019f6a.png"></li>
 </ul>
 <p>部署完成后点开上面的访问地址可以打开你的Hexo博客说明已经部署成功啦</p>
 <h2 id="添加自定义域名"><a href="#添加自定义域名" class="headerlink" title="添加自定义域名"></a>添加自定义域名</h2><p>首先需要拥有一个域名，国内购买的域名需要进行备案，国外域名商购买的域名可以不进行备案</p>
 <p>本站域名是在国外域名平台 Namesilo 购买，是目前价格较便宜的域名平台，支持支付宝，提供免费的域名隐私保护，性价比较高。</p>
 <blockquote>
 <p>关于Namesilo域名购买可以查找度娘或者看以下这篇文章：</p>
-<p><a href="https://tding.top/archives/b48e2719.html" target="_blank" rel="noopener">https://tding.top/archives/b48e2719.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://tding.top/archives/b48e2719.html">https://tding.top/archives/b48e2719.html</a></p>
 </blockquote>
 <p>域名解析我使用的是DNSPod</p>
 <h3 id="添加解析记录"><a href="#添加解析记录" class="headerlink" title="添加解析记录"></a>添加解析记录</h3><p>1、ping一下Coding给你Hexo项目部署到的地址，获得Coding Page 的IP地址</p>
@@ -332,7 +328,7 @@
 <p>申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败。</p>
 <p><strong>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问</strong>。</p>
 <div class="note default">
-            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://tding.top/archives/e09249d2.html" target="_blank" rel="noopener">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a href="https://haozsky.top/archives/14/" target="_blank" rel="noopener">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a href="https://haozsky.top" target="_blank" rel="noopener">动态站</a></p>
+            <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://tding.top/archives/e09249d2.html">Hexo 博客部署到 Coding</a></p><h3 id="动态站文章地址"><a href="#动态站文章地址" class="headerlink" title="动态站文章地址"></a>动态站文章地址</h3><p><a target="_blank" rel="noopener" href="https://haozsky.top/archives/14/">https://haozsky.top/archives/14/</a><br>欢迎光临我的<a target="_blank" rel="noopener" href="https://haozsky.top/">动态站</a></p>
           </div>
     </div>
 
@@ -483,7 +479,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Coding项目"><span class="nav-number">1.</span> <span class="nav-text">创建Coding项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置到Hexo并部署到Coding"><span class="nav-number">2.</span> <span class="nav-text">配置到Hexo并部署到Coding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加自定义域名"><span class="nav-number">3.</span> <span class="nav-text">添加自定义域名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加解析记录"><span class="nav-number">3.1.</span> <span class="nav-text">添加解析记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定自定义域名"><span class="nav-number">3.2.</span> <span class="nav-text">绑定自定义域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启HTTPS"><span class="nav-number">3.3.</span> <span class="nav-text">开启HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">3.4.</span> <span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态站文章地址"><span class="nav-number">3.5.</span> <span class="nav-text">动态站文章地址</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BACoding%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">创建Coding项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%88%B0Hexo%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Coding"><span class="nav-number">2.</span> <span class="nav-text">配置到Hexo并部署到Coding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">添加自定义域名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%A7%A3%E6%9E%90%E8%AE%B0%E5%BD%95"><span class="nav-number">3.1.</span> <span class="nav-text">添加解析记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D"><span class="nav-number">3.2.</span> <span class="nav-text">绑定自定义域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AFHTTPS"><span class="nav-number">3.3.</span> <span class="nav-text">开启HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">3.4.</span> <span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%AB%99%E6%96%87%E7%AB%A0%E5%9C%B0%E5%9D%80"><span class="nav-number">3.5.</span> <span class="nav-text">动态站文章地址</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -499,20 +495,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -544,6 +540,10 @@
               
               
                 <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
                   <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
                 </li>
               
@@ -557,10 +557,6 @@
               
                 <li>
                   <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
-                </li>
-              
-                <li>
-                  <a href="/undefined/5817d212.html" title="【嵌入式STM32】（五）外部中断实验" target="_blank">【嵌入式STM32】（五）外部中断实验</a>
                 </li>
               
             </ul>
@@ -597,7 +593,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">53k</span>
+    <span title="站点总字数">58k</span>
 </div>
 
 <div class="translate-style">
@@ -700,10 +696,10 @@ translateInitilization();
 <div class="moon-menu">
   <div class="moon-menu-items">
     
-    <div class="moon-menu-item" onclick="back2bottom()">
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
       <i class='fa fa-chevron-down'></i>    </div>
     
-    <div class="moon-menu-item" onclick="back2top()">
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
       <i class='fa fa-chevron-up'></i>    </div>
     
   </div>

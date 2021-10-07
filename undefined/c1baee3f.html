@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/maple32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/maple16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"franxhao.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="JVM的位置JVM 在操作系统之上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识JVM">
+<meta property="og:url" content="https://franxhao.top/undefined/c1baee3f.html">
+<meta property="og:site_name" content="FranxHao">
+<meta property="og:description" content="JVM的位置JVM 在操作系统之上">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233327093.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233523713.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211002135242638.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105305930.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105753899.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate1.jpg">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate2.jpg">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate3.jpg">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate4.jpg">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate5.jpg">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003143551856.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003151054565.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003160018688.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003164500625.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003213551996.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003220534254.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003232224838.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003234308733.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004133530108.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004135840814.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004150726684.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/复制算法过程.gif">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170400916.png">
+<meta property="og:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170736623.png">
+<meta property="article:published_time" content="2021-10-07T07:44:07.000Z">
+<meta property="article:modified_time" content="2021-10-07T08:35:45.280Z">
+<meta property="article:author" content="豪少super">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233327093.png">
+
+<link rel="canonical" href="https://franxhao.top/undefined/c1baee3f.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <title>初识JVM | FranxHao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="FranxHao" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FranxHao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://franxhao.top/undefined/c1baee3f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuming.jpg">
+      <meta itemprop="name" content="豪少super">
+      <meta itemprop="description" content="是正在努力的学生党呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FranxHao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识JVM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-07 15:44:07 / 修改时间：16:35:45" itemprop="dateCreated datePublished" datetime="2021-10-07T15:44:07+08:00">2021-10-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="JVM的位置"><a href="#JVM的位置" class="headerlink" title="JVM的位置"></a>JVM的位置</h2><p>JVM 在操作系统之上</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233327093.png" style="zoom:60%;">
+
+
+
+<span id="more"></span>
+
+
+
+<h2 id="JVM-的体系结构"><a href="#JVM-的体系结构" class="headerlink" title="JVM 的体系结构"></a>JVM 的体系结构</h2><ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20210927233523713.png" style="zoom:67%;"></li>
+<li><p>栈为什么没有垃圾，打个比方，运行一个程序时 main 方法总会压在栈底，因为每执行一个方法都会压入栈中，执行完后会出栈，直到 main 方法出栈程序才运行结束，所以要是栈中有垃圾，那这个程序就相当于是个死程序了 。</p>
+</li>
+</ul>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>作用：加载 Class 文件~</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211002135242638.png" style="zoom:67%;">
+
+
+
+<ol>
+<li>虚拟机自带的加载器</li>
+<li>启动类（根）加载器 —- BootClassLoader</li>
+<li>扩展类加载器 —- ExtClassLoader</li>
+<li>应用程序加载器 —- AppClassLoader</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java 为什么能调用底层 C++ 代码：</span><br><span class="line">     首先因为 JVM 在操作系统之上，不能自己去调用操作系统的东西，这就需要通过接口调用；</span><br><span class="line">     怎么通过接口去调用，也就是用到了 native 关键字调用本地方法；</span><br><span class="line">     (比如 Thread类中的 main 方法有这样一条语句 ---&gt; private native void start0(); )</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h2><ol>
+<li>类加载器收到类加载请求</li>
+<li>将这个请求向上委托给父类加载器去完成，一直向上委托，直到启动类加载器</li>
+<li>启动类加载检查是否能够加载当前这个类，能加载就结束，使用当前的加载器，否则，抛出异常，通知子加载器进行加载</li>
+<li>重复步骤 3</li>
+</ol>
+<blockquote>
+<p>如果实在找不到会报一个很经典的错：Class Not Found<br>null：Java 调用不到 — 底层用 C/C++ 写的<br>Java = C++ ：去掉繁琐的东西，指针、内存管理<br>        = C++–</p>
+</blockquote>
+<h2 id="Native"><a href="#Native" class="headerlink" title="Native"></a>Native</h2><ul>
+<li><p>凡是带了 native 关键字的，说明 Java 的作用范围达不到了，回去调用底层C语言的库！</p>
+</li>
+<li><p>会进入本地方法栈</p>
+<ul>
+<li>调用本地方法本地接口 — JNI (Java Native Interface)；</li>
+<li>JNI 作用：拓展 Java 的使用，融合不同的编程语言为 Java 所用（最初 C、C++）；</li>
+<li>Java 诞生的时候，C、C++ 横行，想要立足，必须要有调用 C、C++ 的程序；</li>
+<li>它在内存区域中专门开辟了一块标记区域：Native Method Stack ，登记 Native 方法；</li>
+<li>在最终执行的时候，加载本地方法库中的方法通过 JNI；</li>
+<li>例如 Java 程序驱动打印机、管理系统、Robot 类等。（掌握即可，在企业级应用中较为少见）</li>
+</ul>
+</li>
+</ul>
+<h2 id="PC-寄存器"><a href="#PC-寄存器" class="headerlink" title="PC 寄存器"></a>PC 寄存器</h2><p>程序计数器：Program Counter Register</p>
+<p>每个线程都有一个程序计数器，是线程私有的，就是一个指针，指向方法区中的方法字节码（用来存储指向像一条指令的地址，也即将要执行的指令代码)，在执行引擎读取下一条指令，是一个非常小的内存空间，几乎可以忽略不计。</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>Method Area 方法区</p>
+<p>==静态变量、常量、类信息（构造方法、接口定义）、运行时的常量池 存在方法区中，但是 实例变量存在堆内存中，和方法区无关==</p>
+<p>简言之：static、final、Class、常量池  —&gt;  方法区</p>
+<h2 id="栈：数据结构"><a href="#栈：数据结构" class="headerlink" title="栈：数据结构"></a>栈：数据结构</h2><p>程序 = 数据结构 + 算法</p>
+<p>栈：先进先出、后进先出  — 桶</p>
+<p>队列：先进先出 （FIFO ：First Input First Output）</p>
+<blockquote>
+<p>为什么 main() 先执行，最后结束：其实就是因为方法运行压栈，main先入栈，直到 main 出栈后程序执行结束；</p>
+</blockquote>
+<p>栈：栈内存，主管程序的运行，生命周期和线程同步；</p>
+<p>线程结束，栈内存也就释放了，对于栈来说，==不存在垃圾回收问题==；</p>
+<p>一但线程结束，栈就 over；</p>
+<p>栈中存储的东西：8大基本类型 + 对象引用 + 实例的方法；</p>
+<p>栈运行原理：栈帧</p>
+<ul>
+<li><strong>栈的内部结构：</strong><ul>
+<li>图中栈,包含了两个方法引用,引用就是指对象的引用,从栈到堆中,还有下面方法指向上面方法的子帧和父帧(由于栈是先进后出的,所以最上面一定是程序正在执行的方法,而main方法一定在最下面,因为他是最先进栈的)</li>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105305930.png" style="zoom:67%;"></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003105753899.png"></p>
+<h3 id="画出一个对象在内存中的实例化过程"><a href="#画出一个对象在内存中的实例化过程" class="headerlink" title="画出一个对象在内存中的实例化过程"></a>画出一个对象在内存中的实例化过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span></span>&#123;</span><br><span class="line">    String name; <span class="comment">// 定义一个成员变量 name</span></span><br><span class="line">    <span class="keyword">int</span> age; <span class="comment">// 成员变量 age</span></span><br><span class="line">    Double height; <span class="comment">// 成员变量 height</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sing</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;人的姓名：&quot;</span>+name);</span><br><span class="line">        System.out.println(<span class="string">&quot;人的年龄：&quot;</span>+age);</span><br><span class="line">        System.out.println(<span class="string">&quot;人的身高：&quot;</span>+height);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String name; <span class="comment">// 定义一个局部变量 name</span></span><br><span class="line">    	<span class="keyword">int</span> age; <span class="comment">// 局部变量 age</span></span><br><span class="line">    	Double height; <span class="comment">// 局部变量 height</span></span><br><span class="line">        </span><br><span class="line">        People people = <span class="keyword">new</span> People() ; <span class="comment">//实例化对象people</span></span><br><span class="line">        people.name = <span class="string">&quot;张三&quot;</span> ;       <span class="comment">//赋值</span></span><br><span class="line">        people.age = <span class="number">18</span>;            <span class="comment">//赋值</span></span><br><span class="line">        people.stuid = <span class="number">180.0</span> ;   	<span class="comment">//赋值</span></span><br><span class="line">        people.sing();              <span class="comment">//调用方法sing</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>代码解读：</strong></p>
+<ul>
+<li>这段代码首先定义三个成员变量：String name、int age、Double height 这三个变量都是只声明了没有初始化，然后定义了一个成员方法 sing();</li>
+<li>在 main()方法里同样定义了三个一样的变量，只不过这些是局部变量；</li>
+<li>在 main() 函数里实例化对象 people , 内存中在堆区内会给实例化对象 people 分配一片地址，紧接着我们对实例化对象 people 进行了赋值。people 调用成员方法 sing() 。mian()函数打印输入人的姓名，人的年龄和人的身高，系统执行完毕。</li>
+</ul>
+</li>
+<li><p><strong>图示：</strong></p>
+<ul>
+<li>1、在程序的执行过程中，首先类中的成员变量和方法体会进入到方法区：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate1.jpg"></li>
+</ul>
+</li>
+<li>2、程序执行到 main() 方法时，main()函数方法体会进入栈区，这一过程叫做进栈(压栈)，定义了一个用于指向 Person 实例的变量 person。如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate2.jpg"></li>
+</ul>
+</li>
+<li>3、程序执行到 Person person = new Person(); 就会在堆内存开辟一块内存区间，用于存放 Person 实例对象，然后将成员变量和成员方法放在 new 实例中都是取成员变量&amp;成员方法的地址值 如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate3.jpg"></li>
+</ul>
+</li>
+<li>4、接下来对 person 对象进行赋值， person.name = “小二” ; perison.age = 13; person.height= 180.0；先在栈区找到 person，然后根据地址值找到 new Person() 进行赋值操作。如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate4.jpg"></li>
+</ul>
+</li>
+<li>5、当程序走到 sing() 方法时，先到栈区找到 person这个引用变量，然后根据该地址值在堆内存中找到 new Person() 进行方法调用。在方法体void speak()被调用完成后，就会立刻马上从栈内弹出（出栈 )。最后，在main()函数完成后，main()函数也会出栈 如图：<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/instantiate5.jpg"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三种-JVM"><a href="#三种-JVM" class="headerlink" title="三种 JVM"></a>三种 JVM</h2><ul>
+<li>Sun 公司 —- <code>Hotspot</code></li>
+<li>BEA 公司  <code>JRockit</code></li>
+<li>IBM 公司  <code>J9 VM</code></li>
+</ul>
+<p>我们学习的都是 <code>Hotspot</code></p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>Heap，一个 JVM 只有一个堆内存，堆内存的大小是可以调节的</p>
+<p>类加载器读取了类文件后，一般会把什么东西放到堆中？     类、方法、常量、变量，保存我们所有引用类型的真实对象；</p>
+<p>堆内存中还要细分为三个区域：</p>
+<ul>
+<li>新生区（伊甸园区）  Young / New</li>
+<li>养老区  old</li>
+<li>永久区  Perm</li>
+</ul>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003143551856.png" style="zoom:67%;">
+
+<p>GC 垃圾回收，主要在伊甸园区和养老区；</p>
+<p>假设内存满了，出现OOM，堆内存不够 — <code>java.lang.OutOfMemoryError: Java heap space</code></p>
+<p>在 JDK8 以后，永久区改了个名字叫<strong>元空间</strong>；</p>
+<h2 id="新生区、老年区、永久区"><a href="#新生区、老年区、永久区" class="headerlink" title="新生区、老年区、永久区"></a>新生区、老年区、永久区</h2><ul>
+<li><p><strong>新生区</strong></p>
+<ul>
+<li>类：诞生 和成长的地方，甚至死亡；</li>
+<li>伊甸园：所有的对象都是在 伊甸园 区 new 出来的！</li>
+<li>幸存者区（0, 1）</li>
+</ul>
+</li>
+<li><p><strong>老年区</strong></p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003151054565.png"></li>
+</ul>
+<p>真理：经过研究，99%的对象是临时对象！</p>
+</li>
+<li><p><strong>永久区</strong></p>
+<p>这个区域是常驻内存的。用来存放 JDK 自身携带的 Class 对象。Interface 元数据，存储的是 Java运行时的一些环境或类信息<del>，这个区域不存在垃圾回收！关闭 JVM 虚拟机就会释放这个区域的内存</del></p>
+<ul>
+<li>JDK 1.6 之前 ：永久代，常量池是在方法区；</li>
+<li>JDK 1.7          ：永久代，但是慢慢的退化了，<code>去永久代</code>，常量池在堆中；</li>
+<li>JDK 1.8 之后 ：无永久代，常量池在元空间。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003160018688.png"></p>
+<p><strong>什么情况会在永久区崩？</strong></p>
+<ul>
+<li>一个启动类，加载了大量的第三方 jar 包。tomcat 部署了太多的应用，大量动态生成的反射类。不断的被加载，直到内存满，就会出现 OOM；</li>
+</ul>
+<p><strong>元空间 —&gt;  通过新生代 + 老年代得知：逻辑上存在，物理上不存在。</strong></p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003164500625.png" style="zoom:67%;">
+
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003213551996.png" style="zoom:67%;">
+
+
+
+<h2 id="堆内存调优"><a href="#堆内存调优" class="headerlink" title="堆内存调优"></a>堆内存调优</h2><p>在一个项目中，突然出现了 OOM 故障，那么该如何排除，如何研究为什么出错：</p>
+<ul>
+<li>能够看到代码第几行出错：内存快照分析工具 —- MAT(Eclipse)、JProfiler(现在常用)</li>
+<li>Debug，一行行分析代码！</li>
+</ul>
+<p><strong>MAT、JProfiler 作用</strong></p>
+<ul>
+<li>分析 Dump 内存文件，快速定位内存泄露；</li>
+<li>获得堆中的数据；</li>
+<li>获得大的对象~</li>
+<li>….</li>
+</ul>
+<p><strong>JProfiler</strong></p>
+<ul>
+<li><p>IDE 安装</p>
+</li>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003220534254.png" style="zoom:67%;"></li>
+<li><p>软件安装（百度）</p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003232224838.png" style="zoom:67%;"></li>
+</ul>
+</li>
+<li><p>key（JProfiles 9版本适应，12看起来优化挺好的，等一波12的破解码吧）：</p>
+<ul>
+<li><pre><code>L-Larry_Lau@163.com#23874-hrwpdp1sh1wrn#0620
+L-Larry_Lau@163.com#36573-fdkscp15axjj6#25257
+L-Larry_Lau@163.com#5481-ucjn4a16rvd98#6038
+L-Larry_Lau@163.com#99016-hli5ay1ylizjj#27215
+L-Larry_Lau@163.com#40775-3wle0g1uin5c1#0674
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>常用部分</p>
+<ul>
+<li><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211003234308733.png" style="zoom:67%;"></li>
+</ul>
+</li>
+</ul>
+<h2 id="GC：垃圾回收"><a href="#GC：垃圾回收" class="headerlink" title="GC：垃圾回收"></a>GC：垃圾回收</h2><p>无法手动回收，只能手动提醒GC回收（注意这个点！）</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004133530108.png" style="zoom:67%;">
+
+<p>JVM在进行GC时，并不是对这三个区域统一回收。大部分时候，回收都是在新生代</p>
+<ul>
+<li>新生代</li>
+<li>幸存区（from, to）</li>
+<li>老年区</li>
+</ul>
+<p>GC 两种类型：轻GC（普通的 GC），重GC（全局 GC）</p>
+<p><strong>GC 思考题：</strong></p>
+<ul>
+<li>JVM 的内存模型和分区~详细到每个区放什么？</li>
+<li>堆里面的分区有哪些？<ul>
+<li>Eden、from、to、老年区。说说他们的特点？</li>
+</ul>
+</li>
+<li>GC 的算法有哪些？标记清除法、标记压缩、复制算法、引用计数法，怎么用的？</li>
+<li>轻GC 和 重GC 分别在什么时候发生？</li>
+</ul>
+<h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><h3 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h3><p><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004135840814.png"></p>
+<h3 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h3><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004150726684.png" style="zoom:67%;">
+
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/复制算法过程.gif" style="zoom:67%;">
+
+<ul>
+<li><strong>好处：</strong>没有内存碎片~</li>
+<li><strong>坏处：</strong>浪费了内存空间~：多了一半空间永远是空的（to）。<ul>
+<li>假设对象100%存活（极端情况），且是满的，则全部从from 复制到 to 将会产生很大的压力成本。</li>
+<li>所以 复制算法最佳使用场景：对象存活度较低的时候；即新生区~</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-标记清除法"><a href="#3-标记清除法" class="headerlink" title="3. 标记清除法"></a>3. 标记清除法</h3><img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170400916.png" style="zoom:67%;">
+
+<ul>
+<li><strong>优点：</strong>不需要额外的内存空间；</li>
+<li><strong>缺点：</strong>两次扫描，严重浪费时间，会产生内存碎片。</li>
+</ul>
+<h3 id="4-标记压缩法"><a href="#4-标记压缩法" class="headerlink" title="4. 标记压缩法"></a>4. 标记压缩法</h3><p><u>标记清除法</u> 再优化：</p>
+<img src="https://gitee.com/franxhao/my-images/raw/master/MyNotes/JVMInterviewPreparation/image-20211004170736623.png" style="zoom:67%;">
+
+
+
+<h3 id="5-标记清除压缩"><a href="#5-标记清除压缩" class="headerlink" title="5. 标记清除压缩"></a>5. 标记清除压缩</h3><p>先进行几次标记清除，等碎片多了再进行压缩~</p>
+<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p><strong>学习方法：</strong> 这是什么？这是干嘛的？这个怎么学习？</p>
+<ol>
+<li><p>什么是 JMM？</p>
+<p>JMM（Java Memory Model的缩写）：<strong>Java 内存模型</strong></p>
+</li>
+<li><p>它是干嘛的？（官方、其他人的博客、对应的视频）</p>
+<p>作用：缓存一致性协议，用于定义数据读写的规则（遵守，找到这个规则）</p>
+</li>
+<li><p>它如何学习？</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>内存效率：复制算法 &gt; 标记清除法 &gt; 标记压缩法  (时间复杂度)</p>
+<p>内存整齐度：复制算法 = 标记压缩法 &gt; 标记清除法</p>
+<p>内存利用率：标记压缩法 = 标记清除法 &gt; 复制算法</p>
+<p><strong>思考题：难道没有最优的算法吗？</strong></p>
+<ul>
+<li>答案：没有，没有最好的算法，只有最合适的算法  —-&gt; GC：<strong>分代收集算法</strong><ul>
+<li><strong>年轻代</strong><ul>
+<li>存活率低</li>
+<li>适用 复制算法</li>
+</ul>
+</li>
+<li><strong>老年代</strong><ul>
+<li>区域大：存活率高</li>
+<li>适用 标记清除 (内存碎片不太多的时候) + 标记压缩 混合实现</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="推荐与思考"><a href="#推荐与思考" class="headerlink" title="推荐与思考"></a>推荐与思考</h2><ul>
+<li><p><strong>推荐书籍：《深入理解 JVM》</strong></p>
+</li>
+<li><p><strong>入门JVM推荐视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iJ411d7jS?p=2&spm_id_from=pageDriver">【狂神说Java】JVM快速入门篇</a></strong></p>
+</li>
+<li><p><strong>JVM探究 思考题：</strong></p>
+<ul>
+<li>请你谈谈你对 JVM 的理解？Java8 虚拟机和之前的变化更新？</li>
+<li>什么是 OOM，什么是栈溢出 StackOverFlowError？怎么分析？</li>
+<li>JVM 的常用调优参数有哪些？</li>
+<li>内存快照如何抓取，怎么分析 Dump 文件？知道吗？</li>
+<li>谈谈 JVM 中，类加载器你的认识？</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果文章对你有用的话，请随意赞赏吧~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="豪少super 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="豪少super 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>豪少super
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://franxhao.top/undefined/c1baee3f.html" title="初识JVM">https://franxhao.top/undefined/c1baee3f.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-paw"></i>感谢阅读-------------</div>
+    
+</div>
+  
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"><i class="fa fa-tags"></i>  JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/undefined/a2153dde.html" rel="prev" title="关于 git add 的一点细节">
+      <i class="fa fa-chevron-left"></i> 关于 git add 的一点细节
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">JVM的位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">JVM 的体系结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">类加载器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">双亲委派机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Native"><span class="nav-number">5.</span> <span class="nav-text">Native</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PC-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">PC 寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">7.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">8.</span> <span class="nav-text">栈：数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E5%87%BA%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">画出一个对象在内存中的实例化过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D-JVM"><span class="nav-number">9.</span> <span class="nav-text">三种 JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">10.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E5%8C%BA%E3%80%81%E8%80%81%E5%B9%B4%E5%8C%BA%E3%80%81%E6%B0%B8%E4%B9%85%E5%8C%BA"><span class="nav-number">11.</span> <span class="nav-text">新生区、老年区、永久区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98"><span class="nav-number">12.</span> <span class="nav-text">堆内存调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC%EF%BC%9A%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">13.</span> <span class="nav-text">GC：垃圾回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95"><span class="nav-number">14.</span> <span class="nav-text">常用算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">14.1.</span> <span class="nav-text">1. 引用计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">14.2.</span> <span class="nav-text">2. 复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="nav-number">14.3.</span> <span class="nav-text">3. 标记清除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9%E6%B3%95"><span class="nav-number">14.4.</span> <span class="nav-text">4. 标记压缩法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E5%8E%8B%E7%BC%A9"><span class="nav-number">14.5.</span> <span class="nav-text">5. 标记清除压缩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMM"><span class="nav-number">15.</span> <span class="nav-text">JMM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">16.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B8%8E%E6%80%9D%E8%80%83"><span class="nav-number">17.</span> <span class="nav-text">推荐与思考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="豪少super"
+      src="/images/wuming.jpg">
+  <p class="site-author-name" itemprop="name">豪少super</p>
+  <div class="site-description" itemprop="description">是正在努力的学生党呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:franxhao@163.com" title="E-Mail → mailto:franxhao@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1015635582" title="QQ → 1015635582"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <!-- modify icon to fire by szw -->
+              <i class="fa fa-history fa-" aria-hidden="true"></i>
+              近期文章
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+              
+                <li>
+                  <a href="/undefined/c1baee3f.html" title="初识JVM" target="_blank">初识JVM</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/a2153dde.html" title="关于 git add 的一点细节" target="_blank">关于 git add 的一点细节</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/64afecd0.html" title="【嵌入式STM32】系列文章汇总" target="_blank">【嵌入式STM32】系列文章汇总</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/d8eae319.html" title="【嵌入式STM32】（七）ADC实验" target="_blank">【嵌入式STM32】（七）ADC实验</a>
+                </li>
+              
+                <li>
+                  <a href="/undefined/c0feab90.html" title="【嵌入式STM32】（六）定时器中断实验" target="_blank">【嵌入式STM32】（六）定时器中断实验</a>
+                </li>
+              
+            </ul>
+          </div>
+      <div>
+  <canvas id="canvasDiyBlock" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+<script src="/js/custom/clock.js"></script>
+
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">豪少super</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">58k</span>
+</div>
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://franxhao.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+
+
+<script
+  async
+  src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"
+></script>
+
+        
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = false;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <body>
+        ....
+        
+<!-- 自定义的js文件 -->
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+
+ 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<script>
+  function timer() {
+    var ages = moment.preciseDiff(moment(),moment(20200327,"YYYYMMDD"));
+    ages = ages.replace(/years?/, "年");
+    ages = ages.replace(/months?/, "月");
+    ages = ages.replace(/days?/, "天");
+    ages = ages.replace(/hours?/, "小时");
+    ages = ages.replace(/minutes?/, "分");
+    ages = ages.replace(/seconds?/, "秒");
+    ages = ages.replace(/\d+/g, '<span style="color:#1890ff">$&</span>');
+    div.innerHTML = `我已在此等候你 ${ages}`;
+  }
+  var div = document.createElement("div");
+  //插入到copyright之后
+  var copyright = document.querySelector(".copyright");
+  document.querySelector(".footer-inner").insertBefore(div, copyright.nextSibling);
+  timer();
+  setInterval("timer()",1000)
+</script>
+
+
+        
+</body>
+</html>
