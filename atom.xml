@@ -6,7 +6,7 @@
   <link href="https://franxhao.top/atom.xml" rel="self"/>
   
   <link href="https://franxhao.top/"/>
-  <updated>2021-10-07T08:35:45.280Z</updated>
+  <updated>2021-10-17T04:41:09.595Z</updated>
   <id>https://franxhao.top/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>MySQL 的去重方式</title>
+    <link href="https://franxhao.top/undefined/72b49d66.html"/>
+    <id>https://franxhao.top/undefined/72b49d66.html</id>
+    <published>2021-10-17T04:35:16.000Z</published>
+    <updated>2021-10-17T04:41:09.595Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;近期遇到一道题：MySQL 数据库中，查找该表中姓名重复的数量？&lt;/p&gt;
+&lt;p&gt;于是绷不住了，下来赶紧上网查了一通…&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="数据库" scheme="https://franxhao.top/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="MySQL" scheme="https://franxhao.top/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"/>
+    
+    
+    <category term="MySQL" scheme="https://franxhao.top/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>初识JVM</title>
     <link href="https://franxhao.top/undefined/c1baee3f.html"/>
     <id>https://franxhao.top/undefined/c1baee3f.html</id>
     <published>2021-10-07T07:44:07.000Z</published>
-    <updated>2021-10-07T08:35:45.280Z</updated>
+    <updated>2021-10-13T09:19:48.526Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;JVM的位置&quot;&gt;&lt;a href=&quot;#JVM的位置&quot; class=&quot;headerlink&quot; title=&quot;JVM的位置&quot;&gt;&lt;/a&gt;JVM的位置&lt;/h2&gt;&lt;p&gt;JVM 在操作系统之上&lt;/p&gt;
@@ -462,29 +484,6 @@
     <category term="Typecho" scheme="https://franxhao.top/tags/Typecho/"/>
     
     <category term="RSSHub" scheme="https://franxhao.top/tags/RSSHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【Pi】VNC远程连接树莓派和WiFi模块的开启</title>
-    <link href="https://franxhao.top/undefined/66fbe44e.html"/>
-    <id>https://franxhao.top/undefined/66fbe44e.html</id>
-    <published>2020-08-03T06:59:39.000Z</published>
-    <updated>2021-06-08T16:24:02.492Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;前-言&quot;&gt;&lt;a href=&quot;#前-言&quot; class=&quot;headerlink&quot; title=&quot;前 言&quot;&gt;&lt;/a&gt;前 言&lt;/h2&gt;&lt;p&gt;前段时间在腾讯云买了台云服务器，随后又开始了解到树莓派也可以用来搭建服务器，毕竟作为技术型学生，对技术的学习总有着探索和热情之心。所以入手了一块树莓派4B（2G），打算用来搭建属于自己的服务器，同时开启了Linux学习之路(ง •̀_•́)ง……&lt;/p&gt;
-&lt;p&gt;今天记录一下成功用VNC进行远程连接还有成功用上WiFi功能！Ｏ(≧▽≦)Ｏ &lt;/p&gt;
-&lt;img src=&quot;https://pic.downk.cc/item/5f27f04714195aa594f0fd43.jpg&quot; style=&quot;zoom: 10%;&quot; alt=&quot;正在使用的4B&quot;&gt;</summary>
-    
-    
-    
-    <category term="Pi" scheme="https://franxhao.top/categories/Pi/"/>
-    
-    <category term="树莓派" scheme="https://franxhao.top/categories/Pi/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
-    
-    
-    <category term="树莓派" scheme="https://franxhao.top/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
     
   </entry>
   

@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MySQL 的去重方式</title>
+    <url>/undefined/72b49d66.html</url>
+    <content><![CDATA[<p>近期遇到一道题：MySQL 数据库中，查找该表中姓名重复的数量？</p>
+<p>于是绷不住了，下来赶紧上网查了一通…</p>
+<span id="more"></span>
+
+<p>表结构：<br><img src="https://gitee.com/franxhao/my-images/raw/master/img/20211016112129.png"></p>
+<p><strong>先亮代码：</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name,<span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> name <span class="keyword">HAVING</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/img/20211016112419.png"></p>
+<p>解释代码：<br>首先 <code>GROUP BY</code> 是将 name 字段中的数据分组，会显示出字段不重复的记录，通过修改上面代码，示例代码如下：<br>● 显示字段加 <code>COUNT(*)</code> 可以直观看到重复字段被折叠；</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name,<span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> name;</span><br></pre></td></tr></table></figure>
+
+<p>这样来看 <code>GROUP BY</code> 是可以有去重作用的，这就不得不联想起另一种去重的方法了：<code>distinct</code>，上代码：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> name <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/franxhao/my-images/raw/master/img/20211016112552.png"></p>
+<p>这也可以去重，但是 <strong>一般 <code>distinct</code> 用来查询不重复记录的条数</strong>，而且必须写在查询字段之前，否则报错；<br>还有这样的写法 <code>select distinct name,id from user;</code> ，这时 mysql 会认为要过滤掉 name 和 id 两个字段 <em>都重复</em> 的记录。</p>
+<ul>
+<li><strong>总结：</strong></li>
+<li>一般 <code>distinct</code> 可以用来查询不重复记录的条数；</li>
+<li>要查询不重复的记录，有时候可以用 <code>group by</code>。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>初识JVM</title>
     <url>/undefined/c1baee3f.html</url>
     <content><![CDATA[<h2 id="JVM的位置"><a href="#JVM的位置" class="headerlink" title="JVM的位置"></a>JVM的位置</h2><p>JVM 在操作系统之上</p>
@@ -148,7 +182,7 @@
 <p>真理：经过研究，99%的对象是临时对象！</p>
 </li>
 <li><p><strong>永久区</strong></p>
-<p>这个区域是常驻内存的。用来存放 JDK 自身携带的 Class 对象。Interface 元数据，存储的是 Java运行时的一些环境或类信息<del>，这个区域不存在垃圾回收！关闭 JVM 虚拟机就会释放这个区域的内存</del></p>
+<p>这个区域是常驻内存的。用来存放 JDK 自身携带的 Class 对象。Interface 元数据，存储的是 Java运行时的一些环境或类信息，这个区域不存在垃圾回收！关闭 JVM 虚拟机就会释放这个区域的内存~</p>
 <ul>
 <li>JDK 1.6 之前 ：永久代，常量池是在方法区；</li>
 <li>JDK 1.7          ：永久代，但是慢慢的退化了，<code>去永久代</code>，常量池在堆中；</li>
